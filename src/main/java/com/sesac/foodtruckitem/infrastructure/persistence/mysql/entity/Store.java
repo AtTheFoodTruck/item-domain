@@ -3,8 +3,8 @@ package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -24,7 +24,7 @@ public class Store extends BaseEntity {
     private int totalWaitingCount;
     private String notice;
     private Double avgRate;
-    private String bNo; // 사업자등록번호(13)
+    private String bNo; // 사업자등록번호(10)
     private String pNm; // 사업자명
     private String sDt; // 개업일
 
@@ -32,7 +32,7 @@ public class Store extends BaseEntity {
     private Address address;
 
     @Embedded
-    private Image storeImage;
+    private Images storeImg;
 
     // User
     private Long userId;
@@ -46,7 +46,9 @@ public class Store extends BaseEntity {
     // Like
     private Long likeId;
 
-
+    // ItemList
+    @OneToMany(mappedBy = "store")
+    private List<Item> items = new ArrayList<>();
 //    // User
 //    @OneToOne(fetch = LAZY)
 //    @JoinColumn(name = "user_id")
