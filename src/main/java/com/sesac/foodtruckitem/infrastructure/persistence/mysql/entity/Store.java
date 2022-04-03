@@ -24,7 +24,7 @@ public class Store extends BaseEntity {
     private int totalWaitingCount;
     private String notice;
     private Double avgRate;
-    private String bNo; // 사업자등록번호(13)
+    private String bNo; // 사업자등록번호(10)
     private String pNm; // 사업자명
     private String sDt; // 개업일
 
