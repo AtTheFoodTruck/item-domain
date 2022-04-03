@@ -2,6 +2,7 @@ package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 
 import com.sesac.foodtruckitem.ui.dto.request.ItemRequestDto;
 import lombok.*;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -43,12 +44,12 @@ public class Item extends BaseEntity {
     **/
     public void updateItemInfo(ItemRequestDto.UpdateItemDto itemInfo) {
         // item name
-        if (itemInfo.getItemName() != null) {
+        if (StringUtils.hasText(itemInfo.getItemName())) {
             this.name = itemInfo.getItemName();
             this.itemImg.setImgName(itemInfo.getItemName());
         }
         // item description
-        if (itemInfo.getDescription() != null) {
+        if (StringUtils.hasText(itemInfo.getDescription())) {
             this.description = itemInfo.getItemName();
         }
         // item price
@@ -56,7 +57,7 @@ public class Item extends BaseEntity {
             this.price = itemInfo.getPrice();
         }
         // item url
-        if (itemInfo.getItemName() != null) {
+        if (StringUtils.hasText(itemInfo.getItemName())) {
             this.itemImg.setImgUrl(itemInfo.getItemName());
         }
     }

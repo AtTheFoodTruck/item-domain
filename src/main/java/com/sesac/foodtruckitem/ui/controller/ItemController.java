@@ -82,7 +82,8 @@ public class ItemController {
         }
 
         // item 수정
-        itemService.updateItem(updateItemDto);
+        if (itemService.updateItem(updateItemDto))
+            return response.fail("메뉴를 수정할 수 없습니다.", HttpStatus.BAD_REQUEST);
 
         return response.success("메뉴가 수정되었습니다.");
     }

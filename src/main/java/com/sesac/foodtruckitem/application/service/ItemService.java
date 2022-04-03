@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Slf4j
@@ -60,7 +61,7 @@ public class ItemService {
     @Transactional
     public ItemResponseDto.CreateItemDto createItem(ItemRequestDto.CreateItemDto createItemDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(createItemDto.getStore_id()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(createItemDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
 
         // Item 생성
         Item item = Item.builder()
@@ -78,11 +79,21 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(ItemRequestDto.UpdateItemDto updateItemDto) {
+    public boolean updateItem(ItemRequestDto.UpdateItemDto updateItemDto) {
+        // 가게 정보 조회
+        Store store = storeRepository.findById(updateItemDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+
+        // 가게와 수정하려는 메뉴의 가게가 같은지 체크
+        if (!Objects.equals(store.getId(), updateItemDto.getStoreId())) {
+            return false;
+        }
+
         // Item 조회
         Item item = itemRepository.findById(updateItemDto.getItemId()).orElseThrow();  // "해당하는 메뉴를 찾을 수 없습니다."
 
         // Item 수정
         item.updateItemInfo(updateItemDto);
+
+        return true;
     }
 }

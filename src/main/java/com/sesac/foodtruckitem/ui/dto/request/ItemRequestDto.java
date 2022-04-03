@@ -39,7 +39,7 @@ public class ItemRequestDto {
     public static class CreateItemDto {
         @NotBlank(message = "가게 아이디는 필수입니다.")
         @JsonProperty("store_id")
-        private Long store_id;
+        private Long storeId;
 
         @NotBlank(message = "메뉴 이름은 필수입니다.")
         @JsonProperty("item_name")
