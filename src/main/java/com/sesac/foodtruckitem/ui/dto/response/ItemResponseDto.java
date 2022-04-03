@@ -45,4 +45,38 @@ public class ItemResponseDto {
     }
 
 
+
+    /**
+     * 메뉴 등록 response DTO
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/03
+     **/
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CreateItemDto {
+
+        @JsonProperty("item_id")
+        private Long itemId;
+
+        @JsonProperty("item_name")
+        private String itemName;
+
+        private String description;
+
+        private int price;
+
+        @JsonProperty("item_img")
+        private String itemImg;
+
+        @Builder
+        public CreateItemDto(Item item) {
+            this.itemId = item.getId();
+            this.itemName = item.getName();
+            this.description = item.getDescription();
+            this.price = item.getPrice();
+            this.itemImg = item.getItemImg().getImg_url();
+        }
+    }
 }
