@@ -96,4 +96,20 @@ public class ItemService {
 
         return true;
     }
+
+    @Transactional
+    public boolean deleteItem(ItemRequestDto.DeleteItemDto deleteItemDto) {
+        // 가게 정보 조회
+        Store store = storeRepository.findById(deleteItemDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+
+        // 가게와 수정하려는 메뉴의 가게가 같은지 체크
+        if (!Objects.equals(store.getId(), deleteItemDto.getStoreId())) {
+            return false;
+        }
+
+        // Item 삭제
+        itemRepository.deleteById(deleteItemDto.getItemId());
+
+        return true;
+    }
 }

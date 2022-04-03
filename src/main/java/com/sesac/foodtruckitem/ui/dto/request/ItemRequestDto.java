@@ -87,5 +87,24 @@ public class ItemRequestDto {
         private String itemImg;
     }
 
+    /**
+     * 메뉴 삭제 request DTO
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/03
+     **/
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class DeleteItemDto {
+        @NotBlank(message = "가게 아이디는 필수입니다.")
+        @JsonProperty("store_id")
+        private Long storeId;
+
+        @NotBlank(message = "메뉴 아이디는 필수입니다.")
+        @JsonProperty("item_id")
+        private Long itemId;
+    }
 }
 

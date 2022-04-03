@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -55,6 +52,7 @@ public class ItemController {
      * @version 1.0.0
      * 작성일 2022/04/03
     **/
+    @PostMapping("/v1")
     public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequestDto.CreateItemDto createItemDto,
                                         BindingResult results) {
         // validation 검증
@@ -74,6 +72,7 @@ public class ItemController {
      * @version 1.0.0
      * 작성일 2022/04/04
     **/
+    @PatchMapping("/v1")
     public ResponseEntity<?> updateItem(@Valid @RequestBody ItemRequestDto.UpdateItemDto updateItemDto,
                                         BindingResult results) {
         // validation 검증
@@ -88,4 +87,24 @@ public class ItemController {
         return response.success("메뉴가 수정되었습니다.");
     }
 
+    /**
+     * 점주 입장) 메뉴 삭제
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/04
+     **/
+    @DeleteMapping("/v1")
+    public ResponseEntity<?> deleteItem(@Valid @RequestBody ItemRequestDto.DeleteItemDto deleteItemDto,
+                                        BindingResult results) {
+        // validation 검증
+        if (results.hasErrors()) {
+            return response.invalidFields(Helper.refineErrors(results));
+        }
+
+        // item 수정
+        if (itemService.deleteItem(deleteItemDto))
+            return response.fail("메뉴를 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST);
+
+        return response.success("메뉴가 수정되었습니다.");
+    }
 }
