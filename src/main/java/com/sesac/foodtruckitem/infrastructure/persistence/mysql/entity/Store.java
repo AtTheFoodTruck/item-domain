@@ -3,7 +3,6 @@ package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class Store extends BaseEntity {
     private Address address;
 
     @Embedded
-    private Image storeImage;
+    private Images storeImg;
 
     // User
     private Long userId;

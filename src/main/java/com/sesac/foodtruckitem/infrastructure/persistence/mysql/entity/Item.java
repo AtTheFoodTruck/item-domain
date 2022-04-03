@@ -24,8 +24,9 @@ public class Item extends BaseEntity {
     private int price;
 
     @Embedded
-    private Image itemImg;
+    private Images itemImg;
 
+    // Store
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
@@ -33,4 +34,5 @@ public class Item extends BaseEntity {
     // CartItem
     @OneToMany(mappedBy = "item")
     private List<CartItem> cartItems = new ArrayList<>();
+
 }
