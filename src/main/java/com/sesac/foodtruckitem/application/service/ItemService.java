@@ -35,7 +35,7 @@ public class ItemService {
     @Transactional
     public List<ItemResponseDto.GetItemsDto> getItems(ItemRequestDto.GetItemsDto getItemsDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(getItemsDto.getStore_id()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(getItemsDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
 
         // 해당 가게 메뉴 리스트 조회
         List<Item> items = itemRepository.findAllByStoreOrderByCreatedDate(store);
@@ -65,15 +65,24 @@ public class ItemService {
         // Item 생성
         Item item = Item.builder()
                 .store(store)
-                .name(createItemDto.getItem_name())
+                .name(createItemDto.getItemName())
                 .description(createItemDto.getDescription())
                 .price(createItemDto.getPrice())
-                .itemImg(new Images(createItemDto.getItem_name(), createItemDto.getItem_img()))
+                .itemImg(new Images(createItemDto.getItemName(), createItemDto.getItemImg()))
                 .build();
 
         // Item 저장
         Item savedItem = itemRepository.save(item);
 
         return ItemResponseDto.CreateItemDto.builder().item(savedItem).build();
+    }
+
+    @Transactional
+    public void updateItem(ItemRequestDto.UpdateItemDto updateItemDto) {
+        // Item 조회
+        Item item = itemRepository.findById(updateItemDto.getItemId()).orElseThrow();  // "해당하는 메뉴를 찾을 수 없습니다."
+
+        // Item 수정
+        item.updateItemInfo(updateItemDto);
     }
 }

@@ -43,6 +43,7 @@ public class ItemController {
             return response.invalidFields(Helper.refineErrors(results));
         }
 
+        // item 조회
         List<ItemResponseDto.GetItemsDto> responseItemsDto = itemService.getItems(getItemsDto);
 
         return response.success(responseItemsDto);
@@ -61,8 +62,29 @@ public class ItemController {
             return response.invalidFields(Helper.refineErrors(results));
         }
 
+        // item 생성
         ItemResponseDto.CreateItemDto responseDto = itemService.createItem(createItemDto);
 
         return response.success(responseDto, "메뉴가 등록되었습니다." ,HttpStatus.CREATED);
     }
+
+    /**
+     * 점주 입장) 메뉴 수정
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/04
+    **/
+    public ResponseEntity<?> updateItem(@Valid @RequestBody ItemRequestDto.UpdateItemDto updateItemDto,
+                                        BindingResult results) {
+        // validation 검증
+        if (results.hasErrors()) {
+            return response.invalidFields(Helper.refineErrors(results));
+        }
+
+        // item 수정
+        itemService.updateItem(updateItemDto);
+
+        return response.success("메뉴가 수정되었습니다.");
+    }
+
 }
