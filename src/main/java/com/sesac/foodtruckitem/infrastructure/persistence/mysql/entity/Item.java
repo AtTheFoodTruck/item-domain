@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +25,10 @@ public class Item extends BaseEntity {
 
     @Embedded
     private Image itemImg;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     // CartItem
     @OneToMany(mappedBy = "item")
