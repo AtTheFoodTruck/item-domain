@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +37,8 @@ public class ItemService {
     @Transactional
     public List<ItemResponseDto.GetItemsDto> getItems(ItemRequestDto.GetItemsDto getItemsDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(getItemsDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(getItemsDto.getStoreId())
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 가게를 찾을 수 없습니다."));
 
         // 해당 가게 메뉴 리스트 조회
         List<Item> items = itemRepository.findAllByStoreOrderByCreatedDate(store);
@@ -61,7 +63,8 @@ public class ItemService {
     @Transactional
     public ItemResponseDto.CreateItemDto createItem(ItemRequestDto.CreateItemDto createItemDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(createItemDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(createItemDto.getStoreId())
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 가게를 찾을 수 없습니다."));
 
         // Item 생성
         Item item = Item.builder()
@@ -81,7 +84,8 @@ public class ItemService {
     @Transactional
     public boolean updateItem(ItemRequestDto.UpdateItemDto updateItemDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(updateItemDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(updateItemDto.getStoreId())
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 가게를 찾을 수 없습니다."));
 
         // 가게와 수정하려는 메뉴의 가게가 같은지 체크
         if (!Objects.equals(store.getId(), updateItemDto.getStoreId())) {
@@ -89,7 +93,8 @@ public class ItemService {
         }
 
         // Item 조회
-        Item item = itemRepository.findById(updateItemDto.getItemId()).orElseThrow();  // "해당하는 메뉴를 찾을 수 없습니다."
+        Item item = itemRepository.findById(updateItemDto.getItemId())
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 메뉴를 찾을 수 없습니다."));
 
         // Item 수정
         item.updateItemInfo(updateItemDto);
@@ -100,7 +105,8 @@ public class ItemService {
     @Transactional
     public boolean deleteItem(ItemRequestDto.DeleteItemDto deleteItemDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(deleteItemDto.getStoreId()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(deleteItemDto.getStoreId())
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 가게를 찾을 수 없습니다."));
 
         // 가게와 수정하려는 메뉴의 가게가 같은지 체크
         if (!Objects.equals(store.getId(), deleteItemDto.getStoreId())) {
