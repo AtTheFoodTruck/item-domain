@@ -44,7 +44,7 @@ public class StoreRequestDto {
 
         // JsonFormat을 이용해 직렬화
         @NotBlank(message = "영업시간을 입력해주세요")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:MM:ss", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:MM:ss", timezone = "Asia/Seoul")
         private LocalDateTime openTime;//영업 시간
 
         private String imgName;
