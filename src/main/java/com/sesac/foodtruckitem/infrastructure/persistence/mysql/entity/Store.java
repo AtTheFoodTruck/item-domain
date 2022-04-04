@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class Store extends BaseEntity {
     private String notice;
     private int totalWaitingCount;
     private Double avgRate;
+    private LocalDateTime openTime; // 오픈 시간
 
     @Embedded
     private Address address;
@@ -81,22 +83,14 @@ public class Store extends BaseEntity {
         return store;
     }
 
-
-//
-//    // dto -> entity
-//    public Store toEntity(StoreRequestDto.CreateStoreDto createStoreDto) {
-//        return Store.builder()
-//                .name(createStoreDto.getStoreName())
-//                .phoneNum(createStoreDto.getPhoneNum())
-//                .isOpen(true)
-//                .notice(createStoreDto.getNotice())
-//                .category(createStoreDto.getCategory())
-//                .storeImage(createStoreDto.getImages())
-//                .address(createStoreDto.getAddress())
-//                .businessInfo(createStoreDto.getBusinessInfo())
-//                .build();
-//    }
-
+    // 수정 메서드 //
+    public void changeStoreInfo(String notice, Images images, LocalDateTime openTime, Address address, String phoneNum) {
+        this.notice = notice;
+        this.storeImage = images;
+        this.openTime = openTime;
+        this.address = address;
+        this.phoneNum = phoneNum;
+    }
 
 //    // User
 //    @OneToOne(fetch = LAZY)

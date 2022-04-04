@@ -114,6 +114,52 @@ public class StoreService {
     }
 
     /**
+     * 가게 정보 수정
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-04
+     **/
+    @Transactional
+    public ResponseEntity<?> updateStoreInfo(HttpServletRequest request,
+                                             StoreRequestDto.UpdateStoreDto updateStoreDto) {
+
+        // 수정 정보 생성 - 공지사항, 사진, 영업시간, 영업장소, 전화번호
+
+        // 가게 정보 조회
+        Store findStore = storeRepository.findById(updateStoreDto.getStoreId()).orElseThrow(
+                () -> new IllegalArgumentException("등록된 가게 정보가 없습니다 : " + updateStoreDto.getStoreId())
+        );
+
+        //TODO 수정자와 푸드트럭 점주 일치 여부 체크
+
+        // 주소 정보 생성
+        Address address = Address.createAddress(
+                updateStoreDto.getCity(),
+                updateStoreDto.getStreet(),
+                updateStoreDto.getZipCode(),
+                updateStoreDto.getLatitude(),
+                updateStoreDto.getLongitude()
+        );
+
+        // 푸드트럭 사진 정보 생성
+        Images images = Images.createImages(
+                updateStoreDto.getImgName(),
+                updateStoreDto.getImgUrl()
+        );
+
+        // 가게 정보 업데이트
+        findStore.changeStoreInfo(
+                updateStoreDto.getNotice(),
+                images,
+                updateStoreDto.getOpenTime(),
+                address,
+                updateStoreDto.getPhoneNum()
+                );
+
+        return response.success("가게 정보가 수정되었습니다.");
+    }
+
+    /**
      * 사업자등록번호 상태 조회
      * @author jjaen
      * @version 1.0.0
