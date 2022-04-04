@@ -139,4 +139,11 @@ public class StoreRequestDto {
         private Long storeId;
     }
 
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @Data
+    public static class ValidationStoreName {
+        // 가게 ID
+        private String storeName;
+    }
+
 }

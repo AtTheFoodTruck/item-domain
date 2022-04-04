@@ -77,6 +77,17 @@ public class StoreController {
     }
 
     /**
+     * 가게명 중복 검증 - 점주
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-05
+     **/
+    @PostMapping("/items/v1/validation/stores")
+    public ResponseEntity<?> validationStoreName(@RequestBody StoreRequestDto.ValidationStoreName validationStoreName) {
+        return storeService.validationStoreName(validationStoreName);
+    }
+
+    /**
      * 사업자등록번호 상태조회 API
      * @author jaemin
      * @version 1.0.0

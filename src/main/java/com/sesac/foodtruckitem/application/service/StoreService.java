@@ -16,6 +16,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -161,7 +162,6 @@ public class StoreService {
 
     /**
      * 가게 정보 삭제
-     *
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-05
@@ -175,6 +175,22 @@ public class StoreService {
         storeRepository.delete(findStore);
 
         return response.success("가게 정보가 삭제되었습니다.");
+    }
+
+    /**
+     * 가게명 중복 검증
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-05
+     **/
+    public ResponseEntity<?> validationStoreName(StoreRequestDto.ValidationStoreName validationStoreName) {
+        String storeName = validationStoreName.getStoreName();
+
+        int findStores = storeRepository.countByName(storeName);
+        if (findStores > 0) {
+            return response.success("푸드트럭 이름이 중복되었습니다.");
+        }
+        return response.success("사용가능한 푸드트럭 이름입니다.");
     }
 
     /**
