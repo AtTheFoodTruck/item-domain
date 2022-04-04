@@ -131,4 +131,12 @@ public class StoreRequestDto {
         // 전화번호
         private String phoneNum;
     }
+
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @Data
+    public static class DeleteStoreDto {
+        // 가게 ID
+        private Long storeId;
+    }
+
 }

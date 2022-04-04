@@ -66,6 +66,17 @@ public class StoreController {
     }
 
     /**
+     * 가게 정보 삭제 - 점주
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-05
+    **/
+    @DeleteMapping("/items/v1/stores")
+    public ResponseEntity<?> deleteStoreInfo(@RequestBody StoreRequestDto.DeleteStoreDto deleteStoreDto) {
+        return storeService.deleteStoreInfo(deleteStoreDto);
+    }
+
+    /**
      * 사업자등록번호 상태조회 API
      * @author jaemin
      * @version 1.0.0

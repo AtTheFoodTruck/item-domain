@@ -160,6 +160,24 @@ public class StoreService {
     }
 
     /**
+     * 가게 정보 삭제
+     *
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-05
+     **/
+    @Transactional
+    public ResponseEntity<?> deleteStoreInfo(StoreRequestDto.DeleteStoreDto deleteStoreDto) {
+        Store findStore = storeRepository.findById(deleteStoreDto.getStoreId()).orElseThrow(
+                () -> new IllegalArgumentException("삭제할 가게 정보가 존재하지 않습니다." + deleteStoreDto.getStoreId())
+        );
+
+        storeRepository.delete(findStore);
+
+        return response.success("가게 정보가 삭제되었습니다.");
+    }
+
+    /**
      * 사업자등록번호 상태 조회
      * @author jjaen
      * @version 1.0.0
