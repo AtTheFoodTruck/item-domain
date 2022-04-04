@@ -10,12 +10,12 @@ import com.sesac.foodtruckitem.ui.dto.request.ItemRequestDto;
 import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,7 +35,8 @@ public class ItemService {
     @Transactional
     public List<ItemResponseDto.GetItemsDto> getItems(ItemRequestDto.GetItemsDto getItemsDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(getItemsDto.getStore_id()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(getItemsDto.getStoreId())
+                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // 해당 가게 메뉴 리스트 조회
         List<Item> items = itemRepository.findAllByStoreOrderByCreatedDate(store);
@@ -60,20 +61,53 @@ public class ItemService {
     @Transactional
     public ItemResponseDto.CreateItemDto createItem(ItemRequestDto.CreateItemDto createItemDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(createItemDto.getStore_id()).orElseThrow();  // "해당하는 가게를 찾을 수 없습니다."
+        Store store = storeRepository.findById(createItemDto.getStoreId())
+                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // Item 생성
         Item item = Item.builder()
-                .store(store)
-                .name(createItemDto.getItem_name())
+                .name(createItemDto.getItemName())
                 .description(createItemDto.getDescription())
                 .price(createItemDto.getPrice())
-                .itemImg(new Images(createItemDto.getItem_name(), createItemDto.getItem_img()))
+                .itemImg(new Images(createItemDto.getItemName(), createItemDto.getItemImg()))
                 .build();
 
         // Item 저장
         Item savedItem = itemRepository.save(item);
 
+        // 가게에 메뉴 저장
+        store.addItem(item);
+        storeRepository.save(store);
+
         return ItemResponseDto.CreateItemDto.builder().item(savedItem).build();
+    }
+
+    @Transactional
+    public boolean updateItem(ItemRequestDto.UpdateItemDto updateItemDto) {
+        // 가게 정보 조회
+        storeRepository.findById(updateItemDto.getStoreId())
+                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
+
+
+        // Item 조회
+        Item item = itemRepository.findById(updateItemDto.getItemId())
+                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 메뉴를 찾을 수 없습니다.", 1));
+
+        // Item 수정
+        item.updateItemInfo(updateItemDto);
+
+        return true;
+    }
+
+    @Transactional
+    public boolean deleteItem(ItemRequestDto.DeleteItemDto deleteItemDto) {
+        // 가게 정보 조회
+        storeRepository.findById(deleteItemDto.getStoreId())
+                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
+
+        // Item 삭제
+        itemRepository.deleteById(deleteItemDto.getItemId());
+
+        return true;
     }
 }
