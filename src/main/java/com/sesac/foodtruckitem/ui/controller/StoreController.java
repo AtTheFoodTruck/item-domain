@@ -43,9 +43,9 @@ public class StoreController {
                                          @Valid BindingResult results) {
 
         // validation check
-//        if (results.hasErrors()) {
-//            return response.invalidFields(helper.refineErrors(results));
-//        }
+        if (results.hasErrors()) {
+            return response.invalidFields(helper.refineErrors(results));
+        }
 
 
         return storeService.createStore(request, createStoreDto.getUserId(), createStoreDto);

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +24,13 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
     private Long id;
-    private String name;
-    private String phoneNum;
-    private boolean isOpen;
-    private String notice;
-    private int totalWaitingCount;
-    private Double avgRate;
+    private String name;            // 가게명
+    private String phoneNum;        // 가게 번호
+    private boolean isOpen;         // 오픈 여부
+    private String notice;          // 가게 공지사항
+    private int totalWaitingCount;  //평균 대기 시간
+    private Double avgRate;         // 평균 별점
+    private LocalDateTime openTime; // 오픈 시간
 
     @Embedded
     private Address address;
@@ -65,13 +67,14 @@ public class Store extends BaseEntity {
 
     // 생성 메서드 //
     public static Store createStore(String name, String phoneNum, Boolean isOpen, String notice,
-                                    Address address, Images images, BusinessInfo businessInfo,
+                                    LocalDateTime openTime, Address address, Images images, BusinessInfo businessInfo,
                                     Long userId) {
         Store store = Store.builder()
                 .name(name)
                 .phoneNum(phoneNum)
                 .isOpen(isOpen)
                 .notice(notice)
+                .openTime(openTime)
                 .storeImage(images) // Images
                 .address(address)   // Address
                 .businessInfo(businessInfo) //BusinessInfo

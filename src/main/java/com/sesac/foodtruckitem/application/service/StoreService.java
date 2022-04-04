@@ -98,6 +98,7 @@ public class StoreService {
                 createStoreDto.getPhoneNum(),
                 true,
                 createStoreDto.getNotice(),
+                createStoreDto.getOpenTime(),
                 address,
                 images,
                 businessInfo,
