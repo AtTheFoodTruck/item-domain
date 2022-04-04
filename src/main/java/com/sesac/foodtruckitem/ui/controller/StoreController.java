@@ -31,7 +31,7 @@ public class StoreController {
     private final Helper helper;
 
     /**
-     * 가게정보 등록 - 점주
+     * 가게 정보 등록 - 점주
      *
      * @author jaemin
      * @version 1.0.0
@@ -46,7 +46,6 @@ public class StoreController {
         if (results.hasErrors()) {
             return response.invalidFields(helper.refineErrors(results));
         }
-
 
         return storeService.createStore(request, createStoreDto.getUserId(), createStoreDto);
     }

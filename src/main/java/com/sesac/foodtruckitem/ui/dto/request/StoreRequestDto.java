@@ -28,6 +28,8 @@ public class StoreRequestDto {
     @NoArgsConstructor
     public static class CreateStoreDto {
 
+        private Long storeId;
+
         private Long userId;
 
         @NotBlank(message = "가게명을 입력해주세요")
@@ -80,6 +82,7 @@ public class StoreRequestDto {
 
         // entity -> dto
         public CreateStoreDto(Store store) {
+            this.storeId = store.getId();
             this.userId = store.getUserId();
             this.storeName = store.getName();
             this.phoneNum = store.getPhoneNum();

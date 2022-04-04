@@ -49,7 +49,7 @@ public class StoreService {
 
         String authorization = request.getHeader("Authorization");
 
-        // 1. email로 user 정보 갖고오기, using feign client
+        // 1. user 정보 갖고오기, using feign client
         CreateUserDto createUserDto = userServiceClient.userInfo(authorization, userId);
 
         log.info("Return 받은 user 객체의 값 : {}", createUserDto);
