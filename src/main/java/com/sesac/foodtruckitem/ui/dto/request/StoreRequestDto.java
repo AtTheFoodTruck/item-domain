@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -82,19 +79,20 @@ public class StoreRequestDto {
 
         // entity -> dto
         public CreateStoreDto(Store store) {
-            this.storeId = store.getId();
-            this.userId = store.getUserId();
-            this.storeName = store.getName();
-            this.phoneNum = store.getPhoneNum();
-            this.notice = store.getNotice();
-            this.city = store.getAddress().getCity();
-            this.street = store.getAddress().getStreet();
-            this.zipCode = store.getAddress().getZipCode();
-            this.latitude = store.getAddress().getLatitude();
-            this.longitude = store.getAddress().getLongitude();
-            this.categoryName =store.getCategory().getName();
-            this.imgName = store.getStoreImage().getImgName();
-            this.imgUrl = store.getStoreImage().getImgUrl();
+            this.storeId = store.getId();                       // 가게 ID
+            this.userId = store.getUserId();                    // 점주 ID
+            this.storeName = store.getName();                   // 가게명
+            this.phoneNum = store.getPhoneNum();                // 가게 번호
+            this.notice = store.getNotice();                    // 공지사항
+            this.openTime = store.getOpenTime();
+            this.city = store.getAddress().getCity();           // city
+            this.street = store.getAddress().getStreet();       // street
+            this.zipCode = store.getAddress().getZipCode();     // zipcode
+            this.latitude = store.getAddress().getLatitude();   // 위도
+            this.longitude = store.getAddress().getLongitude(); // 경도
+            this.categoryName =store.getCategory().getName();   // 카테고리 이름
+            this.imgName = store.getStoreImage().getImgName();  // 이미지 이름
+            this.imgUrl = store.getStoreImage().getImgUrl();    // 이미지 주소
         }
     }
 }
