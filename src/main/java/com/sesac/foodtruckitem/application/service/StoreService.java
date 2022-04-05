@@ -1,11 +1,11 @@
 package com.sesac.foodtruckitem.application.service;
 
 import com.sesac.foodtruckitem.application.vo.CreateUserDto;
-import com.sesac.foodtruckitem.exception.DuplicateStoreNameException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.CategoryRepository;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
-import com.sesac.foodtruckitem.infrastructure.query.http.UserServiceClient;
+import com.sesac.foodtruckitem.infrastructure.query.http.UserClient;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Response;
 import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.StoreRequestDto;
@@ -17,14 +17,11 @@ import org.json.simple.parser.ParseException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,7 +32,7 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
     private final Response response;
-    private final UserServiceClient userServiceClient;
+    private final UserClient userClient;
     private final RestTemplate restTemplate;
 
     /**
@@ -52,7 +49,7 @@ public class StoreService {
         String authorization = request.getHeader("Authorization");
 
         // 1. user 정보 갖고오기, using feign client
-        CreateUserDto createUserDto = userServiceClient.userInfo(authorization, userId);
+        CreateUserDto createUserDto = userClient.userInfo(authorization, userId);
 
         log.info("Return 받은 user 객체의 값 : {}", createUserDto);
 
@@ -119,6 +116,12 @@ public class StoreService {
         // 4. 카테고리 등록 및 연관관계 설정
         savedStore.setCategory(findCategory);
 
+        StoreInfo storeInfo = new StoreInfo(userId, savedStore.getId());
+
+        // 5. User Client에 storeId 저장
+        userClient.saveStoreInfo(authorization, storeInfo);
+
+
         return response.success(new StoreRequestDto.CreateStoreDto(savedStore), "가게 정보가 저장되었습니다.", HttpStatus.CREATED);
     }
 
@@ -178,7 +181,7 @@ public class StoreService {
     @Transactional
     public ResponseEntity<?> deleteStoreInfo(StoreRequestDto.DeleteStoreDto deleteStoreDto) {
         Store findStore = storeRepository.findById(deleteStoreDto.getStoreId()).orElseThrow(
-                () -> new IllegalArgumentException("삭제할 가게 정보가 존재하지 않습니다." + deleteStoreDto.getStoreId())
+                () -> new IllegalArgumentException("삭제할 가게 정보가 존재하지 않습니다.")
         );
 
         storeRepository.delete(findStore);
