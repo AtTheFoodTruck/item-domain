@@ -1,6 +1,7 @@
 package com.sesac.foodtruckitem.application.service;
 
 import com.sesac.foodtruckitem.application.vo.CreateUserDto;
+import com.sesac.foodtruckitem.exception.DuplicateStoreNameException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.CategoryRepository;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
@@ -16,6 +17,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -53,6 +55,12 @@ public class StoreService {
         CreateUserDto createUserDto = userServiceClient.userInfo(authorization, userId);
 
         log.info("Return 받은 user 객체의 값 : {}", createUserDto);
+
+        // 2. 이미 푸드트럭을 등록한 점주인지 체크
+        int count = storeRepository.countByUserId(createStoreDto.getUserId());
+        if (count > 0) {
+            return response.fail("이미 등록된 푸드트럭 가게 정보가 존재합니다.", HttpStatus.BAD_REQUEST);
+        }
 
         // 2. Category 정보 조회
         Category findCategory = categoryRepository.findByName(createStoreDto.getCategoryName()).orElseThrow(
