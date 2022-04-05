@@ -10,6 +10,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+
 public class StoreRequestDto {
 
     /**
@@ -94,5 +98,42 @@ public class StoreRequestDto {
             this.imgName = store.getStoreImage().getImgName();  // 이미지 이름
             this.imgUrl = store.getStoreImage().getImgUrl();    // 이미지 주소
         }
+    }
+
+    /**
+     * 가게 정보 수정 DTO
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-04
+     **/
+    @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UpdateStoreDto {
+        // 가게 ID
+        private Long storeId;
+
+        // 공지사항
+        private String notice;
+
+        // 사진
+        private String imgName;
+        private String imgUrl;
+
+        // 영업시간
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:MM:ss", timezone = "Asia/Seoul")
+        private LocalDateTime openTime;
+
+        // 영업 장소
+        private String city;
+        private String street;
+        private String zipCode;
+        private Double latitude;
+        private Double longitude;
+
+        // 전화번호
+        private String phoneNum;
     }
 }

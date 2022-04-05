@@ -24,12 +24,12 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
     private Long id;
-    private String name;            // 가게명
-    private String phoneNum;        // 가게 번호
-    private boolean isOpen;         // 오픈 여부
-    private String notice;          // 가게 공지사항
-    private int totalWaitingCount;  //평균 대기 시간
-    private Double avgRate;         // 평균 별점
+    private String name;
+    private String phoneNum;
+    private boolean isOpen;
+    private String notice;
+    private int totalWaitingCount;
+    private Double avgRate;
     private LocalDateTime openTime; // 오픈 시간
 
     @Embedded
@@ -84,22 +84,14 @@ public class Store extends BaseEntity {
         return store;
     }
 
-
-//
-//    // dto -> entity
-//    public Store toEntity(StoreRequestDto.CreateStoreDto createStoreDto) {
-//        return Store.builder()
-//                .name(createStoreDto.getStoreName())
-//                .phoneNum(createStoreDto.getPhoneNum())
-//                .isOpen(true)
-//                .notice(createStoreDto.getNotice())
-//                .category(createStoreDto.getCategory())
-//                .storeImage(createStoreDto.getImages())
-//                .address(createStoreDto.getAddress())
-//                .businessInfo(createStoreDto.getBusinessInfo())
-//                .build();
-//    }
-
+    // 수정 메서드 //
+    public void changeStoreInfo(String notice, Images images, LocalDateTime openTime, Address address, String phoneNum) {
+        this.notice = notice;
+        this.storeImage = images;
+        this.openTime = openTime;
+        this.address = address;
+        this.phoneNum = phoneNum;
+    }
 
 //    // User
 //    @OneToOne(fetch = LAZY)

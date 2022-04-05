@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,7 +29,6 @@ public class StoreController {
 
     /**
      * 가게 정보 등록 - 점주
-     *
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-03
@@ -51,8 +47,26 @@ public class StoreController {
     }
 
     /**
-     * 사업자등록번호 상태조회 API
+     * 가게 정보 수정 - 점주
      *
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-04
+     **/
+    @PatchMapping("/items/v1/stores")
+    public ResponseEntity<?> updateStoreInfo(HttpServletRequest request,
+                                        @RequestBody StoreRequestDto.UpdateStoreDto updateStoreDto,
+                                        @Valid BindingResult results) {
+        // validation check
+        if (results.hasErrors()) {
+            return response.invalidFields(helper.refineErrors(results));
+        }
+
+        return storeService.updateStoreInfo(request, updateStoreDto);
+    }
+
+    /**
+     * 사업자등록번호 상태조회 API
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-04
@@ -66,8 +80,8 @@ public class StoreController {
         }
 
         if (!storeService.businessValidateCheck(bNoStatusDto)) {
-            return response.fail( "인증 실패", HttpStatus.BAD_REQUEST);
+            return response.fail("인증 실패", HttpStatus.BAD_REQUEST);
         }
-        return response.success( "인증 성공");
+        return response.success("인증 성공");
     }
 }
