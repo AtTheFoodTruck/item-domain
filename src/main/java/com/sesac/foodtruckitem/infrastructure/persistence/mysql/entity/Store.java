@@ -2,14 +2,14 @@ package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 
 import com.sesac.foodtruckitem.ui.dto.request.StoreRequestDto;
 import lombok.*;
+import org.springframework.cache.support.NullValue;
+import org.springframework.data.util.NullableUtils;
 
 import javax.persistence.*;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Builder
 @AllArgsConstructor
@@ -18,6 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Store extends BaseEntity {
 
     @Id
@@ -93,6 +94,18 @@ public class Store extends BaseEntity {
         this.phoneNum = phoneNum;
     }
 
+    /**
+     * 가게에 메뉴 추가
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/04
+    **/
+    public void addItem(Item item) {
+        if (this.items == null)
+            this.items = new ArrayList<>();
+        this.items.add(item);
+        item.setStore(this);
+    }
 //    // User
 //    @OneToOne(fetch = LAZY)
 //    @JoinColumn(name = "user_id")
