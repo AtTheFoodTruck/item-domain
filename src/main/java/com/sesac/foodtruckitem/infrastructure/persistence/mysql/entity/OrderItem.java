@@ -11,31 +11,24 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class CartItem extends BaseEntity {
+public class OrderItem extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cartItem_id")
-    private Long id;
-    private int count;
-    private int totalPrice;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orderItem_id")
+    private Long id;        // OrderItem_id
+    private Long itemId;    // Item_id
+    private int price;      // 주문 가격
+    private int count;      // 주문 수량
 
-    // Item
+    // Order
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "item_id")
-    private Item items;
-
-    // Cart
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     /** 생성 메서드 **/
     public static void of(Long cartItemId, int unitPrice, int count) {
-        CartItem cartItem = new CartItem();
-        cartItem.
+
     }
 
     /** 주문상품 전체 가격조회 **/
-
 }

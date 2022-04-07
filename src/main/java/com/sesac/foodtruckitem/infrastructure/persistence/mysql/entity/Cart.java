@@ -25,10 +25,4 @@ public class Cart extends BaseEntity {
     // CartItem
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems = new ArrayList<>();
-
-
-//    // User
-//    @OneToOne(mappedBy = "cart", fetch = LAZY)
-//    private User user;
-
 }
