@@ -1,10 +1,8 @@
 package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 
-import com.sesac.foodtruckitem.ui.dto.request.StoreRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Store extends BaseEntity {
 
     @Id
@@ -49,6 +48,11 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    // Map
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "map_id")
+    private Map map;
+
     // Review
     private Long reviewId;
 
@@ -56,7 +60,7 @@ public class Store extends BaseEntity {
     private Long likeId;
 
     // Item
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
     // 연관관계 메서드 //
@@ -67,8 +71,8 @@ public class Store extends BaseEntity {
 
     // 생성 메서드 //
     public static Store createStore(String name, String phoneNum, Boolean isOpen, String notice,
-                                    LocalDateTime openTime, Address address, Images images, BusinessInfo businessInfo,
-                                    Long userId) {
+                                    LocalDateTime openTime, Address address, Images images,
+                                    BusinessInfo businessInfo, Map map, Long userId) {
         Store store = Store.builder()
                 .name(name)
                 .phoneNum(phoneNum)
@@ -78,6 +82,7 @@ public class Store extends BaseEntity {
                 .storeImage(images) // Images
                 .address(address)   // Address
                 .businessInfo(businessInfo) //BusinessInfo
+                .map(map)
                 .userId(userId)     // 점주 Id
                 .build();
 
@@ -87,27 +92,23 @@ public class Store extends BaseEntity {
     // 수정 메서드 //
     public void changeStoreInfo(String notice, Images images, LocalDateTime openTime, Address address, String phoneNum) {
         this.notice = notice;
+        this.phoneNum = phoneNum;
         this.storeImage = images;
         this.openTime = openTime;
         this.address = address;
-        this.phoneNum = phoneNum;
+        this.map = map;
     }
 
-//    // User
-//    @OneToOne(fetch = LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    // Review
-//    @OneToMany(mappedBy = "store")
-//    private List<Review> reviews = new ArrayList<>();
-//
-//    // Category
-//    @ManyToOne(fetch = LAZY)
-//    @JoinColumn(name = "category_id")
-//    private Category category;
-//
-//    // Like
-//    @OneToMany(mappedBy = "store")
-//    private List<Like> likes = new ArrayList<>();
+    /**
+     * 가게에 메뉴 추가
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/04
+    **/
+    public void addItem(Item item) {
+        if (this.items == null)
+            this.items = new ArrayList<>();
+        this.items.add(item);
+        item.setStore(this);
+    }
 }
