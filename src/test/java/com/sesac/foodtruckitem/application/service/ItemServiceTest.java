@@ -141,7 +141,9 @@ class ItemServiceTest {
                 .notice("테스트 가게입니다.")
                 .totalWaitingCount(0)
                 .avgRate(0.0)
-                .bNo("1348639909").sDt("20070523").pNm("이한종").build();
+                .build();
+
+//        ("1348639909").sDt("20070523").pNm("이한종")
     }
 
     private Item getItem() {

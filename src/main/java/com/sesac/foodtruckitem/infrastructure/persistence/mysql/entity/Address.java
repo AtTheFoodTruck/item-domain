@@ -1,42 +1,29 @@
 package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class Address {
 
-    private String city;
-    private String street;
+    private String address;
     private String zipCode;
-    private Double latitude;
-    private Double longitude;
+    // private String street;
+    // private Double latitude;
+    // private Double longitude;
 
-    public Address() {
-    }
-
-    public Address(String city, String street, String zipCode, Double latitude, Double longitude) {
-        this.city = city;
-        this.street = street;
-        this.zipCode = zipCode;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    // 생성 메서드 //
-    public static Address createAddress(String city, String street, String zipCode, Double latitude, Double longitude) {
-        Address address = Address.builder()
-                .city(city)
-                .street(street)
+    public static Address of(String address, String zipCode) {
+        return Address.builder()
+                .address(address)
                 .zipCode(zipCode)
-                .latitude(latitude)
-                .longitude(longitude)
                 .build();
-
-        return address;
     }
 }

@@ -10,10 +10,10 @@ public interface UserClient {
 
     @GetMapping("/users/info/{userId}")
     CreateUserDto userInfo(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
-                           @PathVariable Long userId);
+                           @PathVariable("userId") Long userId);
 
     // 점주에 가게정보 업데이트 메서드
     @PostMapping("/users/stores")
-    public void saveStoreInfo(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
+    void saveStoreInfo(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
                               @RequestBody StoreInfo storeInfo);
 }

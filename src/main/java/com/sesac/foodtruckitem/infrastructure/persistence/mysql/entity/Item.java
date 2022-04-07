@@ -19,10 +19,10 @@ public class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
-    private Long id;
-    private String name;
-    private String description;
-    private int price;
+    private Long id;                // 
+    private String name;            // 메뉴명 
+    private String description;     // 설명
+    private int price;              // 가격
 
     @Embedded
     private Images itemImg;
@@ -43,10 +43,11 @@ public class Item extends BaseEntity {
      * 작성일 2022/04/04
     **/
     public void updateItemInfo(ItemRequestDto.UpdateItemDto itemInfo) {
+
         // item name
         if (StringUtils.hasText(itemInfo.getItemName())) {
             this.name = itemInfo.getItemName();
-            this.itemImg.setImgName(itemInfo.getItemName());
+            this.itemImg.setImgUrl(itemInfo.getItemImg());
         }
         // item description
         if (StringUtils.hasText(itemInfo.getDescription())) {
