@@ -25,7 +25,5 @@ public class CartItem extends BaseEntity {
     private Cart cart;
 
     // Item
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
+    private Long item; //
 }

@@ -43,6 +43,12 @@ public class Store extends BaseEntity {
     // User
     private Long userId;
 
+    // Review
+    private Long reviewId;
+
+    // Like
+    private Long likeId;
+
     // Category
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
@@ -53,23 +59,17 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "map_id")
     private Map map;
 
-    // Review
-    private Long reviewId;
-
-    // Like
-    private Long likeId;
-
     // Item
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
-    // 연관관계 메서드 //
+    /** 연관관계 메서드 **/
     public void setCategory(Category category) {
         this.category = category;
         category.getStores().add(this);
     }
 
-    // 생성 메서드 //
+    /** 생성 메서드 **/
     public static Store createStore(String name, String phoneNum, Boolean isOpen, String notice,
                                     LocalDateTime openTime, Address address, Images images,
                                     BusinessInfo businessInfo, Map map, Long userId) {
@@ -89,7 +89,7 @@ public class Store extends BaseEntity {
         return store;
     }
 
-    // 수정 메서드 //
+    /** 수정 메서드 **/
     public void changeStoreInfo(String notice, Images images, LocalDateTime openTime, Address address, String phoneNum) {
         this.notice = notice;
         this.phoneNum = phoneNum;

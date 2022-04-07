@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class FilterTest extends GenericFilter {
+public class TokenFilter extends GenericFilter {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
