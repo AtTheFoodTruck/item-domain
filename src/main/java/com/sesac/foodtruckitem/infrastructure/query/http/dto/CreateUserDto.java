@@ -1,4 +1,4 @@
-package com.sesac.foodtruckitem.application.vo;
+package com.sesac.foodtruckitem.infrastructure.query.http.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

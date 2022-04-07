@@ -1,6 +1,6 @@
 package com.sesac.foodtruckitem.infrastructure.query.http;
 
-import com.sesac.foodtruckitem.application.vo.CreateUserDto;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.CreateUserDto;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;

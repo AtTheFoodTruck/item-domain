@@ -1,6 +1,6 @@
 package com.sesac.foodtruckitem.application.service;
 
-import com.sesac.foodtruckitem.application.vo.CreateUserDto;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.CreateUserDto;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.CategoryRepository;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.ItemRepository;
@@ -19,7 +19,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
