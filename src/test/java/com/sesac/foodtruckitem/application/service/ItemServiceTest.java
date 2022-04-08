@@ -7,7 +7,7 @@ import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.ItemR
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.ui.dto.request.ItemRequestDto;
 import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +95,8 @@ class ItemServiceTest {
 
 
         /** then */
-        assertEquals("재은이네 떡볶이", updatedItem.getName());
+        Assertions.assertThat("재은이네 떡볶이").isEqualTo(updatedItem.getName());
+//        assertEquals("재은이네 떡볶이", updatedItem.getName());
     }
 
     @Transactional
@@ -127,7 +128,8 @@ class ItemServiceTest {
                 .storeId(savedStore.getId() + 100L)
                 .itemId(savedItem.getId()).build();
 
-        Assertions.assertThrows(EmptyResultDataAccessException.class, () -> {
+
+        assertThrows(EmptyResultDataAccessException.class, () -> {
             itemService.deleteItem(deleteItemDto);
         });
     }

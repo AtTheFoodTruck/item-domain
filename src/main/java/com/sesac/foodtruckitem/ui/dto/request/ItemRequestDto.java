@@ -39,6 +39,9 @@ public class ItemRequestDto {
     @NoArgsConstructor
     public static class CreateItemDto {
 
+        @JsonProperty("user_id")
+        private Long userId;
+
         @JsonProperty("store_id")
         private Long storeId;
 
@@ -69,6 +72,9 @@ public class ItemRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UpdateItemDto {
+
+        @JsonProperty("user_id")
+        private Long userId;
 
         @JsonProperty("store_id")
         private Long storeId;

@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -79,7 +80,7 @@ public class StoreService {
         Images images = Images.of(postStoreDto.getImages().getImgName(), postStoreDto.getImages().getImgUrl());
 
         // 5. BusinessInfo 생성
-        BusinessInfo businessInfo = BusinessInfo.of(postStoreDto.getBNo(), postStoreDto.getSDt(), postStoreDto.getPName());
+        BusinessInfo businessInfo = BusinessInfo.of(postStoreDto.getBusinessInfo().getBNo(), postStoreDto.getBusinessInfo().getSDt(), postStoreDto.getBusinessInfo().getPName());
 
         // 6. Map 생성
         Map map = Map.of(postStoreDto.getMap().getLatitude(), postStoreDto.getMap().getLongitude());
@@ -245,4 +246,10 @@ public class StoreService {
     }
 
 
+    public List<StoreResponseDto.StoreInfoDto> findStoreAllById(Iterable<Long> storeIds) {
+        return storeRepository.findAllById(storeIds)
+                .stream()
+                .map(store -> StoreResponseDto.StoreInfoDto.of(store))
+                .collect(Collectors.toList());
+    }
 }

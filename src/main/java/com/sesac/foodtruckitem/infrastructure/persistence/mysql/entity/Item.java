@@ -32,10 +32,6 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    // CartItem
-    @OneToMany(mappedBy = "item")
-    private List<CartItem> cartItems = new ArrayList<>();
-
     /**
      * 메뉴 수정
      * @author jjaen

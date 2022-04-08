@@ -60,9 +60,17 @@ public class ItemService {
     **/
     @Transactional
     public ItemResponseDto.CreateItemDto createItem(ItemRequestDto.CreateItemDto createItemDto) {
+
+        Long userId = createItemDto.getUserId();
+
         // 가게 정보 조회
         Store store = storeRepository.findById(createItemDto.getStoreId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
+
+        // 점주 일치 여부 파악
+        if (!store.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("유저 정보가 일치하지 않습니다.");
+        }
 
         // Item 생성
         Item item = Item.builder()
@@ -85,8 +93,12 @@ public class ItemService {
     @Transactional
     public boolean updateItem(ItemRequestDto.UpdateItemDto updateItemDto) {
         // 가게 정보 조회
-        storeRepository.findById(updateItemDto.getStoreId())
+        Store store = storeRepository.findById(updateItemDto.getStoreId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
+
+        if (!store.getUserId().equals(updateItemDto.getUserId())) {
+            throw new IllegalArgumentException("유저 정보가 일치하지 않습니다.");
+        }
 
 
         // Item 조회
