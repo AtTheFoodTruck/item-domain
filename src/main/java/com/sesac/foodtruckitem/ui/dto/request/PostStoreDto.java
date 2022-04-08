@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -27,9 +25,9 @@ public class PostStoreDto {
     private _PostStoreAddress address;
     private _PostStoreMap map;
     private _PostStoreBusinessInfo businessInfo;
-    private String bNo; // 사업자 등록 번호
-    private String sDt; // 개업일
-    private String pName; // 대표자 성명
+//    private String businessNumber; // 사업자 등록 번호
+//    private String startDate; // 개업일
+//    private String partnerName; // 대표자 성명
 
     /**
      * 가게 정보 저장에 필요한 주소 정보를 DTO로 변환

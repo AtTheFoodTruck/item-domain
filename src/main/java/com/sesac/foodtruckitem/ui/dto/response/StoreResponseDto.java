@@ -110,4 +110,29 @@ public class StoreResponseDto {
                     .build();
         }
     }
+
+    /**
+     * order도메인에 전달할 가게 정보
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-08
+     **/
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class StoreInfoDto {
+        private Long storeId;
+        private String storeName;
+        private String imgUrl;
+
+        public static StoreInfoDto of(Store store) {
+            StoreInfoDto storeInfoDto = new StoreInfoDto();
+            storeInfoDto.storeId = store.getId();
+            storeInfoDto.storeName = store.getName();
+            storeInfoDto.imgUrl = store.getStoreImage().getImgUrl();
+
+            return storeInfoDto;
+        }
+    }
 }

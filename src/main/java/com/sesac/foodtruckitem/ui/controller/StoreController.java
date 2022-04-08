@@ -1,8 +1,13 @@
 package com.sesac.foodtruckitem.ui.controller;
 
 import com.sesac.foodtruckitem.application.service.StoreService;
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.RequestStoreDtos;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.ReviewStoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Helper;
 import com.sesac.foodtruckitem.ui.dto.Response;
+import com.sesac.foodtruckitem.ui.dto.Result;
 import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequest;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Tag(name = "items", description = "아이템 API")
 @Slf4j
@@ -27,8 +33,24 @@ import javax.validation.Valid;
 public class StoreController {
 
     private final StoreService storeService;
+    private final StoreRepository storeRepository;
     private final Response response;
     private final Helper helper;
+
+    /**
+     * 가게 정보 조회 - StoreClient
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-08
+     **/
+    @GetMapping("/items/v1/store/reviews/{storeId}")
+    public ResponseEntity<Result> reviewStoreInfo(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
+                                                  @PathVariable("storeId") Iterable<Long> storeIds) {
+
+        List<StoreResponseDto.StoreInfoDto> storeAllById = storeService.findStoreAllById(storeIds);
+
+        return ResponseEntity.ok(Result.createSuccessResult(storeAllById));
+    }
 
     /**
      * 가게 정보 등록 - 점주

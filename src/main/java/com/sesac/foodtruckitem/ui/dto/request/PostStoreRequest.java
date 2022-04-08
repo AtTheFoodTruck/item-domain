@@ -58,16 +58,16 @@ public class PostStoreRequest {
 
     private Double longitude;
 
+    @JsonProperty(value = "b_no")
     @NotBlank(message = "사업자 등록번호를 입력해주세요")
-    @JsonProperty("b_no")
     private String bNo; // 사업자 등록 번호
 
+    @JsonProperty(value = "s_dt")
     @NotBlank(message = "개업일을 입력해주세요")
-    @JsonProperty("s_dt")
     private String sDt; // 개업일
 
+    @JsonProperty(value = "p_name")
     @NotBlank(message = "대표자 성명을 입력해주세요")
-    @JsonProperty("p_name")
     private String pName; // 대표자 성명
 
     /**
