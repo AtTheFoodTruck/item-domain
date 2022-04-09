@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class ItemRequestDto {
 
@@ -21,7 +23,6 @@ public class ItemRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetItemsDto {
-        @NotBlank(message = "가게 아이디는 필수입니다.")
         @JsonProperty("store_id")
         private Long storeId;
     }
@@ -37,7 +38,10 @@ public class ItemRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class CreateItemDto {
-        @NotBlank(message = "가게 아이디는 필수입니다.")
+
+        @JsonProperty("user_id")
+        private Long userId;
+
         @JsonProperty("store_id")
         private Long storeId;
 
@@ -48,7 +52,7 @@ public class ItemRequestDto {
         @NotBlank(message = "메뉴 설명은 필수입니다.")
         private String description;
 
-        @NotBlank(message = "메뉴 가격은 필수입니다.")
+        @NotNull(message = "메뉴 가격은 필수입니다.")
         private int price;
 
         @NotBlank(message = "메뉴 사진은 필수입니다.")
@@ -68,23 +72,26 @@ public class ItemRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UpdateItemDto {
-        @NotBlank(message = "가게 아이디는 필수입니다.")
+
+        @JsonProperty("user_id")
+        private Long userId;
+
         @JsonProperty("store_id")
         private Long storeId;
 
-        @NotBlank(message = "메뉴 아이디는 필수입니다.")
         @JsonProperty("item_id")
         private Long itemId;
 
         @JsonProperty("item_name")
         private String itemName;
 
+        @JsonProperty("item_img")
+        private String itemImg;
+
         private String description;
 
         private Integer price;
 
-        @JsonProperty("item_img")
-        private String itemImg;
     }
 
     /**
@@ -98,11 +105,10 @@ public class ItemRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class DeleteItemDto {
-        @NotBlank(message = "가게 아이디는 필수입니다.")
+
         @JsonProperty("store_id")
         private Long storeId;
 
-        @NotBlank(message = "메뉴 아이디는 필수입니다.")
         @JsonProperty("item_id")
         private Long itemId;
     }

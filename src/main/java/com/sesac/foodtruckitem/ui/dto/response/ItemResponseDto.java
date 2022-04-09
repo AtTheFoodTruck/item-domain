@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 public class ItemResponseDto {
 
-
     /**
      * 메뉴 조회 response DTO
      * @author jjaen
@@ -43,7 +42,6 @@ public class ItemResponseDto {
             this.itemImg = item.getItemImg().getImgUrl();
         }
     }
-
 
 
     /**

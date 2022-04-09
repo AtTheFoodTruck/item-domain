@@ -1,5 +1,6 @@
 package com.sesac.foodtruckitem;
 
+import feign.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -18,6 +19,11 @@ public class FoodtruckItemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(FoodtruckItemApplication.class, args);
+    }
+
+    @Bean
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
     }
 
     @Bean

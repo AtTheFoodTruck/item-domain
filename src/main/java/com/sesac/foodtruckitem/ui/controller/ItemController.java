@@ -33,7 +33,7 @@ public class ItemController {
      * @version 1.0.0
      * 작성일 2022/04/03
     **/
-    @GetMapping("/v1")
+    @GetMapping("/v1/menu")
     public ResponseEntity<?> getItems(@Valid @RequestBody ItemRequestDto.GetItemsDto getItemsDto, BindingResult results) {
         // validation 검증
         if (results.hasErrors()) {
@@ -52,7 +52,7 @@ public class ItemController {
      * @version 1.0.0
      * 작성일 2022/04/03
     **/
-    @PostMapping("/v1")
+    @PostMapping("/v1/menu")
     public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequestDto.CreateItemDto createItemDto,
                                         BindingResult results) {
         // validation 검증
@@ -72,7 +72,7 @@ public class ItemController {
      * @version 1.0.0
      * 작성일 2022/04/04
     **/
-    @PatchMapping("/v1")
+    @PatchMapping("/v1/menu")
     public ResponseEntity<?> updateItem(@Valid @RequestBody ItemRequestDto.UpdateItemDto updateItemDto,
                                         BindingResult results) {
         // validation 검증
@@ -93,7 +93,7 @@ public class ItemController {
      * @version 1.0.0
      * 작성일 2022/04/04
      **/
-    @DeleteMapping("/v1")
+    @DeleteMapping("/v1/menu")
     public ResponseEntity<?> deleteItem(@Valid @RequestBody ItemRequestDto.DeleteItemDto deleteItemDto,
                                         BindingResult results) {
         // validation 검증
