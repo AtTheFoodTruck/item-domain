@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -121,5 +122,20 @@ public class ItemService {
         itemRepository.deleteById(deleteItemDto.getItemId());
 
         return true;
+    }
+
+    /**
+     * Item 정보 조회 - Feign clien 통신
+     *
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-09
+     **/
+    public List<ItemResponseDto.GetItemsInfoDto> getItems(List<Long> itemIds) {
+        List<Item> items = itemRepository.findAllById(itemIds);
+
+        return items.stream()
+                .map(item -> ItemResponseDto.GetItemsInfoDto.of(item))
+                .collect(Collectors.toList());
     }
 }

@@ -28,7 +28,7 @@ public class ItemResponseDto {
 
         private String description;
 
-        private int price;
+        private long price;
 
         @JsonProperty("item_img")
         private String itemImg;
@@ -63,7 +63,7 @@ public class ItemResponseDto {
 
         private String description;
 
-        private int price;
+        private long price;
 
         @JsonProperty("item_img")
         private String itemImg;
@@ -76,6 +76,34 @@ public class ItemResponseDto {
             this.price = item.getPrice();
             this.itemImg = item.getItemImg().getImgUrl();
         }
+    }
+
+    /**
+     * Item 목록 조회 응답 DTO - Feign Client
+     *
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-09
+     **/
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetItemsInfoDto {
+        private Long itemId;        // 아이템 ID
+        private String itemName;    // 아이템 이름
+        private long itemPrice;     // 아이템 가격
+        private String itemImgUrl;  // 아이템 이미지 주소
+
+        public static GetItemsInfoDto of(Item item) {
+            GetItemsInfoDto getItemsInfoDto = new GetItemsInfoDto();
+            getItemsInfoDto.itemId = item.getId();
+            getItemsInfoDto.itemName = item.getName();
+            getItemsInfoDto.itemPrice = item.getPrice();
+            getItemsInfoDto.itemImgUrl = item.getItemImg().getImgUrl();
+
+            return getItemsInfoDto;
+        }
+
     }
 
 }

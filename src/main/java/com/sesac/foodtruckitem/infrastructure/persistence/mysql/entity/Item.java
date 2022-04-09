@@ -20,7 +20,7 @@ public class Item extends BaseEntity {
     private Long id;                // 
     private String name;            // 메뉴명 
     private String description;     // 설명
-    private int price;              // 가격
+    private long price;             // 가격
 
     @Embedded
     private Images itemImg;
