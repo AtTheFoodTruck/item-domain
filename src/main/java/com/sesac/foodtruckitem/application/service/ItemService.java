@@ -77,7 +77,7 @@ public class ItemService {
                 .name(createItemDto.getItemName())
                 .description(createItemDto.getDescription())
                 .price(createItemDto.getPrice())
-                .itemImg(new Images(createItemDto.getItemName(), createItemDto.getItemImg()))
+                .itemImg(new Images(createItemDto.getItemName(), createItemDto.getItemImgUrl()))
                 .build();
 
         // Item 저장

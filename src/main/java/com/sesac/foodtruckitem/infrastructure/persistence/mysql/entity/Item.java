@@ -5,8 +5,6 @@ import lombok.*;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -43,7 +41,7 @@ public class Item extends BaseEntity {
         // item name
         if (StringUtils.hasText(itemInfo.getItemName())) {
             this.name = itemInfo.getItemName();
-            this.itemImg.setImgUrl(itemInfo.getItemImg());
+            this.itemImg.setImgUrl(itemInfo.getItemImgUrl());
         }
         // item description
         if (StringUtils.hasText(itemInfo.getDescription())) {

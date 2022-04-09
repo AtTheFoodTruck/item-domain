@@ -51,7 +51,7 @@ public class PostStoreRequestFormDto {
     @NotBlank(message = "영업장소를 입력해주세요")
     private String address;
 
-    @NotNull(message = "우편번호를 입력해주세요")
+//    @NotNull(message = "우편번호를 입력해주세요")
     private String zipCode;
 
     private Double latitude;

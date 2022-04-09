@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class ItemRequestDto {
@@ -56,8 +55,8 @@ public class ItemRequestDto {
         private int price;
 
         @NotBlank(message = "메뉴 사진은 필수입니다.")
-        @JsonProperty("item_img")
-        private String itemImg;
+        @JsonProperty("item_img_url")
+        private String itemImgUrl;
     }
 
 
@@ -85,8 +84,8 @@ public class ItemRequestDto {
         @JsonProperty("item_name")
         private String itemName;
 
-        @JsonProperty("item_img")
-        private String itemImg;
+        @JsonProperty("item_img_url")
+        private String itemImgUrl;
 
         private String description;
 

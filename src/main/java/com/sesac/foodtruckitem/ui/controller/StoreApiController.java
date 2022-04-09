@@ -35,6 +35,21 @@ public class StoreApiController {
     private final Helper helper;
 
     /**
+     * 가게 정보 조회
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-05
+     **/
+    @GetMapping("/items/v1/stores")
+    public ResponseEntity<?> storeInfo(@RequestBody PostStoreRequestDto.QueryStoreDto queryStoreDto,
+                                       @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Long storeId = queryStoreDto.getStoreId();
+        StoreResponseDto.SearchStoreResult searchStoreInfo = storeService.findStoreInfo(storeId, pageable);
+
+        return response.success(searchStoreInfo, "가게 정보 조회 성공", HttpStatus.OK);
+    }
+
+    /**
      * 가게 정보 등록 - 점주
      * @author jaemin
      * @version 1.0.0
@@ -89,22 +104,6 @@ public class StoreApiController {
     public ResponseEntity<?> deleteStoreInfo(@RequestBody PostStoreRequestDto.DeleteStoreDto deleteStoreDto) {
         return storeService.deleteStoreInfo(deleteStoreDto);
     }
-
-    /**
-     * 가게 정보 조회
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-05
-    **/
-    @GetMapping("/items/v1/stores")
-    public ResponseEntity<?> storeInfo(@RequestBody PostStoreRequestDto.QueryStoreDto queryStoreDto,
-                                       @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Long storeId = queryStoreDto.getStoreId();
-        StoreResponseDto.SearchStoreResult searchStoreInfo = storeService.findStoreInfo(storeId, pageable);
-
-        return response.success(searchStoreInfo, "가게 정보 조회 성공", HttpStatus.OK);
-    }
-
 
     /**
      * 사업자등록번호 상태조회 API

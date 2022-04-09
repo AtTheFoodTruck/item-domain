@@ -54,7 +54,7 @@ class ItemServiceTest {
                 .itemName(savedItem.getName())
                 .description(savedItem.getDescription())
                 .price(savedItem.getPrice())
-                .itemImg(savedItem.getItemImg().getImgUrl())
+                .itemImgUrl(savedItem.getItemImg().getImgUrl())
                 .build();
 
         /** when */
@@ -83,7 +83,7 @@ class ItemServiceTest {
                 .itemName("재은이네 떡볶이")  // 메뉴명 수정
                 .description(savedItem.getDescription())
                 .price(savedItem.getPrice())
-                .itemImg(savedItem.getItemImg().getImgUrl())
+                .itemImgUrl(savedItem.getItemImg().getImgUrl())
                 .build();
 
         /** when */
