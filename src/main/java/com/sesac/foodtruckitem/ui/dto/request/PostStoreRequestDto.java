@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostStoreDto {
+public class PostStoreRequestDto {
 
     private Long userId;
     private String storeName;

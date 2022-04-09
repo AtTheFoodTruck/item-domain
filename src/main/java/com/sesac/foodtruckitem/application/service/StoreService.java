@@ -9,8 +9,7 @@ import com.sesac.foodtruckitem.infrastructure.query.http.UserClient;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Response;
 import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
-import com.sesac.foodtruckitem.ui.dto.request.PostStoreDto;
-import com.sesac.foodtruckitem.ui.dto.response.SearchItemDto;
+import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestDto;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +52,7 @@ public class StoreService {
     @Transactional
     public ResponseEntity<?> createStore(HttpServletRequest request,
                                          Long userId,
-                                         PostStoreDto postStoreDto) {
+                                         PostStoreRequestDto postStoreRequestDto) {
 
         String authorization = request.getHeader("Authorization");
 
@@ -69,29 +68,29 @@ public class StoreService {
         }
 
         // 2. Category 정보 조회
-        Category findCategory = categoryRepository.findByName(postStoreDto.getCategoryName()).orElseThrow(
-                () -> new IllegalArgumentException("해당하는 카테고리 정보가 없습니다 " + postStoreDto.getCategoryName())
+        Category findCategory = categoryRepository.findByName(postStoreRequestDto.getCategoryName()).orElseThrow(
+                () -> new IllegalArgumentException("해당하는 카테고리 정보가 없습니다 " + postStoreRequestDto.getCategoryName())
         );
 
         // 3. Address 생성
-        Address address = Address.of(postStoreDto.getAddress().getAddress(), postStoreDto.getAddress().getZipCode());
+        Address address = Address.of(postStoreRequestDto.getAddress().getAddress(), postStoreRequestDto.getAddress().getZipCode());
 
         // 4. Images 생성
-        Images images = Images.of(postStoreDto.getImages().getImgName(), postStoreDto.getImages().getImgUrl());
+        Images images = Images.of(postStoreRequestDto.getImages().getImgName(), postStoreRequestDto.getImages().getImgUrl());
 
         // 5. BusinessInfo 생성
-        BusinessInfo businessInfo = BusinessInfo.of(postStoreDto.getBusinessInfo().getBNo(), postStoreDto.getBusinessInfo().getSDt(), postStoreDto.getBusinessInfo().getPName());
+        BusinessInfo businessInfo = BusinessInfo.of(postStoreRequestDto.getBusinessInfo().getBNo(), postStoreRequestDto.getBusinessInfo().getSDt(), postStoreRequestDto.getBusinessInfo().getPName());
 
         // 6. Map 생성
-        Map map = Map.of(postStoreDto.getMap().getLatitude(), postStoreDto.getMap().getLongitude());
+        Map map = Map.of(postStoreRequestDto.getMap().getLatitude(), postStoreRequestDto.getMap().getLongitude());
 
         // Store 생성
         Store store = Store.createStore(
-                postStoreDto.getStoreName(),
-                postStoreDto.getPhoneNum(),
+                postStoreRequestDto.getStoreName(),
+                postStoreRequestDto.getPhoneNum(),
                 true,
-                postStoreDto.getNotice(),
-                postStoreDto.getOpenTime(),
+                postStoreRequestDto.getNotice(),
+                postStoreRequestDto.getOpenTime(),
                 address,
                 images,
                 businessInfo,
@@ -121,7 +120,7 @@ public class StoreService {
      **/
     @Transactional
     public ResponseEntity<?> updateStoreInfo(HttpServletRequest request,
-                                             PostStoreDto.UpdateStoreDto updateStoreDto) {
+                                             PostStoreRequestDto.UpdateStoreDto updateStoreDto) {
 
         // 수정 정보 생성 - 공지사항, 사진, 영업시간, 영업장소, 전화번호
 
@@ -161,7 +160,7 @@ public class StoreService {
      * 작성일 2022-04-05
      **/
     @Transactional
-    public ResponseEntity<?> deleteStoreInfo(PostStoreDto.DeleteStoreDto deleteStoreDto) {
+    public ResponseEntity<?> deleteStoreInfo(PostStoreRequestDto.DeleteStoreDto deleteStoreDto) {
         Store findStore = storeRepository.findById(deleteStoreDto.getStoreId()).orElseThrow(
                 () -> new IllegalArgumentException("삭제할 가게 정보가 존재하지 않습니다.")
         );
@@ -188,9 +187,9 @@ public class StoreService {
 
         List<Item> items = findItem.getContent();
 
-        List<SearchItemDto> searchItemDtos = new ArrayList<>();
+        List<StoreResponseDto.SearchItemDto> searchItemDtos = new ArrayList<>();
         items.stream().forEach(item -> {
-            searchItemDtos.add(SearchItemDto.of(item));
+            searchItemDtos.add(StoreResponseDto.SearchItemDto.of(item));
         });
 
         // 가게 정보 DTO로 만든 후 item add

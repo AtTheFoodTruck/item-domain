@@ -13,36 +13,6 @@ import java.util.List;
 public class StoreResponseDto {
 
 
-    @Builder
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class StoreDto {
-        //가게 정보
-        private Long storeId;
-        private String storeName;
-        private int totalWaitingCount;
-        private String notice;
-        // Desirialize해야됨
-        private LocalDateTime openTime;
-        private Address address;
-        private Images storeIamges;
-//        private String city;
-//        private String street;
-//        private String zipcode;
-//        private String latitude;
-//        private String longitude;
-
-        // 메뉴
-        private Long itemId;
-        private String itemName;
-        private Images images;
-//        private String itemImgName;
-//        private String itemImgUrl;
-//        private String itemName;
-        private int itemPrice;
-
-    }
 
     /**
      * 가게 정보 조회 - 가게
@@ -85,29 +55,29 @@ public class StoreResponseDto {
     }
 
     /**
-     * 가게 정보 조회 - 메뉴
+     * 가게정보 조회 - 메뉴DTO
      * @author jaemin
      * @version 1.0.0
-     * 작성일 2022-04-06
-     **/
-    @Getter @Builder @AllArgsConstructor
-    public static class SearchItemResult {
-        // 메뉴 정보
+     * 작성일 2022-04-09
+    **/
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SearchItemDto {
         private Long itemId;
         private String itemName;
-        private String imageName;
-        private String imageUrl;
+        private Images images;
         private int itemPrice;
 
-//        private List<SearchItemDto> searchItemDtos;
+        public static SearchItemDto of(Item item) {
+            SearchItemDto itemDto = new SearchItemDto();
+            itemDto.itemId = item.getId();
+            itemDto.itemName = item.getName();
+            itemDto.images = item.getItemImg();
+            itemDto.itemPrice = item.getPrice();
 
-        public static SearchItemResult of(Item item) {
-            return SearchItemResult.builder()
-                    .itemId(item.getId())
-                    .itemName(item.getName())
-                    .imageName(item.getItemImg().getImgName())
-                    .imageUrl(item.getItemImg().getImgUrl())
-                    .build();
+            return itemDto;
         }
     }
 

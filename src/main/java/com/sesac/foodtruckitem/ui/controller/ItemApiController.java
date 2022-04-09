@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/items")
 @RestController
-public class ItemController {
+public class ItemApiController {
 
     private final ItemService itemService;
     private final Response response;

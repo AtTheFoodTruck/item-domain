@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-public class PostStoreRequest {
+public class PostStoreRequestFormDto {
     private Long storeId;
 
     private Long userId;
@@ -76,20 +76,20 @@ public class PostStoreRequest {
      * @version 1.0.0
      * 작성일 2022-04-06
      **/
-    public PostStoreDto toPostStoreDto(Long userId) {
-        PostStoreDto._PostStoreAddress postStoreAddress =
-                PostStoreDto._PostStoreAddress.builder().address(this.address).zipCode(this.zipCode).build();
+    public PostStoreRequestDto toPostStoreDto(Long userId) {
+        PostStoreRequestDto._PostStoreAddress postStoreAddress =
+                PostStoreRequestDto._PostStoreAddress.builder().address(this.address).zipCode(this.zipCode).build();
 
-        PostStoreDto._PostStoreMap postStoreMap =
-                PostStoreDto._PostStoreMap.builder().latitude(this.latitude).longitude(this.longitude).build();
+        PostStoreRequestDto._PostStoreMap postStoreMap =
+                PostStoreRequestDto._PostStoreMap.builder().latitude(this.latitude).longitude(this.longitude).build();
 
-        PostStoreDto._PostStoreImages postStoreImages =
-                PostStoreDto._PostStoreImages.builder().imgName(this.imgName).imgUrl(this.imgUrl).build();
+        PostStoreRequestDto._PostStoreImages postStoreImages =
+                PostStoreRequestDto._PostStoreImages.builder().imgName(this.imgName).imgUrl(this.imgUrl).build();
 
-        PostStoreDto._PostStoreBusinessInfo postStoreBusinessInfo=
-                PostStoreDto._PostStoreBusinessInfo.builder().bNo(this.bNo).sDt(this.sDt).pName(this.pName).build();
+        PostStoreRequestDto._PostStoreBusinessInfo postStoreBusinessInfo=
+                PostStoreRequestDto._PostStoreBusinessInfo.builder().bNo(this.bNo).sDt(this.sDt).pName(this.pName).build();
 
-        return PostStoreDto.builder()
+        return PostStoreRequestDto.builder()
                 .userId(userId)
                 .storeName(this.storeName)
                 .phoneNum(this.phoneNum)
