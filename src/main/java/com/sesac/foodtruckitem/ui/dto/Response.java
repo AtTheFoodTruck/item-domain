@@ -81,6 +81,10 @@ public class Response {
         return success(Collections.emptyList(), msg, HttpStatus.OK);
     }
 
+    public ResponseEntity<?> success(String msg, HttpStatus status) {
+        return success(Collections.emptyList(), msg, status);
+    }
+
     /**
      * 데이터만 가진 성공 응답 반환 (오버로딩)
      *     {

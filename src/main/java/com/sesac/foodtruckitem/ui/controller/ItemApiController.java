@@ -63,7 +63,7 @@ public class ItemApiController {
         // item 생성
         ItemResponseDto.CreateItemDto responseDto = itemService.createItem(createItemDto);
 
-        return response.success(responseDto, "메뉴가 등록되었습니다." ,HttpStatus.CREATED);
+        return response.success(responseDto,"메뉴가 등록되었습니다." ,HttpStatus.CREATED);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ItemApiController {
         }
 
         // item 수정
-        if (itemService.updateItem(updateItemDto))
+        if (!itemService.updateItem(updateItemDto))
             return response.fail("메뉴를 수정할 수 없습니다.", HttpStatus.BAD_REQUEST);
 
         return response.success("메뉴가 수정되었습니다.");
@@ -102,9 +102,9 @@ public class ItemApiController {
         }
 
         // item 수정
-        if (itemService.deleteItem(deleteItemDto))
+        if (!itemService.deleteItem(deleteItemDto))
             return response.fail("메뉴를 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST);
 
-        return response.success("메뉴가 수정되었습니다.");
+        return response.success("메뉴가 삭제되었습니다.");
     }
 }

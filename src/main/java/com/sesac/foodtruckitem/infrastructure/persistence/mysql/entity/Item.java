@@ -48,9 +48,7 @@ public class Item extends BaseEntity {
             this.description = itemInfo.getItemName();
         }
         // item price
-        if (itemInfo.getPrice() != null) {
-            this.price = itemInfo.getPrice();
-        }
+        this.price = itemInfo.getPrice();
         // item url
         if (StringUtils.hasText(itemInfo.getItemName())) {
             this.itemImg.setImgUrl(itemInfo.getItemName());

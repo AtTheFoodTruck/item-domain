@@ -118,6 +118,10 @@ public class ItemService {
         storeRepository.findById(deleteItemDto.getStoreId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
+        // Item 조회
+        Item item = itemRepository.findById(deleteItemDto.getItemId())
+                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 메뉴를 찾을 수 없습니다.", 1));
+
         // Item 삭제
         itemRepository.deleteById(deleteItemDto.getItemId());
 

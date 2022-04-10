@@ -41,63 +41,65 @@ class ItemServiceTest {
         itemRepository.save(item);
     }
 
-    @Transactional
-    @Test
-    void createItem() {
-        /** given */
-        Store savedStore = storeRepository.findAll().get(0);
-        Item savedItem = itemRepository.findAll().get(0);
-
-        // Dto 생성
-        ItemRequestDto.CreateItemDto createItemDto = ItemRequestDto.CreateItemDto.builder()
-                .storeId(savedStore.getId())
-                .itemName(savedItem.getName())
-                .description(savedItem.getDescription())
-                .price(savedItem.getPrice())
-                .itemImgUrl(savedItem.getItemImg().getImgUrl())
-                .build();
-
-        /** when */
-        // Service
-        ItemResponseDto.CreateItemDto responseDto = itemService.createItem(createItemDto);
-
-        // 메뉴 조회
-        Item getItem = itemRepository.findAll().get(0);
-
-        /** then */
-        assertEquals(savedStore, getItem.getStore());
-        assertEquals(getItem, savedStore.getItems().get(0));
-    }
-
-    @Transactional
-    @Test
-    void updateItem() {
-        /** given */
-        Store savedStore = storeRepository.findAll().get(0);
-        Item savedItem = itemRepository.findAll().get(0);
-
-        // Dto 생성
-        ItemRequestDto.UpdateItemDto updateItemDto = ItemRequestDto.UpdateItemDto.builder()
-                .storeId(savedStore.getId())
-                .itemId(savedItem.getId())
-                .itemName("재은이네 떡볶이")  // 메뉴명 수정
-                .description(savedItem.getDescription())
-                .price(savedItem.getPrice())
-                .itemImgUrl(savedItem.getItemImg().getImgUrl())
-                .build();
-
-        /** when */
-        // Service
-        assertTrue(itemService.updateItem(updateItemDto));
-
-        // 메뉴 조회
-        Item updatedItem = itemRepository.findAll().get(0);
+//    @Transactional
+//    @Test
+//    void createItem() {
+//        /** given */
+//        Store savedStore = storeRepository.findAll().get(0);
+//        Item savedItem = itemRepository.findAll().get(0);
+//
+//        // Dto 생성
+//        ItemRequestDto.CreateItemDto createItemDto = ItemRequestDto.CreateItemDto.builder()
+//                .storeId(savedStore.getId())
+//                .itemName(savedItem.getName())
+//                .description(savedItem.getDescription())
+//                .price(savedItem.getPrice())
+//                .itemImgUrl(savedItem.getItemImg().getImgUrl())
+//                .build();
+//
+//        /** when */
+//        // Service
+//        ItemResponseDto.CreateItemDto responseDto = itemService.createItem(createItemDto);
+//
+//        // 메뉴 조회
+//        Item getItem = itemRepository.findAll().get(0);
+//
+//        /** then */
+//        assertEquals(savedStore, getItem.getStore());
+//        assertEquals(getItem, savedStore.getItems().get(0));
+//    }
 
 
-        /** then */
-        Assertions.assertThat("재은이네 떡볶이").isEqualTo(updatedItem.getName());
-//        assertEquals("재은이네 떡볶이", updatedItem.getName());
-    }
+
+//    @Transactional
+//    @Test
+//    void updateItem() {
+//        /** given */
+//        Store savedStore = storeRepository.findAll().get(0);
+//        Item savedItem = itemRepository.findAll().get(0);
+//
+//        // Dto 생성
+//        ItemRequestDto.UpdateItemDto updateItemDto = ItemRequestDto.UpdateItemDto.builder()
+//                .storeId(savedStore.getId())
+//                .itemId(savedItem.getId())
+//                .itemName("재은이네 떡볶이")  // 메뉴명 수정
+//                .description(savedItem.getDescription())
+//                .price(savedItem.getPrice())
+//                .itemImgUrl(savedItem.getItemImg().getImgUrl())
+//                .build();
+//
+//        /** when */
+//        // Service
+//        assertTrue(itemService.updateItem(updateItemDto));
+//
+//        // 메뉴 조회
+//        Item updatedItem = itemRepository.findAll().get(0);
+//
+//
+//        /** then */
+//        Assertions.assertThat("재은이네 떡볶이").isEqualTo(updatedItem.getName());
+////        assertEquals("재은이네 떡볶이", updatedItem.getName());
+//    }
 
     @Transactional
     @Test

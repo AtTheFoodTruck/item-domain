@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -58,6 +59,10 @@ public class StoreService {
 
         // 1. user 정보 갖고오기, using feign client
         CreateUserDto createUserDto = userClient.userInfo(authorization, userId);
+
+        if (Objects.isNull(createUserDto)) {
+            return response.fail("사용자 정보를 불러오는데 실패했습니다.", HttpStatus.BAD_REQUEST);
+        }
 
         log.info("Return 받은 user 객체의 값 : {}", createUserDto);
 

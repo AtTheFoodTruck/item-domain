@@ -68,7 +68,7 @@ public class StoreResponseDto {
         private Long itemId;
         private String itemName;
         private Images images;
-        private int itemPrice;
+        private long itemPrice;
 
         public static SearchItemDto of(Item item) {
             SearchItemDto itemDto = new SearchItemDto();
