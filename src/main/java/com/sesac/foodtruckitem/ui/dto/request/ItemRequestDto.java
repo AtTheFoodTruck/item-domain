@@ -52,7 +52,7 @@ public class ItemRequestDto {
         private String description;
 
         @NotNull(message = "메뉴 가격은 필수입니다.")
-        private int price;
+        private long price;
 
         @NotBlank(message = "메뉴 사진은 필수입니다.")
         @JsonProperty("item_img_url")
@@ -89,7 +89,7 @@ public class ItemRequestDto {
 
         private String description;
 
-        private Integer price;
+        private long price;
 
     }
 
