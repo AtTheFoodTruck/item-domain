@@ -2,10 +2,7 @@ package com.sesac.foodtruckitem.ui.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Item;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 public class ItemResponseDto {
 
@@ -88,6 +85,7 @@ public class ItemResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    @ToString
     public static class GetItemsInfoDto {
         private Long itemId;        // 아이템 ID
         private String itemName;    // 아이템 이름
