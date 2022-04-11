@@ -28,7 +28,8 @@ public class StoreController {
     private final StoreRepository storeRepository;
 
     /**
-     * 가게 정보 조회 다중 - StoreClient
+     * 가게 정보 조회 다중
+     * using by 리뷰 목록 조회(가게입장), 주문 내역 조회
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-08
@@ -43,14 +44,15 @@ public class StoreController {
     }
 
     /**
-     * 가게 정보 조회 단건 - StoreClient
+     * 가게 정보 조회 단건
+     * using by 장바구니 목록 조회
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-09
     **/
     @GetMapping("/items/v1/store/{storeId}")
     public ResponseEntity<Result> getStore(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
-                                      @PathVariable("storeId") String storeId) {
+                                            @PathVariable("storeId") String storeId) {
         Store findStore = storeRepository.findById(Long.valueOf((storeId))).orElseThrow(
                 () -> new EmptyResultDataAccessException("푸드트럭 정보가 존재하지 않습니다.", 1)
         );
@@ -58,5 +60,25 @@ public class StoreController {
         StoreResponseDto.StoreInfoDto storeDto = StoreResponseDto.StoreInfoDto.of(findStore);
 
         return ResponseEntity.ok(Result.createSuccessResult(storeDto));
+    }
+
+    /**
+     * 가게 정보 조회 - storeId, storeName
+     * using by 주문 조회 페이지(점주)
+     *
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/11
+     **/
+    @GetMapping("/items/v1/store/{userId}")
+    ResponseEntity<Result> getStoreInfoByUserId(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
+                                                @PathVariable("userId") Long userId) {
+        Store store = storeRepository.findByUserId(userId).orElseThrow(
+                () -> new StoresException(userId + "의 매장은 존재하지 않습니다.")
+        );
+
+        StoreResponseDto.GetStoreInfoByUserId storeInfo = StoreResponseDto.GetStoreInfoByUserId.of(store);
+
+        return ResponseEntity.ok(Result.createSuccessResult(storeInfo));
     }
 }

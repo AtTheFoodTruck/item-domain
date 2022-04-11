@@ -105,4 +105,28 @@ public class StoreResponseDto {
             return storeInfoDto;
         }
     }
+
+    /**
+     * order 도메인에 전달할 가게 정보
+     * 주문 조회 페이지(점주)
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/11
+    **/
+    @Data
+    public static class GetStoreInfoByUserId {
+        private Long storeId;
+        private String storeName;
+
+        public static GetStoreInfoByUserId of(Store store) {
+            GetStoreInfoByUserId getStoreInfoByUserId = new GetStoreInfoByUserId();
+            getStoreInfoByUserId.storeId = store.getId();
+            getStoreInfoByUserId.storeName = store.getName();
+
+            return getStoreInfoByUserId;
+        }
+
+    }
+
+
 }
