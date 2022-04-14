@@ -5,14 +5,20 @@ import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.Store
 import com.sesac.foodtruckitem.ui.dto.Helper;
 import com.sesac.foodtruckitem.ui.dto.Response;
 import com.sesac.foodtruckitem.ui.dto.Result;
+import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestFormDto;
+import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "items", description = "아이템 API")
 @Slf4j
@@ -124,4 +131,45 @@ public class StoreApiController {
         }
         return response.success("인증 성공");
     }
+
+    /**
+     * 위치 기반 가게 정보 검색
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/13
+     **/
+    @GetMapping("/items/v1/search/stores")
+    public ResponseEntity<?> searchStore(HttpServletRequest request,
+                                         @RequestBody SearchStoreCondition condition,
+                                         @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        SliceImpl<SearchStoreResultDto> searchStoreResultDtos = storeService.searchStore(request, condition, pageable);
+
+        SearchStoreResponse searchStoreResponse =
+                new SearchStoreResponse(searchStoreResultDtos.getContent(), searchStoreResultDtos.hasNext());
+
+        return response.success(searchStoreResponse);
+    }
+
+    @Data
+    @NoArgsConstructor
+    static class SearchStoreResponse {
+        private List<StoreDto> stores;
+        private boolean hasNext;
+
+        @Data
+        @AllArgsConstructor
+        static class StoreDto {
+            private Long storeId;
+            private String storeName;
+            private String distance;
+        }
+
+        public SearchStoreResponse(List<SearchStoreResultDto> content, boolean hasNext) {
+            this.stores = content.stream()
+                    .map(result -> new StoreDto(result.getStoreId(), result.getStoreName(), result.convertDistanceToString()))
+                    .collect(Collectors.toList());
+            this.hasNext = hasNext;
+        }
+    }
+
 }
