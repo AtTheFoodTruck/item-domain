@@ -162,11 +162,16 @@ public class StoreApiController {
             private Long storeId;
             private String storeName;
             private String distance;
+            private Double avgRating;
         }
 
         public SearchStoreResponse(List<SearchStoreResultDto> content, boolean hasNext) {
             this.stores = content.stream()
-                    .map(result -> new StoreDto(result.getStoreId(), result.getStoreName(), result.convertDistanceToString()))
+                    .map(result ->
+                            new StoreDto(result.getStoreId(),
+                            result.getStoreName(),
+                            result.convertDistanceToString(),
+                            result.getAvgRating()))
                     .collect(Collectors.toList());
             this.hasNext = hasNext;
         }
