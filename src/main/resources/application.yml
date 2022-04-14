@@ -3,10 +3,14 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/foodtruck
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/testmap
+    username: root
+    password: 1234
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:tcp://localhost/~/foodtruck
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   #  main:
   #    web-application-type: reactive
   application:
@@ -18,6 +22,10 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 1000 #최적화 옵션
+    # haversine
+    generate-ddl: true
+    database: mysql
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
 
 logging:
   level:

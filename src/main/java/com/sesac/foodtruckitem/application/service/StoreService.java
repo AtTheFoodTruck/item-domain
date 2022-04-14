@@ -1,5 +1,8 @@
 package com.sesac.foodtruckitem.application.service;
 
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Map;
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepositoryCustom;
+import com.sesac.foodtruckitem.infrastructure.query.http.OrderClient;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.CreateUserDto;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.CategoryRepository;
@@ -8,8 +11,10 @@ import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.Store
 import com.sesac.foodtruckitem.infrastructure.query.http.UserClient;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Response;
+import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestDto;
+import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +23,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +32,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,8 +44,10 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
     private final ItemRepository itemRepository;
+    private final StoreRepositoryCustom storeRepositoryCustom;
     private final Response response;
     private final UserClient userClient;
+    private final OrderClient orderClient;
     private final RestTemplate restTemplate;
 
     /**
@@ -250,10 +256,42 @@ public class StoreService {
     }
 
 
+    /**
+     * 가게 정보 조회 다중
+     * using by 리뷰 목록 조회(가게입장), 주문 내역 조회
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/14
+    **/
     public List<StoreResponseDto.StoreInfoDto> findStoreAllById(Iterable<Long> storeIds) {
         return storeRepository.findAllById(storeIds)
                 .stream()
                 .map(store -> StoreResponseDto.StoreInfoDto.of(store))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 위치 기반 검색
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/14
+    **/
+    public SliceImpl<SearchStoreResultDto> searchStore(HttpServletRequest request, SearchStoreCondition condition, Pageable pageable) {
+        String authorization = request.getHeader("Authorization");
+
+        SliceImpl<SearchStoreResultDto> searchStorePage = storeRepositoryCustom.findSearchStorePage(condition, pageable);
+
+        // 별점 평균 주입
+        Set<Long> storeIds = new HashSet<>();
+        searchStorePage.forEach(searchStoreResultDto -> storeIds.add(searchStoreResultDto.getStoreId()));
+
+        // <storeId, avgRating>
+        java.util.Map<Long, Double> reviewInfos = orderClient.getReviewInfos(authorization, storeIds);
+
+        for (SearchStoreResultDto searchStoreResultDto : searchStorePage.getContent()) {
+            searchStoreResultDto.changeAvgRating(reviewInfos.get(searchStoreResultDto.getStoreId()));
+        }
+
+        return searchStorePage;
     }
 }
