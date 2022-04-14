@@ -139,7 +139,7 @@ public class PostStoreRequestDto {
 
         // 사진
         private String imgName;
-        private String imgUrl;
+        private String storeImgUrl;
 
         // 영업시간
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:MM:ss", timezone = "Asia/Seoul")

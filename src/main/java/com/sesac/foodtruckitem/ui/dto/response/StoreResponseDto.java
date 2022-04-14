@@ -31,13 +31,16 @@ public class StoreResponseDto {
         //Desirialize
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:MM:ss", timezone = "Asia/Seoul")
         private LocalDateTime openTime;
-        private Address address;
-        private Images images;
+        private String address;
+        private String phoneNum;
+        private String storeImgUrl;
 
         // 메뉴
         private List<SearchItemDto> searchItemResults;
 
-        public static SearchStoreResult of(Store store, List<SearchItemDto> searchItemDto) {
+        private boolean hasNext;
+
+        public static SearchStoreResult of(Store store, List<SearchItemDto> searchItemDto, boolean hasNext) {
 
             SearchStoreResult searchStoreResult = SearchStoreResult.builder()
                     .storeId(store.getId())
@@ -45,9 +48,11 @@ public class StoreResponseDto {
                     .totalWaitingCount(store.getTotalWaitingCount())
                     .notice(store.getNotice())
                     .openTime(store.getOpenTime())
-                    .address(store.getAddress())
-                    .images(store.getStoreImage())
+                    .address(store.getAddress().getAddress())
+                    .phoneNum(store.getPhoneNum())
+                    .storeImgUrl(store.getStoreImage().getStoreImgUrl())
                     .searchItemResults(searchItemDto)
+                    .hasNext(hasNext)
                     .build();
 
             return searchStoreResult;
@@ -62,22 +67,18 @@ public class StoreResponseDto {
     **/
     @Getter
     @Builder
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class SearchItemDto {
         private Long itemId;
         private String itemName;
-        private Images images;
+        private String itemImgUrl;
         private long itemPrice;
 
-        public static SearchItemDto of(Item item) {
-            SearchItemDto itemDto = new SearchItemDto();
-            itemDto.itemId = item.getId();
-            itemDto.itemName = item.getName();
-            itemDto.images = item.getItemImg();
-            itemDto.itemPrice = item.getPrice();
-
-            return itemDto;
+        public SearchItemDto(Long itemId, String itemName, String itemImgUrl, long itemPrice) {
+            this.itemId = itemId;
+            this.itemName = itemName;
+            this.itemImgUrl = itemImgUrl;
+            this.itemPrice = itemPrice;
         }
     }
 
@@ -100,7 +101,7 @@ public class StoreResponseDto {
             StoreInfoDto storeInfoDto = new StoreInfoDto();
             storeInfoDto.storeId = store.getId();
             storeInfoDto.storeName = store.getName();
-            storeInfoDto.imgUrl = store.getStoreImage().getImgUrl();
+            storeInfoDto.imgUrl = store.getStoreImage().getStoreImgUrl();
 
             return storeInfoDto;
         }

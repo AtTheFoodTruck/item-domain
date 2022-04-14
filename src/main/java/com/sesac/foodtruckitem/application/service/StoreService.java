@@ -1,13 +1,10 @@
 package com.sesac.foodtruckitem.application.service;
 
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Map;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepositoryCustom;
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.*;
 import com.sesac.foodtruckitem.infrastructure.query.http.OrderClient;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.CreateUserDto;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.CategoryRepository;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.ItemRepository;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.infrastructure.query.http.UserClient;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Response;
@@ -43,7 +40,7 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final CategoryRepository categoryRepository;
-    private final ItemRepository itemRepository;
+    private final ItemRepositoryCustom itemRepositoryCustom;
     private final StoreRepositoryCustom storeRepositoryCustom;
     private final Response response;
     private final UserClient userClient;
@@ -146,7 +143,7 @@ public class StoreService {
         Address address = Address.of(updateStoreDto.getAddress(), updateStoreDto.getZipCode());
 
         // 4. Images 생성
-        Images images = Images.of(updateStoreDto.getImgName(), updateStoreDto.getImgUrl());
+        Images images = Images.of(updateStoreDto.getImgName(), updateStoreDto.getStoreImgUrl());
 
         // 5. Map 생성
         Map map = Map.of(updateStoreDto.getLatitude(), updateStoreDto.getLongitude());
@@ -165,7 +162,6 @@ public class StoreService {
 
     /**
      * 가게 정보 삭제
-     *
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-05
@@ -188,23 +184,16 @@ public class StoreService {
      * 작성일 2022-04-05
     **/
     public StoreResponseDto.SearchStoreResult findStoreInfo(Long storeId, Pageable pageable) {
-        // 가게 정보 조회 - notice, openTime, address, phoneNum
+        // 가게 정보 조회 - notice, openTime, address, phoneNum, waitingCount(추가해야됨)
         Store findStore = storeRepository.findById(storeId).orElseThrow(
                 () -> new IllegalArgumentException("조회할 가게 정보가 존재하지 않습니다.")
         );
 
         // 메뉴 정보 조회 - itemImg, itemUrl, itemName, price
-        Slice<Item> findItem = itemRepository.findItemByStoreId(storeId, pageable);
-
-        List<Item> items = findItem.getContent();
-
-        List<StoreResponseDto.SearchItemDto> searchItemDtos = new ArrayList<>();
-        items.stream().forEach(item -> {
-            searchItemDtos.add(StoreResponseDto.SearchItemDto.of(item));
-        });
+        SliceImpl<StoreResponseDto.SearchItemDto> findItem = itemRepositoryCustom.findItemList(storeId, pageable);
 
         // 가게 정보 DTO로 만든 후 item add
-        StoreResponseDto.SearchStoreResult storeDto = StoreResponseDto.SearchStoreResult.of(findStore, searchItemDtos);
+        StoreResponseDto.SearchStoreResult storeDto = StoreResponseDto.SearchStoreResult.of(findStore, findItem.getContent(), findItem.hasNext());
         log.info("storeDto : {} ", storeDto);
 
         return storeDto;
@@ -279,6 +268,7 @@ public class StoreService {
     public SliceImpl<SearchStoreResultDto> searchStore(HttpServletRequest request, SearchStoreCondition condition, Pageable pageable) {
         String authorization = request.getHeader("Authorization");
 
+        // 검색 결과 조회
         SliceImpl<SearchStoreResultDto> searchStorePage = storeRepositoryCustom.findSearchStorePage(condition, pageable);
 
         // 별점 평균 주입

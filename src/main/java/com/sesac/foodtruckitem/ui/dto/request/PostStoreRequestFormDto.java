@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -46,7 +45,7 @@ public class PostStoreRequestFormDto {
 
     private String imgName;
 
-    private String imgUrl;
+    private String storeImgUrl;
 
     @NotBlank(message = "영업장소를 입력해주세요")
     private String address;
@@ -84,7 +83,7 @@ public class PostStoreRequestFormDto {
                 PostStoreRequestDto._PostStoreMap.builder().latitude(this.latitude).longitude(this.longitude).build();
 
         PostStoreRequestDto._PostStoreImages postStoreImages =
-                PostStoreRequestDto._PostStoreImages.builder().imgName(this.imgName).imgUrl(this.imgUrl).build();
+                PostStoreRequestDto._PostStoreImages.builder().imgName(this.imgName).imgUrl(this.storeImgUrl).build();
 
         PostStoreRequestDto._PostStoreBusinessInfo postStoreBusinessInfo=
                 PostStoreRequestDto._PostStoreBusinessInfo.builder().bNo(this.bNo).sDt(this.sDt).pName(this.pName).build();

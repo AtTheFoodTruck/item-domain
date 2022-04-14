@@ -13,5 +13,6 @@ public class SearchStoreCondition {
     private double latitude;
     @NotNull(message = "필수 값입니다.")
     private double longitude;
-    private String storeName;
+    private String storeName;   // 가게명
+    private String itemName;    // 메뉴명
 }

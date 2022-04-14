@@ -36,7 +36,7 @@ public class ItemResponseDto {
             this.itemName = item.getName();
             this.description = item.getDescription();
             this.price = item.getPrice();
-            this.itemImg = item.getItemImg().getImgUrl();
+            this.itemImg = item.getItemImg().getStoreImgUrl();
         }
     }
 
@@ -71,7 +71,7 @@ public class ItemResponseDto {
             this.itemName = item.getName();
             this.description = item.getDescription();
             this.price = item.getPrice();
-            this.itemImg = item.getItemImg().getImgUrl();
+            this.itemImg = item.getItemImg().getStoreImgUrl();
         }
     }
 
@@ -97,7 +97,7 @@ public class ItemResponseDto {
             getItemsInfoDto.itemId = item.getId();
             getItemsInfoDto.itemName = item.getName();
             getItemsInfoDto.itemPrice = item.getPrice();
-            getItemsInfoDto.itemImgUrl = item.getItemImg().getImgUrl();
+            getItemsInfoDto.itemImgUrl = item.getItemImg().getStoreImgUrl();
 
             return getItemsInfoDto;
         }

@@ -4,7 +4,6 @@ import com.sesac.foodtruckitem.application.service.StoreService;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.ui.dto.Helper;
 import com.sesac.foodtruckitem.ui.dto.Response;
-import com.sesac.foodtruckitem.ui.dto.Result;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestDto;
@@ -47,7 +46,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-05
      **/
-    @GetMapping("/items/v1/stores")
+    @GetMapping("/items/v1/customer/stores")
     public ResponseEntity<?> storeInfo(@RequestBody PostStoreRequestDto.QueryStoreDto queryStoreDto,
                                        @PageableDefault(page = 0, size = 10) Pageable pageable) {
         Long storeId = queryStoreDto.getStoreId();
@@ -57,18 +56,15 @@ public class StoreApiController {
     }
 
     /**
-     * 가게 정보 등록 - 점주
+     * 점주) 가게 정보 등록
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-03
      **/
-    @PostMapping("/items/v1/stores")
+    @PostMapping("/items/v1/owner/stores")
     public ResponseEntity<?> createStore(HttpServletRequest request,
                                          @RequestBody PostStoreRequestFormDto postStoreRequestFormDto,
                                          @Valid BindingResult results) {
-
-        log.info("Request Form : {} ", postStoreRequestFormDto);
-
 
         // validation check
         if (results.hasErrors()) {
@@ -89,7 +85,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-04
      **/
-    @PatchMapping("/items/v1/stores")
+    @PatchMapping("/items/v1/owner/stores")
     public ResponseEntity<?> updateStoreInfo(HttpServletRequest request,
                                         @RequestBody PostStoreRequestDto.UpdateStoreDto updateStoreDto,
                                         @Valid BindingResult results) {
@@ -107,7 +103,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-05
     **/
-    @DeleteMapping("/items/v1/stores")
+    @DeleteMapping("/items/v1/owner/stores")
     public ResponseEntity<?> deleteStoreInfo(@RequestBody PostStoreRequestDto.DeleteStoreDto deleteStoreDto) {
         return storeService.deleteStoreInfo(deleteStoreDto);
     }
@@ -118,7 +114,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-04
      **/
-    @PostMapping("/items/v1/managers/status")
+    @PostMapping("/items/v1/owner/status")
     public ResponseEntity<?> businessValidateCheck(@RequestBody BNoApiRequestDto.BNoStatusDto bNoStatusDto,
                                                    @Valid BindingResult results) {
         // validation check
@@ -134,6 +130,7 @@ public class StoreApiController {
 
     /**
      * 위치 기반 가게 정보 검색
+     * 메뉴명, 푸드트럭 명으로 검색
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022/04/13

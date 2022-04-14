@@ -41,7 +41,7 @@ public class Item extends BaseEntity {
         // item name
         if (StringUtils.hasText(itemInfo.getItemName())) {
             this.name = itemInfo.getItemName();
-            this.itemImg.setImgUrl(itemInfo.getItemImgUrl());
+            this.itemImg.setStoreImgUrl(itemInfo.getItemImgUrl());
         }
         // item description
         if (StringUtils.hasText(itemInfo.getDescription())) {
@@ -51,7 +51,7 @@ public class Item extends BaseEntity {
         this.price = itemInfo.getPrice();
         // item url
         if (StringUtils.hasText(itemInfo.getItemName())) {
-            this.itemImg.setImgUrl(itemInfo.getItemName());
+            this.itemImg.setStoreImgUrl(itemInfo.getItemName());
         }
     }
 }
