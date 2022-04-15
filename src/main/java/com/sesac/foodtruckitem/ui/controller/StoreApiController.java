@@ -157,6 +157,7 @@ public class StoreApiController {
         @AllArgsConstructor
         static class StoreDto {
             private Long storeId;
+            private String storeImgUrl;
             private String storeName;
             private String distance;
             private Double avgRating;
@@ -166,6 +167,7 @@ public class StoreApiController {
             this.stores = content.stream()
                     .map(result ->
                             new StoreDto(result.getStoreId(),
+                            result.getStoreImgUrl(),
                             result.getStoreName(),
                             result.convertDistanceToString(),
                             result.getAvgRating()))

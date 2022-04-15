@@ -7,12 +7,14 @@ import java.text.DecimalFormat;
 @Data
 public class SearchStoreResultDto {
     private Long storeId;
+    private String storeImgUrl;
     private String storeName;
     private Double distanceMeter;
     private Double avgRating;
 
-    public SearchStoreResultDto(Long storeId, String storeName, Double distanceMeter) {
+    public SearchStoreResultDto(Long storeId, String storeImgUrl, String storeName, Double distanceMeter) {
         this.storeId = storeId;
+        this.storeImgUrl = storeImgUrl;
         this.storeName = storeName;
         this.distanceMeter = distanceMeter;
     }

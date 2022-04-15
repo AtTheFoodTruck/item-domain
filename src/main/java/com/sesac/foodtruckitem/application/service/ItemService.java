@@ -5,12 +5,16 @@ import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Images;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Item;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.ItemRepository;
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.ItemRepositoryCustom;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.ui.dto.request.ItemRequestDto;
 import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final ItemRepositoryCustom itemRepositoryCustom;
     private final StoreRepository storeRepository;
 
     /**
@@ -33,24 +38,24 @@ public class ItemService {
      * @version 1.0.0
      * 작성일 2022/04/04
     **/
-    @Transactional
-    public List<ItemResponseDto.GetItemsDto> getItems(ItemRequestDto.GetItemsDto getItemsDto) {
+    public Page<ItemResponseDto.GetItemsDto> getOwnerItemsInfo(ItemRequestDto.GetItemsDto getItemsDto, Pageable pageable) {
         // 가게 정보 조회
         Store store = storeRepository.findById(getItemsDto.getStoreId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // 해당 가게 메뉴 리스트 조회
-        List<Item> items = itemRepository.findAllByStoreOrderByCreatedDate(store);
+//        List<Item> items = itemRepository.findAllByStoreOrderByCreatedDate(store);
+        Page<Item> items = itemRepositoryCustom.findOwnerItemList(store.getId(), pageable);
 
         // Dto 변환
         List<ItemResponseDto.GetItemsDto> responseItemsDto = new ArrayList<>();
-        for (Item item : items) {
+        for (Item item : items.getContent()) {
             responseItemsDto.add(ItemResponseDto.GetItemsDto.builder()
                     .item(item)
                     .build());
         }
 
-        return responseItemsDto;
+        return PageableExecutionUtils.getPage(responseItemsDto, pageable, () -> items.getTotalPages());
     }
 
     /**

@@ -12,8 +12,6 @@ import java.util.List;
 
 public class StoreResponseDto {
 
-
-
     /**
      * 가게 정보 조회 - 가게
      * @author jaemin

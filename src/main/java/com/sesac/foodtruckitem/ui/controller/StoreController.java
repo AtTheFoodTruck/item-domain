@@ -34,7 +34,7 @@ public class StoreController {
      * @version 1.0.0
      * 작성일 2022-04-08
      **/
-    @GetMapping("/items/v1/store/reviews/{storeId}")
+    @GetMapping("/api/v1/store/reviews/{storeId}")
     public ResponseEntity<Result> reviewStoreInfo(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                                   @PathVariable("storeId") Iterable<Long> storeIds) {
 
@@ -50,7 +50,7 @@ public class StoreController {
      * @version 1.0.0
      * 작성일 2022-04-09
     **/
-    @GetMapping("/items/v1/store/{storeId}")
+    @GetMapping("/api/v1/store/{storeId}")
     public ResponseEntity<Result> getStore(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                             @PathVariable("storeId") String storeId) {
         Store findStore = storeRepository.findById(Long.valueOf((storeId))).orElseThrow(
@@ -65,12 +65,11 @@ public class StoreController {
     /**
      * 가게 정보 조회 - storeId, storeName
      * using by 주문 조회 페이지(점주)
-     *
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022/04/11
      **/
-    @GetMapping("/items/v1/store/{userId}")
+    @GetMapping("/api/v1/store/{userId}")
     ResponseEntity<Result> getStoreInfoByUserId(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                                 @PathVariable("userId") Long userId) {
         Store store = storeRepository.findByUserId(userId).orElseThrow(

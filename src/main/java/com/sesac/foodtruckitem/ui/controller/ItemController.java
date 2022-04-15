@@ -26,7 +26,7 @@ public class ItemController {
      * @version 1.0.0
      * 작성일 2022-04-09
     **/
-    @GetMapping("/items/v1/item/{itemId}")
+    @GetMapping("/api/v1/item/{itemId}")
     ResponseEntity<Result> getItems(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                     @PathVariable("itemId") List<Long> itemId) {
         List<ItemResponseDto.GetItemsInfoDto> items = itemService.getItems(itemId);

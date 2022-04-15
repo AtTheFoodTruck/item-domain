@@ -8,6 +8,9 @@ import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -33,17 +36,35 @@ public class ItemApiController {
      * @version 1.0.0
      * 작성일 2022/04/03
     **/
-    @GetMapping("/v1/owner/item")
-    public ResponseEntity<?> getItems(@Valid @RequestBody ItemRequestDto.GetItemsDto getItemsDto, BindingResult results) {
+    @GetMapping("/items/v1/owner/item")
+    public ResponseEntity<?> getItems(@Valid @RequestBody ItemRequestDto.GetItemsDto getItemsDto, BindingResult results,
+                                      @PageableDefault(page = 0, size = 10)Pageable pageable) {
         // validation 검증
         if (results.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(results));
         }
 
         // item 조회
-        List<ItemResponseDto.GetItemsDto> responseItemsDto = itemService.getItems(getItemsDto);
+//        List<ItemResponseDto.GetItemsDto> responseItemsDto = itemService.getOwnerItemsInfo(getItemsDto, pageable);
+        Page<ItemResponseDto.GetItemsDto> responseItemsDto = itemService.getOwnerItemsInfo(getItemsDto, pageable);
+        ResponseItemDto responseItemDto = new ResponseItemDto(responseItemsDto.getContent(), responseItemsDto.getNumber(), responseItemsDto.getTotalPages());
 
-        return response.success(responseItemsDto);
+        return response.success(responseItemDto);
+    }
+    /**
+     * 점주 입장) 메뉴 조회 응답 dto
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/15
+    **/
+    static class ResponseItemDto {
+        private List<ItemResponseDto.GetItemsDto> itemsDto;
+        private ItemResponseDto._Page page;
+
+        public ResponseItemDto(List<ItemResponseDto.GetItemsDto> itemsDto, int startPage, int endPage) {
+            this.itemsDto = itemsDto;
+            this.page = new ItemResponseDto._Page(startPage, endPage);
+        }
     }
 
     /**
@@ -52,7 +73,7 @@ public class ItemApiController {
      * @version 1.0.0
      * 작성일 2022/04/03
     **/
-    @PostMapping("/v1/owner/item")
+    @PostMapping("/items/v1/owner/item")
     public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequestDto.CreateItemDto createItemDto,
                                         BindingResult results) {
         // validation 검증
@@ -72,7 +93,7 @@ public class ItemApiController {
      * @version 1.0.0
      * 작성일 2022/04/04
     **/
-    @PatchMapping("/v1/owner/item")
+    @PatchMapping("/items/v1/owner/item")
     public ResponseEntity<?> updateItem(@Valid @RequestBody ItemRequestDto.UpdateItemDto updateItemDto,
                                         BindingResult results) {
         // validation 검증
@@ -93,7 +114,7 @@ public class ItemApiController {
      * @version 1.0.0
      * 작성일 2022/04/04
      **/
-    @DeleteMapping("/v1/owner/item")
+    @DeleteMapping("/items/v1/owner/item")
     public ResponseEntity<?> deleteItem(@Valid @RequestBody ItemRequestDto.DeleteItemDto deleteItemDto,
                                         BindingResult results) {
         // validation 검증

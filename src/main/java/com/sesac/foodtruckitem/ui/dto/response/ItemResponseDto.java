@@ -101,7 +101,18 @@ public class ItemResponseDto {
 
             return getItemsInfoDto;
         }
-
     }
+
+    @Data @NoArgsConstructor
+    public static class _Page {
+        private int startPage;
+        private int endPage;
+
+        public _Page(int startPage, int endPage) {
+            this.startPage = startPage;
+            this.endPage = endPage;
+        }
+    }
+
 
 }

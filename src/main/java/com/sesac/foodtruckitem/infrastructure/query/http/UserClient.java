@@ -14,7 +14,7 @@ public interface UserClient {
      * @version 1.0.0
      * 작성일 2022-04-09
     **/
-    @GetMapping("/users/info/{userId}")
+    @GetMapping("/api/v1/info/{userId}")
     CreateUserDto userInfo(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
                            @PathVariable("userId") Long userId);
 
@@ -24,7 +24,7 @@ public interface UserClient {
      * @version 1.0.0
      * 작성일 2022-04-09
     **/
-    @PostMapping("/users/stores")
+    @PostMapping("/api/v1/stores")
     void saveStoreInfo(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
                               @RequestBody StoreInfo storeInfo);
 }

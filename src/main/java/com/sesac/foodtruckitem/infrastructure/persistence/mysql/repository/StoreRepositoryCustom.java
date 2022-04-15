@@ -1,19 +1,14 @@
 package com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository;
 
 import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Images;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QItem;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
-import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
@@ -23,7 +18,6 @@ import java.util.List;
 import static com.querydsl.core.types.dsl.MathExpressions.*;
 import static com.querydsl.core.types.dsl.MathExpressions.radians;
 import static com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QStore.store;
-import static com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QItem.item;
 
 @Repository
 @RequiredArgsConstructor
@@ -44,12 +38,10 @@ public class StoreRepositoryCustom {
         NumberExpression<Double> haversinDistance = getHaversinDistance(condition.getLatitude(), condition.getLongitude());
         NumberPath<Double> distanceAlias = Expressions.numberPath(Double.class, "distance");
         QItem qItem = new QItem("item");
-//        JPAQuery<Long> storeStoreId = queryFactory.select(store.id).from(store).where(store.name.eq(condition.getStoreName()));
-////        QItem QItem = com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QItem
-//        JPAQuery<Long> itemStoreId = queryFactory.select(qItem.store.id).from(qItem).where(qItem.name.contains(condition.getStoreName()));
         List<SearchStoreResultDto> content = queryFactory.select(
                         Projections.constructor(SearchStoreResultDto.class,
                                 store.id,
+                                store.storeImage.storeImgUrl,
                                 store.name,
                                 haversinDistance.as(distanceAlias))
                 )
