@@ -10,6 +10,7 @@ import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestFormDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,6 +47,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-05
      **/
+    @Operation(summary = "고객) 가게 정보 조회")
     @GetMapping("/items/v1/customer/stores")
     public ResponseEntity<?> storeInfo(@RequestBody PostStoreRequestDto.QueryStoreDto queryStoreDto,
                                        @PageableDefault(page = 0, size = 10) Pageable pageable) {
@@ -61,6 +63,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-03
      **/
+    @Operation(summary = "점주) 가게 정보 등록")
     @PostMapping("/items/v1/owner/stores")
     public ResponseEntity<?> createStore(HttpServletRequest request,
                                          @RequestBody PostStoreRequestFormDto postStoreRequestFormDto,
@@ -80,11 +83,11 @@ public class StoreApiController {
 
     /**
      * 가게 정보 수정 - 점주
-     *
      * @author jaemin
      * @version 1.0.0
      * 작성일 2022-04-04
      **/
+    @Operation(summary = "점주) 가게 정보 수정")
     @PatchMapping("/items/v1/owner/stores")
     public ResponseEntity<?> updateStoreInfo(HttpServletRequest request,
                                         @RequestBody PostStoreRequestDto.UpdateStoreDto updateStoreDto,
@@ -103,6 +106,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-05
     **/
+    @Operation(summary = "점주) 가게 정보 삭제")
     @DeleteMapping("/items/v1/owner/stores")
     public ResponseEntity<?> deleteStoreInfo(@RequestBody PostStoreRequestDto.DeleteStoreDto deleteStoreDto) {
         return storeService.deleteStoreInfo(deleteStoreDto);
@@ -114,6 +118,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022-04-04
      **/
+    @Operation(summary = "점주) 사업자등록번호 상태 조회 API")
     @PostMapping("/items/v1/owner/status")
     public ResponseEntity<?> businessValidateCheck(@RequestBody BNoApiRequestDto.BNoStatusDto bNoStatusDto,
                                                    @Valid BindingResult results) {
@@ -135,6 +140,7 @@ public class StoreApiController {
      * @version 1.0.0
      * 작성일 2022/04/13
      **/
+    @Operation(summary = "고겍) 현재 위치 기반 가게 정보 검색")
     @GetMapping("/items/v1/search/stores")
     public ResponseEntity<?> searchStore(HttpServletRequest request,
                                          @RequestBody SearchStoreCondition condition,

@@ -16,18 +16,10 @@ public class ItemResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetItemsDto {
-
-        @JsonProperty("item_id")
         private Long itemId;
-
-        @JsonProperty("item_name")
         private String itemName;
-
         private String description;
-
         private long price;
-
-        @JsonProperty("item_img")
         private String itemImg;
 
         @Builder
@@ -51,18 +43,10 @@ public class ItemResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class CreateItemDto {
-
-        @JsonProperty("item_id")
         private Long itemId;
-
-        @JsonProperty("item_name")
         private String itemName;
-
         private String description;
-
         private long price;
-
-        @JsonProperty("item_img")
         private String itemImg;
 
         @Builder

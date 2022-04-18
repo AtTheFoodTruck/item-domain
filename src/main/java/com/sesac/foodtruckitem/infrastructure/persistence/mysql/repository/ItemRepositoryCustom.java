@@ -2,6 +2,9 @@ package com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Item;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
@@ -23,19 +26,6 @@ import static com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QI
 public class ItemRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
-    @JsonProperty("item_id")
-    private Long itemId;
-
-    @JsonProperty("item_name")
-    private String itemName;
-
-    private String description;
-
-    private long price;
-
-    @JsonProperty("item_img")
-    private String itemImg;
-
     /**
      * 가게 조회 페이지에 보여질 메뉴 목록
      * @author jaemin
@@ -47,10 +37,11 @@ public class ItemRepositoryCustom {
                         Projections.constructor(StoreResponseDto.SearchItemDto.class,
                                 item.id,
                                 item.name,
-                                item.itemImg,
+                                item.itemImg.storeImgUrl,
                                 item.price
                         )
-                ).from(item)
+                )
+                .from(item)
                 .where(item.store.id.eq(storeId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)

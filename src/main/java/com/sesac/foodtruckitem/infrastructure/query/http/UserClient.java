@@ -14,7 +14,7 @@ public interface UserClient {
      * @version 1.0.0
      * 작성일 2022-04-09
     **/
-    @GetMapping("/api/v1/info/{userId}")
+    @GetMapping("/api/v1/users/{userId}")
     CreateUserDto userInfo(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
                            @PathVariable("userId") Long userId);
 

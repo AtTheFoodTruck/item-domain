@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
-@EnableJpaAuditing
+//@EnableJpaAuditing
 @EnableFeignClients
 @EnableEurekaClient
 @SpringBootApplication

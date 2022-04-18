@@ -5,7 +5,9 @@ import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.ui.dto.Result;
+import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.StoreException;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +37,11 @@ public class StoreController {
      * @version 1.0.0
      * 작성일 2022-04-08
      **/
-    @GetMapping("/api/v1/store/reviews/{storeId}")
+    @ApiOperation(value = "Order Domain에서 요청 - 리뷰 정보 조회")
+    @GetMapping("/api/v1/store/reviews/{storeIds}")
     public ResponseEntity<Result> reviewStoreInfo(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
-                                                  @PathVariable("storeId") Iterable<Long> storeIds) {
+                                                  @PathVariable("storeIds") List<Long> storeIds) {
+        log.info("test");
 
         List<StoreResponseDto.StoreInfoDto> storeAllById = storeService.findStoreAllById(storeIds);
 
@@ -50,7 +55,8 @@ public class StoreController {
      * @version 1.0.0
      * 작성일 2022-04-09
     **/
-    @GetMapping("/api/v1/store/{storeId}")
+    @ApiOperation(value = "Item Domain에서 요청 - user정보 저장")
+    @GetMapping("/api/v1/store/cart/{storeId}")
     public ResponseEntity<Result> getStore(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                             @PathVariable("storeId") String storeId) {
         Store findStore = storeRepository.findById(Long.valueOf((storeId))).orElseThrow(
@@ -69,6 +75,7 @@ public class StoreController {
      * @version 1.0.0
      * 작성일 2022/04/11
      **/
+    @ApiOperation(value = "Item Domain에서 요청 - user정보 저장")
     @GetMapping("/api/v1/store/{userId}")
     ResponseEntity<Result> getStoreInfoByUserId(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                                 @PathVariable("userId") Long userId) {

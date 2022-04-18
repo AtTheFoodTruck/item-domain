@@ -66,18 +66,13 @@ public class StoreResponseDto {
     @Getter
     @Builder
     @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
     public static class SearchItemDto {
         private Long itemId;
         private String itemName;
         private String itemImgUrl;
         private long itemPrice;
-
-        public SearchItemDto(Long itemId, String itemName, String itemImgUrl, long itemPrice) {
-            this.itemId = itemId;
-            this.itemName = itemName;
-            this.itemImgUrl = itemImgUrl;
-            this.itemPrice = itemPrice;
-        }
     }
 
     /**
