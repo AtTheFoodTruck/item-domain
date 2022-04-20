@@ -9,6 +9,7 @@ import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestFormDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
+import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,6 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.web.PageableDefault;
@@ -145,10 +147,11 @@ public class StoreApiController {
     public ResponseEntity<?> searchStore(HttpServletRequest request,
                                          @RequestBody SearchStoreCondition condition,
                                          @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        SliceImpl<SearchStoreResultDto> searchStoreResultDtos = storeService.searchStore(request, condition, pageable);
+//        SliceImpl<SearchStoreResultDto> searchStoreResultDtos = storeService.searchStore(request, condition, pageable);
+        Page<SearchStoreResultDto> searchStoreResultDtos = storeService.searchStore(request, condition, pageable);
 
         SearchStoreResponse searchStoreResponse =
-                new SearchStoreResponse(searchStoreResultDtos.getContent(), searchStoreResultDtos.hasNext());
+                new SearchStoreResponse(searchStoreResultDtos.getContent(), searchStoreResultDtos.getNumber(), searchStoreResultDtos.getTotalPages());
 
         return response.success(searchStoreResponse);
     }
@@ -157,7 +160,8 @@ public class StoreApiController {
     @NoArgsConstructor
     static class SearchStoreResponse {
         private List<StoreDto> stores;
-        private boolean hasNext;
+        private ItemResponseDto._Page page;
+//        private boolean hasNext;
 
         @Data
         @AllArgsConstructor
@@ -169,7 +173,8 @@ public class StoreApiController {
             private Double avgRating;
         }
 
-        public SearchStoreResponse(List<SearchStoreResultDto> content, boolean hasNext) {
+//        public SearchStoreResponse(List<SearchStoreResultDto> content, boolean hasNext) {
+        public SearchStoreResponse(List<SearchStoreResultDto> content, int startPage, int endPage) {
             this.stores = content.stream()
                     .map(result ->
                             new StoreDto(result.getStoreId(),
@@ -178,7 +183,8 @@ public class StoreApiController {
                             result.convertDistanceToString(),
                             result.getAvgRating()))
                     .collect(Collectors.toList());
-            this.hasNext = hasNext;
+            this.page = new ItemResponseDto._Page(startPage, endPage);
+//            this.hasNext = hasNext;
         }
     }
 

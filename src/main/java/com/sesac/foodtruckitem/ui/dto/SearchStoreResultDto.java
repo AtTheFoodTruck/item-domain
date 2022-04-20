@@ -1,10 +1,14 @@
 package com.sesac.foodtruckitem.ui.dto;
 
 import lombok.Data;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.text.DecimalFormat;
 
+@Slf4j
 @Data
+@ToString
 public class SearchStoreResultDto {
     private Long storeId;
     private String storeImgUrl;
@@ -20,6 +24,7 @@ public class SearchStoreResultDto {
     }
 
     public String convertDistanceToString() {
+        log.info("distanceMeter : " + distanceMeter);
         // km 로 표시
         if (distanceMeter >= 1000) {
             double km = distanceMeter * 0.001;

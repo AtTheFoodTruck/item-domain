@@ -81,7 +81,7 @@ public class ItemService {
 
         // Item 생성
         Item item = Item.builder()
-                .name(createItemDto.getItemName())
+                .name(createItemDto.getItemName().replaceAll(" ", ""))
                 .description(createItemDto.getDescription())
                 .price(createItemDto.getPrice())
                 .itemImg(new Images(createItemDto.getItemName(), createItemDto.getItemImgUrl()))

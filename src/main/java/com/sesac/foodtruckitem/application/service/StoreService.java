@@ -18,9 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,7 +96,7 @@ public class StoreService {
 
         // Store 생성
         Store store = Store.createStore(
-                postStoreRequestDto.getStoreName(),
+                postStoreRequestDto.getStoreName().replaceAll(" ",""),
                 postStoreRequestDto.getPhoneNum(),
                 true,
                 postStoreRequestDto.getNotice(),
@@ -265,15 +267,17 @@ public class StoreService {
      * @version 1.0.0
      * 작성일 2022/04/14
     **/
-    public SliceImpl<SearchStoreResultDto> searchStore(HttpServletRequest request, SearchStoreCondition condition, Pageable pageable) {
+    public Page<SearchStoreResultDto> searchStore(HttpServletRequest request, SearchStoreCondition condition, Pageable pageable) {
         String authorization = request.getHeader("Authorization");
 
         // 검색 결과 조회
-        SliceImpl<SearchStoreResultDto> searchStorePage = storeRepositoryCustom.findSearchStorePage(condition, pageable);
+//        SliceImpl<SearchStoreResultDto> searchStorePage = storeRepositoryCustom.findSearchStorePage(condition, pageable);
+        Page<SearchStoreResultDto> searchStorePage = storeRepositoryCustom.findSearchStorePage(condition, pageable);
 
         // 별점 평균 주입
         Set<Long> storeIds = new HashSet<>();
-        searchStorePage.forEach(searchStoreResultDto -> storeIds.add(searchStoreResultDto.getStoreId()));
+//        searchStorePage.forEach(searchStoreResultDto -> storeIds.add(searchStoreResultDto.getStoreId()));
+        searchStorePage.getContent().forEach(searchStoreResultDto -> storeIds.add(searchStoreResultDto.getStoreId()));
 
         // <storeId, avgRating>
         java.util.Map<Long, Double> reviewInfos = orderClient.getReviewInfos(authorization, storeIds);
@@ -282,6 +286,7 @@ public class StoreService {
             searchStoreResultDto.changeAvgRating(reviewInfos.get(searchStoreResultDto.getStoreId()));
         }
 
-        return searchStorePage;
+//        return searchStorePage;
+        return PageableExecutionUtils.getPage(searchStorePage.getContent(), pageable, () -> searchStorePage.getTotalPages());
     }
 }

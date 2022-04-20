@@ -4,12 +4,16 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QItem;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
+import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,11 +37,25 @@ public class StoreRepositoryCustom {
      * @version 1.0.0
      * 작성일 2022/04/14
      **/
-    public SliceImpl<SearchStoreResultDto> findSearchStorePage(SearchStoreCondition condition, Pageable pageable) {
+    public Page<SearchStoreResultDto> findSearchStorePage(SearchStoreCondition condition, Pageable pageable) {
         // 사용자 위도 경도
         NumberExpression<Double> haversineDistance = getHaversinDistance(condition.getLatitude(), condition.getLongitude());
         NumberPath<Double> distanceAlias = Expressions.numberPath(Double.class, "distance");
 
+        log.info("현재 두 지점 사이의 거리는 : ? " + haversineDistance);
+        log.info("현재 두 지점 사이의 거리는 NumberPath: ? " + distanceAlias);
+
+        // 카운트 쿼리
+        Long count = queryFactory.select(store.countDistinct())
+                .from(store)
+                .join(store.map)
+                .leftJoin(store.items, item)
+                .where(
+                        storeNameContains(condition.getName()).or(itemNameContains(condition.getName()))
+                )
+                .fetchOne();
+
+        // 데이터 쿼리
         List<SearchStoreResultDto> content = queryFactory.select(
                         Projections.constructor(SearchStoreResultDto.class,
                                 store.id,
@@ -47,27 +65,33 @@ public class StoreRepositoryCustom {
                 )
                 .from(store)
                 .join(store.map)
-//                .where(
-////                        storeNameContains(condition.getName()).or(item.store.name.contains(condition.getName()))
-//                        storeNameContains(condition.getName())
-//                )
+                .leftJoin(store.items, item)
+                .where(
+                        storeNameContains(condition.getName()).or(itemNameContains(condition.getName()))
+                )
                 .orderBy(distanceAlias.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
 //                .distinct()
-                .fetch();
+               .fetch();
 
-        boolean hasNext = false;
-        if (content.size() > pageable.getPageSize()) {
-            content.remove(pageable.getPageSize());
-            hasNext = true;
-        }
+//        boolean hasNext = false;
+//        if (content.size() > pageable.getPageSize()) {
+//            content.remove(pageable.getPageSize());
+//            hasNext = true;
+//        }
+//
+//        return new SliceImpl<>(content, pageable, hasNext);
 
-        return new SliceImpl<>(content, pageable, hasNext);
+        return PageableExecutionUtils.getPage(content, pageable, () -> count);
     }
 
     private BooleanExpression storeNameContains(String storeName) {
         return storeName == null ? null : store.name.contains(storeName);
+    }
+
+    private BooleanExpression itemNameContains(String itemName) {
+        return itemName == null ? null : item.name.contains(itemName);
     }
 
     private NumberExpression<Double> getHaversinDistance(double SearchLatitude, double SearchLongitude) {
