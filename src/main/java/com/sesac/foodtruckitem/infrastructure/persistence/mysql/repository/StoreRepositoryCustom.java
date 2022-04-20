@@ -4,7 +4,6 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QItem;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +17,7 @@ import java.util.List;
 import static com.querydsl.core.types.dsl.MathExpressions.*;
 import static com.querydsl.core.types.dsl.MathExpressions.radians;
 import static com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QStore.store;
+import static com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QItem.item;
 
 @Repository
 @RequiredArgsConstructor
@@ -35,21 +35,22 @@ public class StoreRepositoryCustom {
      **/
     public SliceImpl<SearchStoreResultDto> findSearchStorePage(SearchStoreCondition condition, Pageable pageable) {
         // 사용자 위도 경도
-        NumberExpression<Double> haversinDistance = getHaversinDistance(condition.getLatitude(), condition.getLongitude());
+        NumberExpression<Double> haversineDistance = getHaversinDistance(condition.getLatitude(), condition.getLongitude());
         NumberPath<Double> distanceAlias = Expressions.numberPath(Double.class, "distance");
-        QItem qItem = new QItem("item");
+
         List<SearchStoreResultDto> content = queryFactory.select(
                         Projections.constructor(SearchStoreResultDto.class,
                                 store.id,
                                 store.storeImage.storeImgUrl,
                                 store.name,
-                                haversinDistance.as(distanceAlias))
+                                haversineDistance.as(distanceAlias))
                 )
                 .from(store)
                 .join(store.map)
-                .where(
-                        storeNameContains(condition.getStoreName()).or(QItem.item.store.name.contains(condition.getStoreName()))
-                )
+//                .where(
+////                        storeNameContains(condition.getName()).or(item.store.name.contains(condition.getName()))
+//                        storeNameContains(condition.getName())
+//                )
                 .orderBy(distanceAlias.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)

@@ -63,7 +63,7 @@ public class StoreService {
         // 1. user 정보 갖고오기, using feign client
         CreateUserDto createUserDto = userClient.userInfo(authorization, userId);
 
-        if (Objects.isNull(createUserDto)) {
+        if (createUserDto.getUserId()==null) {
             return response.fail("사용자 정보를 불러오는데 실패했습니다.", HttpStatus.BAD_REQUEST);
         }
 

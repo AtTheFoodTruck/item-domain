@@ -20,7 +20,7 @@ public interface OrderClient {
      * @version 1.0.0
      * 작성일 2022-04-09
      **/
-    @GetMapping("/items/v1/reviews/{storeId}")
+    @GetMapping("/api/v1/reviews/{storeId}")
     Result<List<GetReviewInfoDto>> getReviewInfo(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
                                                  @PathVariable("storeId") Iterable<Long> storeId);
 

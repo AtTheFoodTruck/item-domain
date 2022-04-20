@@ -1,6 +1,7 @@
 package com.sesac.foodtruckitem.application.service;
 
 
+import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Images;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Item;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
@@ -75,7 +76,7 @@ public class ItemService {
 
         // 점주 일치 여부 파악
         if (!store.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("유저 정보가 일치하지 않습니다.");
+            throw new StoresException("유저 정보가 일치하지 않습니다.");
         }
 
         // Item 생성
