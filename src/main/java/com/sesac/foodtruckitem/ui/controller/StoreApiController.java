@@ -50,11 +50,15 @@ public class StoreApiController {
      * 작성일 2022-04-05
      **/
     @Operation(summary = "고객) 가게 정보 조회")
-    @GetMapping("/items/v1/customer/stores")
-    public ResponseEntity<?> storeInfo(@RequestBody PostStoreRequestDto.QueryStoreDto queryStoreDto,
+    @GetMapping("/items/v1/customer/stores/{id}")
+//    @GetMapping("/items/v1/customer/stores")
+    public ResponseEntity<?> storeInfo(
+//            @RequestBody PostStoreRequestDto.QueryStoreDto queryStoreDto,
+                                       @PathVariable(value = "id") String id,
                                        @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Long storeId = queryStoreDto.getStoreId();
-        StoreResponseDto.SearchStoreResult searchStoreInfo = storeService.findStoreInfo(storeId, pageable);
+        log.info("가게 정보 조회 ");
+//        Long storeId = queryStoreDto.getStoreId();
+        StoreResponseDto.SearchStoreResult searchStoreInfo = storeService.findStoreInfo(Long.valueOf(id), pageable);
 
         return response.success(searchStoreInfo, "가게 정보 조회 성공", HttpStatus.OK);
     }

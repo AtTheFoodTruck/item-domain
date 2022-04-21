@@ -4,15 +4,12 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QItem;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
-import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
