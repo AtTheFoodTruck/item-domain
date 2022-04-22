@@ -33,22 +33,18 @@ public class ItemApiController {
     /**
      * 점주 입장) 메뉴 조회
      * : 메뉴 관리 페이지
+     * pathvariable로 변경
      * @author jjaen
-     * @version 1.0.0
+     * @version 1.0.1
      * 작성일 2022/04/03
     **/
     @Operation(summary = "점주) 메뉴 관리 페이지 조회")
-    @GetMapping("/items/v1/owner/item")
-    public ResponseEntity<?> getItems(@Valid @RequestBody ItemRequestDto.GetItemsDto getItemsDto, BindingResult results,
+    @GetMapping("/items/v1/owner/item/{store_id}")
+    public ResponseEntity<?> getItems(//@Valid @RequestBody ItemRequestDto.GetItemsDto getItemsDto, BindingResult results,
+                                      @PathVariable("store_id") Long storeId,
                                       @PageableDefault(page = 0, size = 10)Pageable pageable) {
-        // validation 검증
-        if (results.hasErrors()) {
-            return response.invalidFields(Helper.refineErrors(results));
-        }
-
         // item 조회
-//        List<ItemResponseDto.GetItemsDto> responseItemsDto = itemService.getOwnerItemsInfo(getItemsDto, pageable);
-        Page<ItemResponseDto.GetItemsDto> responseItemsPageDto = itemService.getOwnerItemsInfo(getItemsDto, pageable);
+        Page<ItemResponseDto.GetItemsDto> responseItemsPageDto = itemService.getOwnerItemsInfo(storeId, pageable);
         ResponseItemDto responseItemDto = new ResponseItemDto(responseItemsPageDto.getContent(), responseItemsPageDto.getNumber(), responseItemsPageDto.getTotalPages());
 
         return response.success(responseItemDto);

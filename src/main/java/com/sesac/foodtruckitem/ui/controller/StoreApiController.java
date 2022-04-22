@@ -46,19 +46,16 @@ public class StoreApiController {
     /**
      * 가게 정보 조회
      * @author jaemin
-     * @version 1.0.0
+     * pathvariable로 변경
+     * @version 1.0.1
      * 작성일 2022-04-05
      **/
     @Operation(summary = "고객) 가게 정보 조회")
-    @GetMapping("/items/v1/customer/stores/{id}")
-//    @GetMapping("/items/v1/customer/stores")
-    public ResponseEntity<?> storeInfo(
-//            @RequestBody PostStoreRequestDto.QueryStoreDto queryStoreDto,
-                                       @PathVariable(value = "id") String id,
+    @GetMapping("/items/v1/customer/stores/{store_id}")
+    public ResponseEntity<?> storeInfo(@PathVariable(value = "store_id") Long storeId,
                                        @PageableDefault(page = 0, size = 10) Pageable pageable) {
         log.info("가게 정보 조회 ");
-//        Long storeId = queryStoreDto.getStoreId();
-        StoreResponseDto.SearchStoreResult searchStoreInfo = storeService.findStoreInfo(Long.valueOf(id), pageable);
+        StoreResponseDto.SearchStoreResult searchStoreInfo = storeService.findStoreInfo(storeId, pageable);
 
         return response.success(searchStoreInfo, "가게 정보 조회 성공", HttpStatus.OK);
     }
@@ -142,16 +139,16 @@ public class StoreApiController {
     /**
      * 위치 기반 가게 정보 검색
      * 메뉴명, 푸드트럭 명으로 검색
+     * get -> post 메서드
      * @author jaemin
-     * @version 1.0.0
+     * @version 1.0.1
      * 작성일 2022/04/13
      **/
     @Operation(summary = "고겍) 현재 위치 기반 가게 정보 검색")
-    @GetMapping("/items/v1/search/stores")
+    @PostMapping("/items/v1/search/stores")
     public ResponseEntity<?> searchStore(HttpServletRequest request,
                                          @RequestBody SearchStoreCondition condition,
                                          @PageableDefault(page = 0, size = 10) Pageable pageable) {
-//        SliceImpl<SearchStoreResultDto> searchStoreResultDtos = storeService.searchStore(request, condition, pageable);
         Page<SearchStoreResultDto> searchStoreResultDtos = storeService.searchStore(request, condition, pageable);
 
         SearchStoreResponse searchStoreResponse =
