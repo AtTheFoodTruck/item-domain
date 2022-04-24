@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -262,6 +263,27 @@ public class StoreService {
     }
 
     /**
+     * 푸드트럭 메인페이지 조회 - 평점 순
+     * 위치 정보 동의하지 않았을때 api
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/14
+     **/
+    public Page<SearchStoreResultDto.MainStoreResultDto> getStoreByRating(Pageable pageable) {
+        // 별점 평균을 구하기
+
+        // 평균구한걸 repo param으로 전달 orderby용도
+        Page<SearchStoreResultDto.MainStoreResultDto> storeMain = storeRepositoryCustom.findStoreMain(pageable);
+
+        // 평균 반 올림해서
+        storeMain.getContent().stream()
+                .forEach(mainStoreResultDto -> SearchStoreResultDto.MainStoreResultDto.changeRateFormat(mainStoreResultDto));
+
+        return PageableExecutionUtils.getPage(storeMain.getContent(), pageable, () -> storeMain.getTotalPages());
+
+    }
+
+    /**
      * 위치 기반 검색
      * @author jaemin
      * @version 1.0.0
@@ -289,4 +311,5 @@ public class StoreService {
 //        return searchStorePage;
         return PageableExecutionUtils.getPage(searchStorePage.getContent(), pageable, () -> searchStorePage.getTotalPages());
     }
+
 }

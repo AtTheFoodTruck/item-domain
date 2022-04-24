@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class PostStoreRequestFormDto {
-    private Long storeId;
+//    private Long storeId;
 
     private Long userId;
 

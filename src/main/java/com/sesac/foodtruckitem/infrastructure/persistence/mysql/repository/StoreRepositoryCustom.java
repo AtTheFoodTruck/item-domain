@@ -4,6 +4,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +69,7 @@ public class StoreRepositoryCustom {
                 )
                 .orderBy(distanceAlias.asc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
+                .limit(pageable.getPageSize())
 //                .distinct()
                .fetch();
 
@@ -113,4 +114,30 @@ public class StoreRepositoryCustom {
         return haversineDistance;
     }
 
+    public Page<SearchStoreResultDto.MainStoreResultDto> findStoreMain(Pageable pageable) {
+
+        // 카운트 쿼리
+        Long count = queryFactory.select(store.countDistinct())
+                .from(store)
+                .limit(100)
+                .fetchOne();
+
+        // 데이터 쿼리
+        List<SearchStoreResultDto.MainStoreResultDto> content = queryFactory.select(
+                        Projections.constructor(SearchStoreResultDto.MainStoreResultDto.class,
+                                store.id,
+                                store.storeImage.storeImgUrl,
+                                store.name,
+                                store.category.name,
+                                store.avgRate
+                    )
+                )
+                .from(store)
+                .orderBy(store.avgRate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return PageableExecutionUtils.getPage(content, pageable, () -> count);
+    }
 }

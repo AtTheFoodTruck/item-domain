@@ -3,6 +3,7 @@ package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,11 +105,21 @@ public class Store extends BaseEntity {
      * @author jjaen
      * @version 1.0.0
      * 작성일 2022/04/04
-    **/
+     **/
     public void addItem(Item item) {
         if (this.items == null)
             this.items = new ArrayList<>();
         this.items.add(item);
         item.setStore(this);
+    }
+
+    /**
+     * 가게 리뷰 평점 업데이트
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/04
+     **/
+    public void changeRatingAvg(Double ratingAvg) {
+        this.avgRate = ratingAvg;
     }
 }

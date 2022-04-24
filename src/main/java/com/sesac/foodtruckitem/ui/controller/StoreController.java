@@ -4,6 +4,7 @@ import com.sesac.foodtruckitem.application.service.StoreService;
 import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.ReqReviewInfoDto;
 import com.sesac.foodtruckitem.ui.dto.Result;
 import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
@@ -13,10 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.StoreException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -86,5 +85,24 @@ public class StoreController {
         StoreResponseDto.GetStoreInfoByUserId storeInfo = StoreResponseDto.GetStoreInfoByUserId.of(store);
 
         return ResponseEntity.ok(Result.createSuccessResult(storeInfo));
+    }
+
+    /**
+     * 리뷰 정보 저장
+     * using by 리뷰 등록
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/11
+     **/
+    @ApiOperation(value = "Item Domain에서 요청 - review정보 저장")
+    @PostMapping("/api/v1/store/review")
+    void saveStoreInfos(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
+                       @RequestBody ReqReviewInfoDto storeInfo){
+        Store findStore = storeRepository.findById(storeInfo.getStoreId()).orElseThrow(
+                () -> new StoresException("가게 정보가 존재하지 않습니다")
+        );
+
+        findStore.changeRatingAvg(storeInfo.getAvgRating());
+
     }
 }

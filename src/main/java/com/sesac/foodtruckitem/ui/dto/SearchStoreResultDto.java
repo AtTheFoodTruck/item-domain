@@ -1,5 +1,6 @@
 package com.sesac.foodtruckitem.ui.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -39,4 +40,33 @@ public class SearchStoreResultDto {
     public void changeAvgRating(Double avgRating) {
         this.avgRating = avgRating;
     }
+
+
+    @Data
+    public static class MainStoreResultDto {
+        private Long storeId;
+        private String storeImgUrl;
+        private String storeName;
+        @JsonIgnore
+        private Double avgRating;
+        private String categoryName;
+        private String rateAvg;
+
+        public MainStoreResultDto(Long storeId, String storeImgUrl, String storeName, String categoryName, Double avgRating) {
+            this.storeId = storeId;
+            this.storeImgUrl = storeImgUrl;
+            this.storeName = storeName;
+            this.categoryName = categoryName;
+            this.avgRating = avgRating;
+        }
+
+        public static void changeRateFormat(MainStoreResultDto mainStoreResultDto) {
+            if (mainStoreResultDto.avgRating != null) {
+                DecimalFormat df = new DecimalFormat("0.0");
+                String format = df.format(mainStoreResultDto.getAvgRating());
+                mainStoreResultDto.rateAvg = format;
+            }
+        }
+    }
 }
+
