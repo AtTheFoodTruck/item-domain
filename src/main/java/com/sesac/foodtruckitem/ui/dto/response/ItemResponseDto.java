@@ -90,11 +90,11 @@ public class ItemResponseDto {
     @Data @NoArgsConstructor
     public static class _Page {
         private int startPage;
-        private int endPage;
+        private int totalPage;
 
-        public _Page(int startPage, int endPage) {
+        public _Page(int startPage, int totalPage) {
             this.startPage = startPage;
-            this.endPage = endPage;
+            this.totalPage = totalPage;
         }
     }
 

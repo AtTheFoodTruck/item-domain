@@ -56,7 +56,7 @@ public class ItemService {
                     .build());
         }
 
-        return PageableExecutionUtils.getPage(responseItemsDto, pageable, () -> items.getTotalPages());
+        return PageableExecutionUtils.getPage(responseItemsDto, pageable, () -> items.getTotalElements());
     }
 
     /**
