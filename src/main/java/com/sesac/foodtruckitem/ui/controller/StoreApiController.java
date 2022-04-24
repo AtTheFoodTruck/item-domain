@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -157,11 +155,22 @@ public class StoreApiController {
     @Data @NoArgsConstructor
     public static class ResStoreMainDto {
         private List<SearchStoreResultDto.MainStoreResultDto> storeList;
-        private ItemResponseDto._Page page;
+        private _Pages page;
 
-        public ResStoreMainDto(List<SearchStoreResultDto.MainStoreResultDto> storeList, int startPage, int totalPage) {
+        public ResStoreMainDto(List<SearchStoreResultDto.MainStoreResultDto> storeList, int startPage, long totalPage) {
             this.storeList = storeList;
-            page = new ItemResponseDto._Page(startPage, totalPage);
+            page = new _Pages(startPage, totalPage);
+        }
+    }
+
+    @Data @NoArgsConstructor
+    public static class _Pages {
+        private int startPage;
+        private long totalPage;
+
+        public _Pages(int startPage, long totalPage) {
+            this.startPage = startPage;
+            this.totalPage = totalPage;
         }
     }
 
@@ -204,7 +213,7 @@ public class StoreApiController {
         }
 
 //        public SearchStoreResponse(List<SearchStoreResultDto> content, boolean hasNext) {
-        public SearchStoreResponse(List<SearchStoreResultDto> content, int startPage, int endPage) {
+        public SearchStoreResponse(List<SearchStoreResultDto> content, int startPage, int totalPage) {
             this.stores = content.stream()
                     .map(result ->
                             new StoreDto(result.getStoreId(),
@@ -213,7 +222,7 @@ public class StoreApiController {
                             result.convertDistanceToString(),
                             result.getAvgRating()))
                     .collect(Collectors.toList());
-            this.page = new ItemResponseDto._Page(startPage, endPage);
+            this.page = new ItemResponseDto._Page(startPage, totalPage);
 //            this.hasNext = hasNext;
         }
     }

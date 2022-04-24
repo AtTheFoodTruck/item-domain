@@ -62,9 +62,9 @@ public class ItemApiController {
         private List<ItemResponseDto.GetItemsDto> itemsDto;
         private ItemResponseDto._Page page;
 
-        public ResponseItemDto(List<ItemResponseDto.GetItemsDto> itemsDto, int startPage, int endPage) {
+        public ResponseItemDto(List<ItemResponseDto.GetItemsDto> itemsDto, int startPage, int totalPage) {
             this.itemsDto = itemsDto;
-            this.page = new ItemResponseDto._Page(startPage, endPage);
+            this.page = new ItemResponseDto._Page(startPage, totalPage);
         }
     }
 

@@ -279,8 +279,7 @@ public class StoreService {
         storeMain.getContent().stream()
                 .forEach(mainStoreResultDto -> SearchStoreResultDto.MainStoreResultDto.changeRateFormat(mainStoreResultDto));
 
-        return PageableExecutionUtils.getPage(storeMain.getContent(), pageable, () -> storeMain.getTotalPages());
-
+        return PageableExecutionUtils.getPage(storeMain.getContent(), pageable, () -> storeMain.getTotalElements());
     }
 
     /**
@@ -309,7 +308,7 @@ public class StoreService {
         }
 
 //        return searchStorePage;
-        return PageableExecutionUtils.getPage(searchStorePage.getContent(), pageable, () -> searchStorePage.getTotalPages());
+        return PageableExecutionUtils.getPage(searchStorePage.getContent(), pageable, () -> searchStorePage.getTotalElements());
     }
 
 }
