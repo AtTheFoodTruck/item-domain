@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -134,6 +135,34 @@ public class StoreApiController {
             return response.fail("인증 실패", HttpStatus.BAD_REQUEST);
         }
         return response.success("인증 성공");
+    }
+
+    /**
+     * 푸드트럭 메인페이지 조회 - 평점 순
+     * 위치 정보 동의하지 않았을때 api
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/23
+     **/
+    @Operation(summary = "고객) 메인페이지")
+    @GetMapping("/items/v1/main")
+    public ResponseEntity<?> storeMainByRating(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+        Page<SearchStoreResultDto.MainStoreResultDto> storeMainDto = storeService.getStoreByRating(pageable);
+
+        ResStoreMainDto resStoreMainDto = new ResStoreMainDto(storeMainDto.getContent(), storeMainDto.getNumber(), storeMainDto.getTotalPages());
+
+        return response.success(resStoreMainDto);
+    }
+
+    @Data @NoArgsConstructor
+    public static class ResStoreMainDto {
+        private List<SearchStoreResultDto.MainStoreResultDto> storeList;
+        private ItemResponseDto._Page page;
+
+        public ResStoreMainDto(List<SearchStoreResultDto.MainStoreResultDto> storeList, int startPage, int totalPage) {
+            this.storeList = storeList;
+            page = new ItemResponseDto._Page(startPage, totalPage);
+        }
     }
 
     /**
