@@ -32,6 +32,7 @@ public class StoreResponseDto {
         private String address;
         private String phoneNum;
         private String storeImgUrl;
+        private int waitingCount;
 
         // 메뉴
         private List<SearchItemDto> searchItemResults;
@@ -49,6 +50,7 @@ public class StoreResponseDto {
                     .address(store.getAddress().getAddress())
                     .phoneNum(store.getPhoneNum())
                     .storeImgUrl(store.getStoreImage().getStoreImgUrl())
+                    .waitingCount(store.getTotalWaitingCount())
                     .searchItemResults(searchItemDto)
                     .hasNext(hasNext)
                     .build();

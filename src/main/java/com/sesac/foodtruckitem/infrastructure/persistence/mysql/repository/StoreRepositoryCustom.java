@@ -47,7 +47,7 @@ public class StoreRepositoryCustom {
         Long count = queryFactory.select(store.countDistinct())
                 .from(store)
                 .join(store.map)
-                .leftJoin(store.items, item)
+                .join(store.items, item)
                 .where(
                         storeNameContains(condition.getName()).or(itemNameContains(condition.getName()))
                 )
@@ -63,15 +63,15 @@ public class StoreRepositoryCustom {
                 )
                 .from(store)
                 .join(store.map)
-                .leftJoin(store.items, item)
+                .join(store.items, item)
                 .where(
                         storeNameContains(condition.getName()).or(itemNameContains(condition.getName()))
                 )
                 .orderBy(distanceAlias.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-//                .distinct()
-               .fetch();
+                .distinct()
+                .fetch();
 
 //        boolean hasNext = false;
 //        if (content.size() > pageable.getPageSize()) {
