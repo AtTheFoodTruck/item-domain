@@ -5,6 +5,7 @@ import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ReqReviewInfoDto;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.ResWaitingCount;
 import com.sesac.foodtruckitem.ui.dto.Result;
 import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
@@ -74,7 +75,7 @@ public class StoreController {
      * @version 1.0.0
      * 작성일 2022/04/11
      **/
-    @ApiOperation(value = "Item Domain에서 요청 - user정보 저장")
+    @ApiOperation(value = "User Domain에서 요청 - user정보 저장")
     @GetMapping("/api/v1/store/{userId}")
     ResponseEntity<Result> getStoreInfoByUserId(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                                 @PathVariable("userId") Long userId) {
@@ -94,15 +95,34 @@ public class StoreController {
      * @version 1.0.0
      * 작성일 2022/04/11
      **/
-    @ApiOperation(value = "Item Domain에서 요청 - review정보 저장")
+    @ApiOperation(value = "Order Domain에서 요청 - review정보 저장")
     @PostMapping("/api/v1/store/review")
     void saveStoreInfos(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
                        @RequestBody ReqReviewInfoDto storeInfo){
         Store findStore = storeRepository.findById(storeInfo.getStoreId()).orElseThrow(
-                () -> new StoresException("가게 정보가 존재하지 않습니다")
+                () -> new StoresException("가게 정보를 찾을 수 없습니다")
         );
 
         findStore.changeRatingAvg(storeInfo.getAvgRating());
 
+    }
+
+    /**
+     * 가게정보에 대기번호 + 1
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/25
+     **/
+    @ApiOperation(value = "Order Domain에서 요청 - review정보 저장")
+    @PostMapping("/api/v1/store/waiting/{storeId}")
+    ResWaitingCount saveWaitingCount(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
+                          @PathVariable("storeId") Long storeId) {
+        Store findStore = storeRepository.findById(storeId).orElseThrow(
+                () -> new StoresException("가게 정보를 찾을 수 없습니다")
+        );
+
+        ResWaitingCount resWaitingCount = new ResWaitingCount(findStore.plusWaitingCount());
+
+        return resWaitingCount;
     }
 }

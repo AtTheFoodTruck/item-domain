@@ -122,4 +122,16 @@ public class Store extends BaseEntity {
     public void changeRatingAvg(Double ratingAvg) {
         this.avgRate = ratingAvg;
     }
+
+    /**
+     * 대기번호 + 1
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/25
+    **/
+    public int plusWaitingCount() {
+        this.totalWaitingCount += 1;
+
+        return this.totalWaitingCount;
+    }
 }
