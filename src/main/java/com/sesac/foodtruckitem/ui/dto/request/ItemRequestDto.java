@@ -41,8 +41,8 @@ public class ItemRequestDto {
         @JsonProperty("user_id")
         private Long userId;
 
-        @JsonProperty("store_id")
-        private Long storeId;
+//        @JsonProperty("store_id")
+//        private Long storeId;
 
         @NotBlank(message = "메뉴 이름은 필수입니다.")
         @JsonProperty("item_name")
@@ -75,8 +75,8 @@ public class ItemRequestDto {
         @JsonProperty("user_id")
         private Long userId;
 
-        @JsonProperty("store_id")
-        private Long storeId;
+//        @JsonProperty("store_id")
+//        private Long storeId;
 
         @JsonProperty("item_id")
         private Long itemId;
@@ -105,8 +105,11 @@ public class ItemRequestDto {
     @NoArgsConstructor
     public static class DeleteItemDto {
 
-        @JsonProperty("store_id")
-        private Long storeId;
+        @JsonProperty("user_id")
+        private Long userId;
+
+//        @JsonProperty("store_id")
+//        private Long storeId;
 
         @JsonProperty("item_id")
         private Long itemId;
