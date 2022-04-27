@@ -7,20 +7,16 @@ import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.Store
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ReqReviewInfoDto;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ResWaitingCount;
 import com.sesac.foodtruckitem.ui.dto.Result;
-import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.util.StoreException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -99,12 +95,7 @@ public class StoreController {
     @PostMapping("/api/v1/store/review")
     void saveStoreInfos(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
                        @RequestBody ReqReviewInfoDto storeInfo){
-        Store findStore = storeRepository.findById(storeInfo.getStoreId()).orElseThrow(
-                () -> new StoresException("가게 정보를 찾을 수 없습니다")
-        );
-
-        findStore.changeRatingAvg(storeInfo.getAvgRating());
-
+        storeService.changeRatingInfo(storeInfo.getStoreId(), storeInfo.getAvgRating());
     }
 
     /**
@@ -117,12 +108,7 @@ public class StoreController {
     @PostMapping("/api/v1/store/waiting/{storeId}")
     ResWaitingCount saveWaitingCount(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                           @PathVariable("storeId") Long storeId) {
-        Store findStore = storeRepository.findById(storeId).orElseThrow(
-                () -> new StoresException("가게 정보를 찾을 수 없습니다")
-        );
-
-        ResWaitingCount resWaitingCount = new ResWaitingCount(findStore.plusWaitingCount());
-
-        return resWaitingCount;
+        return storeService.changeWaitingCount(storeId);
     }
+
 }
