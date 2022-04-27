@@ -1,11 +1,13 @@
 package com.sesac.foodtruckitem.application.service;
 
+import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Map;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.*;
 import com.sesac.foodtruckitem.infrastructure.query.http.OrderClient;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.CreateUserDto;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import com.sesac.foodtruckitem.infrastructure.query.http.UserClient;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.ResWaitingCount;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Response;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
@@ -20,7 +22,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.http.*;
@@ -33,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -311,4 +311,27 @@ public class StoreService {
         return PageableExecutionUtils.getPage(searchStorePage.getContent(), pageable, () -> searchStorePage.getTotalElements());
     }
 
+    /**
+     * 가게 정보에 별점 저장
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/04/27
+    **/
+    @Transactional
+    public void changeRatingInfo(Long storeId, Double avgRating) {
+        Store findStore = storeRepository.findById(storeId).orElseThrow(
+                () -> new StoresException("가게 정보를 찾을 수 없습니다")
+        );
+
+        findStore.changeRatingAvg(avgRating);
+    }
+
+    @Transactional
+    public ResWaitingCount changeWaitingCount(Long storeId) {
+        Store findStore = storeRepository.findById(storeId).orElseThrow(
+                () -> new StoresException("가게 정보를 찾을 수 없습니다")
+        );
+
+        return new ResWaitingCount(findStore.plusWaitingCount());
+    }
 }
