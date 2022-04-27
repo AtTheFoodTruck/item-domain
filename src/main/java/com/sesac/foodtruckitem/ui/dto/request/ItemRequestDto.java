@@ -48,7 +48,7 @@ public class ItemRequestDto {
         @JsonProperty("item_name")
         private String itemName;
 
-        @NotBlank(message = "메뉴 설명은 필수입니다.")
+//        @NotBlank(message = "메뉴 설명은 필수입니다.")
         private String description;
 
         @NotNull(message = "메뉴 가격은 필수입니다.")
