@@ -39,9 +39,9 @@ public class ItemService {
      * @version 1.0.0
      * 작성일 2022/04/04
     **/
-    public Page<ItemResponseDto.GetItemsDto> getOwnerItemsInfo(Long storeId, Pageable pageable) {
+    public Page<ItemResponseDto.GetItemsDto> getOwnerItemsInfo(Long userId, Pageable pageable) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(storeId)
+        Store store = storeRepository.findByUserId(userId)
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // 해당 가게 메뉴 리스트 조회
@@ -64,18 +64,16 @@ public class ItemService {
      * @author jjaen
      * @version 1.0.0
      * 작성일 2022/04/04
-    **/
+     **/
     @Transactional
     public ItemResponseDto.CreateItemDto createItem(ItemRequestDto.CreateItemDto createItemDto) {
 
-        Long userId = createItemDto.getUserId();
-
         // 가게 정보 조회
-        Store store = storeRepository.findById(createItemDto.getStoreId())
+        Store store = storeRepository.findByUserId(createItemDto.getUserId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // 점주 일치 여부 파악
-        if (!store.getUserId().equals(userId)) {
+        if (!store.getUserId().equals(createItemDto.getUserId())) {
             throw new StoresException("유저 정보가 일치하지 않습니다.");
         }
 
@@ -100,7 +98,7 @@ public class ItemService {
     @Transactional
     public boolean updateItem(ItemRequestDto.UpdateItemDto updateItemDto) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(updateItemDto.getStoreId())
+        Store store = storeRepository.findByUserId(updateItemDto.getUserId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         if (!store.getUserId().equals(updateItemDto.getUserId())) {
@@ -121,11 +119,11 @@ public class ItemService {
     @Transactional
     public boolean deleteItem(ItemRequestDto.DeleteItemDto deleteItemDto) {
         // 가게 정보 조회
-        storeRepository.findById(deleteItemDto.getStoreId())
+        storeRepository.findByUserId(deleteItemDto.getUserId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // Item 조회
-        Item item = itemRepository.findById(deleteItemDto.getItemId())
+        itemRepository.findById(deleteItemDto.getItemId())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 메뉴를 찾을 수 없습니다.", 1));
 
         // Item 삭제
