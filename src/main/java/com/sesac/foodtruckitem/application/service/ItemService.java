@@ -39,9 +39,9 @@ public class ItemService {
      * @version 1.0.0
      * 작성일 2022/04/04
     **/
-    public Page<ItemResponseDto.GetItemsDto> getOwnerItemsInfo(Long storeId, Pageable pageable) {
+    public Page<ItemResponseDto.GetItemsDto> getOwnerItemsInfo(Long userId, Pageable pageable) {
         // 가게 정보 조회
-        Store store = storeRepository.findById(storeId)
+        Store store = storeRepository.findByUserId(userId)
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // 해당 가게 메뉴 리스트 조회
@@ -64,7 +64,7 @@ public class ItemService {
      * @author jjaen
      * @version 1.0.0
      * 작성일 2022/04/04
-    **/
+     **/
     @Transactional
     public ItemResponseDto.CreateItemDto createItem(ItemRequestDto.CreateItemDto createItemDto) {
 

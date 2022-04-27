@@ -39,12 +39,12 @@ public class ItemApiController {
      * 작성일 2022/04/03
     **/
     @Operation(summary = "점주) 메뉴 관리 페이지 조회")
-    @GetMapping("/items/v1/owner/item/{store_id}")
+    @GetMapping("/items/v1/owner/item/{user_id}")
     public ResponseEntity<?> getItems(//@Valid @RequestBody ItemRequestDto.GetItemsDto getItemsDto, BindingResult results,
-                                      @PathVariable("store_id") Long storeId,
+                                      @PathVariable("user_id") Long userId,
                                       @PageableDefault(page = 0, size = 10)Pageable pageable) {
         // item 조회
-        Page<ItemResponseDto.GetItemsDto> responseItemsPageDto = itemService.getOwnerItemsInfo(storeId, pageable);
+        Page<ItemResponseDto.GetItemsDto> responseItemsPageDto = itemService.getOwnerItemsInfo(userId, pageable);
         ResponseItemDto responseItemDto = new ResponseItemDto(responseItemsPageDto.getContent(), responseItemsPageDto.getNumber(), responseItemsPageDto.getTotalPages());
 
         return response.success(responseItemDto);
@@ -73,7 +73,7 @@ public class ItemApiController {
      * @author jjaen
      * @version 1.0.0
      * 작성일 2022/04/03
-    **/
+     **/
     @Operation(summary = "고객) 메뉴 등록")
     @PostMapping("/items/v1/owner/item")
     public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequestDto.CreateItemDto createItemDto,
