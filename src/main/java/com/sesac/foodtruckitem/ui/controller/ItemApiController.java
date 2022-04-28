@@ -119,7 +119,7 @@ public class ItemApiController {
      **/
     @Operation(summary = "고객) 메뉴 삭제")
     @DeleteMapping("/items/v1/owner/item")
-    public ResponseEntity<?> deleteItem(@Valid @RequestBody ItemRequestDto.DeleteItemDto deleteItemDto,
+    public ResponseEntity<?> deleteItem(@RequestBody ItemRequestDto.DeleteItemDto deleteItemDto,
                                         BindingResult results) {
         // validation 검증
         if (results.hasErrors()) {

@@ -119,8 +119,8 @@ public class ItemService {
     @Transactional
     public boolean deleteItem(ItemRequestDto.DeleteItemDto deleteItemDto) {
         // 가게 정보 조회
-        storeRepository.findByUserId(deleteItemDto.getUserId())
-                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
+//        storeRepository.findByUserId(deleteItemDto.getUserId())
+//                .orElseThrow(() -> new EmptyResultDataAccessException("해당하는 가게를 찾을 수 없습니다.", 1));
 
         // Item 조회
         itemRepository.findById(deleteItemDto.getItemId())
