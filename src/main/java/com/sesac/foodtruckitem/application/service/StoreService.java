@@ -7,6 +7,7 @@ import com.sesac.foodtruckitem.infrastructure.query.http.OrderClient;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.CreateUserDto;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import com.sesac.foodtruckitem.infrastructure.query.http.UserClient;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.GetStoreInfoByUserId;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ResWaitingCount;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Response;
@@ -333,5 +334,15 @@ public class StoreService {
         );
 
         return new ResWaitingCount(findStore.plusWaitingCount());
+    }
+
+    public GetStoreInfoByUserId getStoreInfoByUserId(Long userId) {
+        Store store = storeRepository.findByUserId(userId).orElseThrow(
+                () -> new StoresException(userId + "의 매장은 존재하지 않습니다.")
+        );
+
+        GetStoreInfoByUserId storeInfo = GetStoreInfoByUserId.of(store);
+
+        return storeInfo;
     }
 }

@@ -4,8 +4,10 @@ import com.sesac.foodtruckitem.application.service.StoreService;
 import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.GetStoreInfoByUserId;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ReqReviewInfoDto;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ResWaitingCount;
+import com.sesac.foodtruckitem.ui.dto.Response;
 import com.sesac.foodtruckitem.ui.dto.Result;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
 import io.swagger.annotations.ApiOperation;
@@ -73,15 +75,20 @@ public class StoreController {
      **/
     @ApiOperation(value = "User Domain에서 요청 - user정보 저장")
     @GetMapping("/api/v1/store/{userId}")
-    ResponseEntity<Result> getStoreInfoByUserId(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
+    public ResponseEntity<Result> getStoreInfoByUserId(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                                                 @PathVariable("userId") Long userId) {
-        Store store = storeRepository.findByUserId(userId).orElseThrow(
-                () -> new StoresException(userId + "의 매장은 존재하지 않습니다.")
-        );
 
-        StoreResponseDto.GetStoreInfoByUserId storeInfo = StoreResponseDto.GetStoreInfoByUserId.of(store);
+        GetStoreInfoByUserId storeInfoByUserId = storeService.getStoreInfoByUserId(userId);
 
-        return ResponseEntity.ok(Result.createSuccessResult(storeInfo));
+        return ResponseEntity.ok(Result.createSuccessResult(storeInfoByUserId));
+
+//        Store store = storeRepository.findByUserId(userId).orElseThrow(
+//                () -> new StoresException(userId + "의 매장은 존재하지 않습니다.")
+//        );
+//
+//        StoreResponseDto.GetStoreInfoByUserId storeInfo = StoreResponseDto.GetStoreInfoByUserId.of(store);
+//
+//        return ResponseEntity.ok(Result.createSuccessResult(storeInfo));
     }
 
     /**
