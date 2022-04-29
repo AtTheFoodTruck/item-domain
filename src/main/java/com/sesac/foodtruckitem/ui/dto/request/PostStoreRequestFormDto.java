@@ -39,7 +39,7 @@ public class PostStoreRequestFormDto {
     private String categoryName;
 
     // JsonFormat을 이용해 직렬화
-    @NotBlank(message = "영업시간을 입력해주세요")
+//    @NotBlank(message = "영업시간을 입력해주세요")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime openTime;//영업 시간
 
@@ -47,7 +47,7 @@ public class PostStoreRequestFormDto {
 
     private String storeImgUrl;
 
-    @NotBlank(message = "영업장소를 입력해주세요")
+//    @NotBlank(message = "영업장소를 입력해주세요")
     private String address;
 
 //    @NotNull(message = "우편번호를 입력해주세요")
@@ -58,15 +58,15 @@ public class PostStoreRequestFormDto {
     private Double longitude;
 
     @JsonProperty(value = "b_no")
-    @NotBlank(message = "사업자 등록번호를 입력해주세요")
+//    @NotBlank(message = "사업자 등록번호를 입력해주세요")
     private String bNo; // 사업자 등록 번호
 
     @JsonProperty(value = "s_dt")
-    @NotBlank(message = "개업일을 입력해주세요")
+//    @NotBlank(message = "개업일을 입력해주세요")
     private String sDt; // 개업일
 
     @JsonProperty(value = "p_name")
-    @NotBlank(message = "대표자 성명을 입력해주세요")
+//    @NotBlank(message = "대표자 성명을 입력해주세요")
     private String pName; // 대표자 성명
 
     /**
