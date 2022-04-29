@@ -1,9 +1,6 @@
 package com.sesac.foodtruckitem.ui.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Address;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Images;
-import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Item;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import lombok.*;
 
@@ -49,7 +46,7 @@ public class StoreResponseDto {
                     .openTime(store.getOpenTime())
                     .address(store.getAddress().getAddress())
                     .phoneNum(store.getPhoneNum())
-                    .storeImgUrl(store.getStoreImage().getStoreImgUrl())
+                    .storeImgUrl(store.getStoreImage().getImgUrl())
                     .waitingCount(store.getTotalWaitingCount())
                     .searchItemResults(searchItemDto)
                     .hasNext(hasNext)
@@ -96,7 +93,7 @@ public class StoreResponseDto {
             StoreInfoDto storeInfoDto = new StoreInfoDto();
             storeInfoDto.storeId = store.getId();
             storeInfoDto.storeName = store.getName();
-            storeInfoDto.imgUrl = store.getStoreImage().getStoreImgUrl();
+            storeInfoDto.imgUrl = store.getStoreImage().getImgUrl();
 
             return storeInfoDto;
         }

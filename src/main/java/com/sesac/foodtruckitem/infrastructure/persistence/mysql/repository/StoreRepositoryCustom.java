@@ -57,7 +57,7 @@ public class StoreRepositoryCustom {
         List<SearchStoreResultDto> content = queryFactory.select(
                         Projections.constructor(SearchStoreResultDto.class,
                                 store.id,
-                                store.storeImage.storeImgUrl,
+                                store.storeImage.imgUrl,
                                 store.name,
                                 haversineDistance.as(distanceAlias))
                 )
@@ -126,7 +126,7 @@ public class StoreRepositoryCustom {
         List<SearchStoreResultDto.MainStoreResultDto> content = queryFactory.select(
                         Projections.constructor(SearchStoreResultDto.MainStoreResultDto.class,
                                 store.id,
-                                store.storeImage.storeImgUrl,
+                                store.storeImage.imgUrl,
                                 store.name,
                                 store.category.name,
                                 store.avgRate

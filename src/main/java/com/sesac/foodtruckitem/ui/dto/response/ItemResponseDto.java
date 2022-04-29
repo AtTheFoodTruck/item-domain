@@ -1,6 +1,5 @@
 package com.sesac.foodtruckitem.ui.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Item;
 import lombok.*;
 
@@ -28,7 +27,7 @@ public class ItemResponseDto {
             this.itemName = item.getName();
             this.description = item.getDescription();
             this.price = item.getPrice();
-            this.itemImg = item.getItemImg().getStoreImgUrl();
+            this.itemImg = item.getItemImg().getImgUrl();
         }
     }
 
@@ -55,7 +54,7 @@ public class ItemResponseDto {
             this.itemName = item.getName();
             this.description = item.getDescription();
             this.price = item.getPrice();
-            this.itemImg = item.getItemImg().getStoreImgUrl();
+            this.itemImg = item.getItemImg().getImgUrl();
         }
     }
 
@@ -81,7 +80,7 @@ public class ItemResponseDto {
             getItemsInfoDto.itemId = item.getId();
             getItemsInfoDto.itemName = item.getName();
             getItemsInfoDto.itemPrice = item.getPrice();
-            getItemsInfoDto.itemImgUrl = item.getItemImg().getStoreImgUrl();
+            getItemsInfoDto.itemImgUrl = item.getItemImg().getImgUrl();
 
             return getItemsInfoDto;
         }

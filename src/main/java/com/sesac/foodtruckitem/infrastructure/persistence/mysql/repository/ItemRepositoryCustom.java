@@ -37,7 +37,7 @@ public class ItemRepositoryCustom {
                         Projections.constructor(StoreResponseDto.SearchItemDto.class,
                                 item.id,
                                 item.name,
-                                item.itemImg.storeImgUrl,
+                                item.itemImg.imgUrl,
                                 item.price
                         )
                 )
