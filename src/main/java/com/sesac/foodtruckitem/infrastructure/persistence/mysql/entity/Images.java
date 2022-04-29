@@ -2,6 +2,7 @@ package com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Builder
@@ -11,13 +12,15 @@ import javax.persistence.Embeddable;
 public class Images {
 
     private String imgName;
-    private String storeImgUrl;
+
+    @Column(length= 100000000)
+    private String imgUrl;
 
     // 생성 메서드 //
     public static Images of(String imgName, String imgUrl) {
         return Images.builder()
                 .imgName(imgName)
-                .storeImgUrl(imgUrl)
+                .imgUrl(imgUrl)
                 .build();
     }
 }
