@@ -24,8 +24,6 @@ public class StoreResponseDto {
         private String storeName;
         private int totalWaitingCount;
         private String notice;
-        //Desirialize
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:MM:ss", timezone = "Asia/Seoul")
         private String openTime;
         private String address;
         private String phoneNum;
