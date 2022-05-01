@@ -5,6 +5,7 @@ import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class StoreResponseDto {
@@ -23,9 +24,7 @@ public class StoreResponseDto {
         private String storeName;
         private int totalWaitingCount;
         private String notice;
-        //Desirialize
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:MM:ss", timezone = "Asia/Seoul")
-        private LocalDateTime openTime;
+        private String openTime;
         private String address;
         private String phoneNum;
         private String storeImgUrl;
@@ -43,7 +42,7 @@ public class StoreResponseDto {
                     .storeName(store.getName())
                     .totalWaitingCount(store.getTotalWaitingCount())
                     .notice(store.getNotice())
-                    .openTime(store.getOpenTime())
+                    .openTime(store.getOpenTime().format(DateTimeFormatter.ofPattern("yyyy-mm-dd")))
                     .address(store.getAddress().getAddress())
                     .phoneNum(store.getPhoneNum())
                     .storeImgUrl(store.getStoreImage().getImgUrl())

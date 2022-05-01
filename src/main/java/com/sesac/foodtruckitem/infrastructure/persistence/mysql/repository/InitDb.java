@@ -39,6 +39,9 @@ public class InitDb {
             Category dg = Category.createCategory("닭강정");
             Category hd = Category.createCategory("핫도그");
             Category ic = Category.createCategory("아이스크림");
+            Category chi = Category.createCategory("중식");
+            Category caf = Category.createCategory("디저트");
+            Category susi = Category.createCategory("일식");
 
             em.persist(ch);
             em.persist(pi);
@@ -47,6 +50,9 @@ public class InitDb {
             em.persist(dg);
             em.persist(hd);
             em.persist(ic);
+            em.persist(chi);
+            em.persist(caf);
+            em.persist(susi);
 
             em.flush();
             em.clear();
