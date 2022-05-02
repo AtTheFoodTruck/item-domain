@@ -35,13 +35,16 @@ public class InitDb {
             Category ch = Category.createCategory("치킨");
             Category pi = Category.createCategory("피자");
             Category ha = Category.createCategory("햄버거");
-            Category st = Category.createCategory("스테이크");
+            Category st = Category.createCategory("고기");
             Category dg = Category.createCategory("닭강정");
             Category hd = Category.createCategory("핫도그");
             Category ic = Category.createCategory("아이스크림");
             Category chi = Category.createCategory("중식");
             Category caf = Category.createCategory("디저트");
             Category susi = Category.createCategory("일식");
+            Category etc = Category.createCategory("기타");
+            Category kor = Category.createCategory("한식");
+            Category fo = Category.createCategory("분식");
 
             em.persist(ch);
             em.persist(pi);
@@ -53,6 +56,9 @@ public class InitDb {
             em.persist(chi);
             em.persist(caf);
             em.persist(susi);
+            em.persist(etc);
+            em.persist(kor);
+            em.persist(fo);
 
             em.flush();
             em.clear();
