@@ -356,7 +356,7 @@ public class StoreService {
     public ResponseEntity<?> validateDuplicateEmail(String storeName) {
         int count = storeRepository.countByName(storeName);
 
-        if (count > 1) {
+        if (count > 0) {
             return response.fail("이미 푸드트럭 상호명이 존재합니다", HttpStatus.BAD_REQUEST);
         }
 
