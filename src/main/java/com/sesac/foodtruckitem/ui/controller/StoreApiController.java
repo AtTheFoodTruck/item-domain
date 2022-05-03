@@ -1,5 +1,7 @@
 package com.sesac.foodtruckitem.ui.controller;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.sesac.foodtruckitem.application.service.StoreService;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.ui.dto.Helper;
@@ -11,6 +13,7 @@ import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestFormDto;
 import com.sesac.foodtruckitem.ui.dto.request.SearchStoreCondition;
 import com.sesac.foodtruckitem.ui.dto.response.ItemResponseDto;
 import com.sesac.foodtruckitem.ui.dto.response.StoreResponseDto;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -172,6 +175,24 @@ public class StoreApiController {
             this.startPage = startPage;
             this.totalPage = totalPage;
         }
+    }
+
+    /**
+     * 가게명 중복 체크
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/05/03
+    **/
+    @ApiOperation(value = "가게명 중복 체크")
+    @PostMapping("/items/v1/validation/name")
+    public ResponseEntity<?> validateDuplicateStoreName(@RequestBody RequestValidateStoreName name) {
+        return storeService.validateDuplicateEmail(name.getStoreName());
+    }
+
+    @JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
+    @Data
+    public static class RequestValidateStoreName {
+        private String storeName;
     }
 
     /**

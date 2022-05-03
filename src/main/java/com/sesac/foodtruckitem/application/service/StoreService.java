@@ -346,4 +346,20 @@ public class StoreService {
 
         return storeInfo;
     }
+
+    /**
+     * 가게명 중복 체크
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022/05/03
+    **/
+    public ResponseEntity<?> validateDuplicateEmail(String storeName) {
+        int count = storeRepository.countByName(storeName);
+
+        if (count > 1) {
+            return response.fail("이미 푸드트럭 상호명이 존재합니다", HttpStatus.BAD_REQUEST);
+        }
+
+        return response.success("사용 가능한 푸드트럭 상호명입니다.");
+    }
 }
