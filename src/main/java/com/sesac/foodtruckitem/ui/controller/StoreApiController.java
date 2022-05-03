@@ -210,6 +210,7 @@ public class StoreApiController {
             private String storeName;
             private String distance;
             private Double avgRating;
+            private String address;
         }
 
 //        public SearchStoreResponse(List<SearchStoreResultDto> content, boolean hasNext) {
@@ -217,10 +218,12 @@ public class StoreApiController {
             this.stores = content.stream()
                     .map(result ->
                             new StoreDto(result.getStoreId(),
-                            result.getStoreImgUrl(),
-                            result.getStoreName(),
-                            result.convertDistanceToString(),
-                            result.getAvgRating()))
+                                    result.getStoreImgUrl(),
+                                    result.getStoreName(),
+                                    result.convertDistanceToString(),
+                                    result.getAvgRating(),
+                                    result.getAddress()
+                            ))
                     .collect(Collectors.toList());
             this.page = new ItemResponseDto._Page(startPage, totalPage);
 //            this.hasNext = hasNext;
