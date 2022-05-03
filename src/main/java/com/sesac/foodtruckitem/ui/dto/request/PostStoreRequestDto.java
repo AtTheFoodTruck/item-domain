@@ -20,7 +20,7 @@ public class PostStoreRequestDto {
     private String phoneNum;
     private String notice;
     private String categoryName;
-    private LocalDateTime openTime;//영업 시간
+    private String openTime;//영업 시간
     private _PostStoreImages images;
     private _PostStoreAddress address;
     private _PostStoreMap map;

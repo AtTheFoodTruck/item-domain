@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 가게 정보 등록 form data
@@ -94,7 +95,7 @@ public class PostStoreRequestFormDto {
                 .phoneNum(this.phoneNum)
                 .notice(this.notice)
                 .categoryName(this.categoryName)
-                .openTime(this.openTime)
+                .openTime(this.openTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd")))
                 .address(postStoreAddress)
                 .map(postStoreMap)
                 .images(postStoreImages)
