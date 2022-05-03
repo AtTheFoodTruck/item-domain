@@ -42,7 +42,7 @@ public class StoreResponseDto {
                     .storeName(store.getName())
                     .totalWaitingCount(store.getTotalWaitingCount())
                     .notice(store.getNotice())
-                    .openTime(store.getOpenTime().format(DateTimeFormatter.ofPattern("yyyy-mm-dd")))
+                    .openTime(store.getOpenTime())
                     .address(store.getAddress().getAddress())
                     .phoneNum(store.getPhoneNum())
                     .storeImgUrl(store.getStoreImage().getImgUrl())

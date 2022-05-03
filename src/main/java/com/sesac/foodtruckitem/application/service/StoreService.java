@@ -158,7 +158,8 @@ public class StoreService {
                 images,
                 updateStoreDto.getOpenTime(),
                 address,
-                updateStoreDto.getPhoneNum()
+                updateStoreDto.getPhoneNum(),
+                map
                 );
 
         return response.success("가게 정보가 수정되었습니다.");

@@ -59,7 +59,9 @@ public class StoreRepositoryCustom {
                                 store.id,
                                 store.storeImage.imgUrl,
                                 store.name,
-                                haversineDistance.as(distanceAlias))
+                                haversineDistance.as(distanceAlias),
+                                store.address.address
+                        )
                 )
                 .from(store)
                 .join(store.map)

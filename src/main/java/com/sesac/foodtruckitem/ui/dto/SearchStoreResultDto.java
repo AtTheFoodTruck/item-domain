@@ -16,12 +16,14 @@ public class SearchStoreResultDto {
     private String storeName;
     private Double distanceMeter;
     private Double avgRating;
+    private String address;
 
-    public SearchStoreResultDto(Long storeId, String storeImgUrl, String storeName, Double distanceMeter) {
+    public SearchStoreResultDto(Long storeId, String storeImgUrl, String storeName, Double distanceMeter, String address) {
         this.storeId = storeId;
         this.storeImgUrl = storeImgUrl;
         this.storeName = storeName;
         this.distanceMeter = distanceMeter;
+        this.address = address;
     }
 
     public String convertDistanceToString() {

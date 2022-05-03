@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 가게 정보 등록 form data
@@ -40,8 +41,7 @@ public class PostStoreRequestFormDto {
 
     // JsonFormat을 이용해 직렬화
 //    @NotBlank(message = "영업시간을 입력해주세요")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime openTime;//영업 시간
+    private String openTime;//영업 시간
 
     private String imgName;
 

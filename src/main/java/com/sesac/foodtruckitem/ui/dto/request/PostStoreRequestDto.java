@@ -20,7 +20,7 @@ public class PostStoreRequestDto {
     private String phoneNum;
     private String notice;
     private String categoryName;
-    private LocalDateTime openTime;//영업 시간
+    private String openTime;//영업 시간
     private _PostStoreImages images;
     private _PostStoreAddress address;
     private _PostStoreMap map;
@@ -142,8 +142,7 @@ public class PostStoreRequestDto {
         private String storeImgUrl;
 
         // 영업시간
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:MM:ss", timezone = "Asia/Seoul")
-        private LocalDateTime openTime;
+        private String openTime;
 
         // 영업 장소
         private String address;
