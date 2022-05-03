@@ -65,7 +65,7 @@ public class StoreRepositoryCustom {
                 )
                 .from(store)
                 .join(store.map)
-                .join(store.items, item)
+                .leftJoin(store.items, item)
                 .where(
                         storeNameContains(condition.getName()).or(itemNameContains(condition.getName()))
                 )
