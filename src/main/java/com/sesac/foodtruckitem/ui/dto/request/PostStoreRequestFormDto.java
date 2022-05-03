@@ -41,8 +41,7 @@ public class PostStoreRequestFormDto {
 
     // JsonFormat을 이용해 직렬화
 //    @NotBlank(message = "영업시간을 입력해주세요")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime openTime;//영업 시간
+    private String openTime;//영업 시간
 
     private String imgName;
 
@@ -95,7 +94,7 @@ public class PostStoreRequestFormDto {
                 .phoneNum(this.phoneNum)
                 .notice(this.notice)
                 .categoryName(this.categoryName)
-                .openTime(this.openTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd")))
+                .openTime(this.openTime)
                 .address(postStoreAddress)
                 .map(postStoreMap)
                 .images(postStoreImages)

@@ -186,7 +186,7 @@ public class StoreApiController {
     @PostMapping("/items/v1/search/stores")
     public ResponseEntity<?> searchStore(HttpServletRequest request,
                                          @RequestBody SearchStoreCondition condition,
-                                         @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                         @PageableDefault(page = 0, size = 100) Pageable pageable) {
         Page<SearchStoreResultDto> searchStoreResultDtos = storeService.searchStore(request, condition, pageable);
 
         SearchStoreResponse searchStoreResponse =

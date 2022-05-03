@@ -30,7 +30,7 @@ public class Store extends BaseEntity {
     private String notice;
     private int totalWaitingCount;
     private Double avgRate;
-    private LocalDateTime openTime; // 오픈 시간
+    private String openTime; // 오픈 시간
 
     @Embedded
     private Address address;
@@ -72,7 +72,7 @@ public class Store extends BaseEntity {
 
     /** 생성 메서드 **/
     public static Store createStore(String name, String phoneNum, Boolean isOpen, String notice,
-                                    LocalDateTime openTime, Address address, Images images,
+                                    String openTime, Address address, Images images,
                                     BusinessInfo businessInfo, Map map, Long userId) {
         Store store = Store.builder()
                 .name(name)
@@ -91,7 +91,7 @@ public class Store extends BaseEntity {
     }
 
     /** 수정 메서드 **/
-    public void changeStoreInfo(String notice, Images images, LocalDateTime openTime, Address address, String phoneNum) {
+    public void changeStoreInfo(String notice, Images images, String openTime, Address address, String phoneNum, Map map) {
         this.notice = notice;
         this.phoneNum = phoneNum;
         this.storeImage = images;
