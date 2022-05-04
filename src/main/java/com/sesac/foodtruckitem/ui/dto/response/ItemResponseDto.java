@@ -1,5 +1,101 @@
 package com.sesac.foodtruckitem.ui.dto.response;
 
+import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Item;
+import lombok.*;
+
 public class ItemResponseDto {
+
+    /**
+     * 메뉴 조회 response DTO
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/03
+    **/
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GetItemsDto {
+        private Long itemId;
+        private String itemName;
+        private String description;
+        private long price;
+        private String itemImg;
+
+        @Builder
+        public GetItemsDto(Item item) {
+            this.itemId = item.getId();
+            this.itemName = item.getName();
+            this.description = item.getDescription();
+            this.price = item.getPrice();
+            this.itemImg = item.getItemImg().getImgUrl();
+        }
+    }
+
+
+    /**
+     * 메뉴 등록 response DTO
+     * @author jjaen
+     * @version 1.0.0
+     * 작성일 2022/04/03
+     **/
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CreateItemDto {
+        private Long itemId;
+        private String itemName;
+        private String description;
+        private long price;
+        private String itemImg;
+
+        @Builder
+        public CreateItemDto(Item item) {
+            this.itemId = item.getId();
+            this.itemName = item.getName();
+            this.description = item.getDescription();
+            this.price = item.getPrice();
+            this.itemImg = item.getItemImg().getImgUrl();
+        }
+    }
+
+    /**
+     * Item 목록 조회 응답 DTO - Feign Client
+     *
+     * @author jaemin
+     * @version 1.0.0
+     * 작성일 2022-04-09
+     **/
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class GetItemsInfoDto {
+        private Long itemId;        // 아이템 ID
+        private String itemName;    // 아이템 이름
+        private long itemPrice;     // 아이템 가격
+        private String itemImgUrl;  // 아이템 이미지 주소
+
+        public static GetItemsInfoDto of(Item item) {
+            GetItemsInfoDto getItemsInfoDto = new GetItemsInfoDto();
+            getItemsInfoDto.itemId = item.getId();
+            getItemsInfoDto.itemName = item.getName();
+            getItemsInfoDto.itemPrice = item.getPrice();
+            getItemsInfoDto.itemImgUrl = item.getItemImg().getImgUrl();
+
+            return getItemsInfoDto;
+        }
+    }
+
+    @Data @NoArgsConstructor
+    public static class _Page {
+        private int startPage;
+        private int totalPage;
+
+        public _Page(int startPage, int totalPage) {
+            this.startPage = startPage;
+            this.totalPage = totalPage;
+        }
+    }
+
 
 }

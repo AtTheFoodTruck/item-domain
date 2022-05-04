@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.FetchType.LAZY;
 
 
@@ -12,14 +15,22 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Category extends BaseEntity {
+public class Category {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long id;
     private String name;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @OneToMany(mappedBy = "category")
+    private List<Store> stores = new ArrayList<>();
+
+    // 생성 메서드 //
+    public static Category createCategory(String name) {
+        Category category = Category.builder()
+                .name(name)
+                .build();
+
+        return category;
+    }
 }
