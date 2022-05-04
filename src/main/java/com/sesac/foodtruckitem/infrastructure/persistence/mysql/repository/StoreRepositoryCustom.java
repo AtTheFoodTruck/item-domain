@@ -25,18 +25,8 @@ import static com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QI
 @RequiredArgsConstructor
 @Slf4j
 public class StoreRepositoryCustom {
-
     private final JPAQueryFactory queryFactory;
-
-    /**
-     * 사용자 위치 기반 푸드트럭 조회
-     *
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/14
-     **/
     public Page<SearchStoreResultDto> findSearchStorePage(SearchStoreCondition condition, Pageable pageable) {
-        // 사용자 위도 경도
         NumberExpression<Double> haversineDistance = getHaversinDistance(condition.getLatitude(), condition.getLongitude());
         NumberPath<Double> distanceAlias = Expressions.numberPath(Double.class, "distance");
 
@@ -74,14 +64,6 @@ public class StoreRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .distinct()
                 .fetch();
-
-//        boolean hasNext = false;
-//        if (content.size() > pageable.getPageSize()) {
-//            content.remove(pageable.getPageSize());
-//            hasNext = true;
-//        }
-//
-//        return new SliceImpl<>(content, pageable, hasNext);
 
         return PageableExecutionUtils.getPage(content, pageable, () -> count);
     }

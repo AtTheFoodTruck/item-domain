@@ -10,13 +10,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class ItemRequestDto {
-
-    /**
-     * 메뉴 조회 request DTO
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/03
-    **/
     @Getter
     @Builder
     @AllArgsConstructor
@@ -25,13 +18,6 @@ public class ItemRequestDto {
         @JsonProperty("store_id")
         private Long storeId;
     }
-
-    /**
-     * 메뉴 등록 request DTO
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/03
-    **/
     @Getter
     @Builder
     @AllArgsConstructor
@@ -41,14 +27,10 @@ public class ItemRequestDto {
         @JsonProperty("user_id")
         private Long userId;
 
-//        @JsonProperty("store_id")
-//        private Long storeId;
-
         @NotBlank(message = "메뉴 이름은 필수입니다.")
         @JsonProperty("item_name")
         private String itemName;
 
-//        @NotBlank(message = "메뉴 설명은 필수입니다.")
         private String description;
 
         @NotNull(message = "메뉴 가격은 필수입니다.")
@@ -59,13 +41,6 @@ public class ItemRequestDto {
         private String itemImgUrl;
     }
 
-
-    /**
-     * 메뉴 수정 request DTO
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/03
-     **/
     @Getter
     @Builder
     @AllArgsConstructor
@@ -74,9 +49,6 @@ public class ItemRequestDto {
 
         @JsonProperty("user_id")
         private Long userId;
-
-//        @JsonProperty("store_id")
-//        private Long storeId;
 
         @JsonProperty("item_id")
         private Long itemId;
@@ -93,12 +65,6 @@ public class ItemRequestDto {
 
     }
 
-    /**
-     * 메뉴 삭제 request DTO
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/03
-     **/
     @Getter
     @Builder
     @AllArgsConstructor
@@ -107,9 +73,6 @@ public class ItemRequestDto {
 
         @JsonProperty("user_id")
         private Long userId;
-
-//        @JsonProperty("store_id")
-//        private Long storeId;
 
         @JsonProperty("item_id")
         private Long itemId;

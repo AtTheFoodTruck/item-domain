@@ -24,7 +24,7 @@ public class BNoApiRequestDto {
         @NotBlank(message = "사업자 등록번호는 필수입니다.")
         @Length(min = 10, max = 10, message = "사업자 등록번호는 10자리 입니다.")  // 10 자리
         @JsonProperty("b_no")
-        private String bNo;  // 사업자 등록 번호
+        private String bNo;
     }
 
     @Getter
@@ -33,7 +33,7 @@ public class BNoApiRequestDto {
     public static class ApiReqStatusDto {
 
         @JsonProperty("b_no")
-        private List<String> bNo = new ArrayList<>();  // 사업자 등록 번호
+        private List<String> bNo = new ArrayList<>();
 
         @Builder
         public ApiReqStatusDto(String bNo) {

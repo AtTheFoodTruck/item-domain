@@ -16,10 +16,6 @@ public class Address {
 
     private String address;
     private String zipCode;
-    // private String street;
-    // private Double latitude;
-    // private Double longitude;
-
     public static Address of(String address, String zipCode) {
         return Address.builder()
                 .address(address)

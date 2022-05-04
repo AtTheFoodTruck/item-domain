@@ -28,13 +28,6 @@ public class StoreController {
     private final StoreService storeService;
     private final StoreRepository storeRepository;
 
-    /**
-     * 가게 정보 조회 다중
-     * using by 리뷰 목록 조회(가게입장), 주문 내역 조회
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-08
-     **/
     @ApiOperation(value = "Order Domain에서 요청 - 리뷰 정보 조회")
     @GetMapping("/api/v1/store/reviews/{storeIds}")
     public ResponseEntity<Result> reviewStoreInfo(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
@@ -46,13 +39,6 @@ public class StoreController {
         return ResponseEntity.ok(Result.createSuccessResult(storeAllById));
     }
 
-    /**
-     * 가게 정보 조회 단건
-     * using by 장바구니 목록 조회
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-09
-    **/
     @ApiOperation(value = "Item Domain에서 요청 - user정보 저장")
     @GetMapping("/api/v1/store/cart/{storeId}")
     public ResponseEntity<Result> getStore(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
@@ -66,13 +52,6 @@ public class StoreController {
         return ResponseEntity.ok(Result.createSuccessResult(storeDto));
     }
 
-    /**
-     * 가게 정보 조회 - storeId, storeName
-     * using by 주문 조회 페이지(점주)
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/11
-     **/
     @ApiOperation(value = "User Domain에서 요청 - user정보 저장")
     @GetMapping("/api/v1/store/{userId}")
     public ResponseEntity<Result> getStoreInfoByUserId(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
@@ -81,23 +60,8 @@ public class StoreController {
         GetStoreInfoByUserId storeInfoByUserId = storeService.getStoreInfoByUserId(userId);
 
         return ResponseEntity.ok(Result.createSuccessResult(storeInfoByUserId));
-
-//        Store store = storeRepository.findByUserId(userId).orElseThrow(
-//                () -> new StoresException(userId + "의 매장은 존재하지 않습니다.")
-//        );
-//
-//        StoreResponseDto.GetStoreInfoByUserId storeInfo = StoreResponseDto.GetStoreInfoByUserId.of(store);
-//
-//        return ResponseEntity.ok(Result.createSuccessResult(storeInfo));
     }
 
-    /**
-     * 리뷰 정보 저장
-     * using by 리뷰 등록
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/11
-     **/
     @ApiOperation(value = "Order Domain에서 요청 - review정보 저장")
     @PostMapping("/api/v1/store/review")
     void saveStoreInfos(@RequestHeader(value="Authorization", required = true) String authorizationHeader,
@@ -105,12 +69,6 @@ public class StoreController {
         storeService.changeRatingInfo(storeInfo.getStoreId(), storeInfo.getAvgRating());
     }
 
-    /**
-     * 가게정보에 대기번호 + 1
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/25
-     **/
     @ApiOperation(value = "Order Domain에서 요청 - review정보 저장")
     @PostMapping("/api/v1/store/waiting/{storeId}")
     ResWaitingCount saveWaitingCount(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,

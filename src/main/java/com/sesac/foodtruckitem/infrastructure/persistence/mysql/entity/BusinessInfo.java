@@ -17,7 +17,6 @@ public class BusinessInfo {
     private String sDt; // 개업일
     private String pName; // 대표자 성명
 
-    // 생성 메서드 //
     public static BusinessInfo of(String bNo, String sDt, String pName) {
         return BusinessInfo.builder()
                 .bNo(bNo)

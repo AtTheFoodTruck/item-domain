@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostStoreRequestDto {
-
     private Long userId;
     private String storeName;
     private String phoneNum;
@@ -25,16 +24,6 @@ public class PostStoreRequestDto {
     private _PostStoreAddress address;
     private _PostStoreMap map;
     private _PostStoreBusinessInfo businessInfo;
-//    private String businessNumber; // 사업자 등록 번호
-//    private String startDate; // 개업일
-//    private String partnerName; // 대표자 성명
-
-    /**
-     * 가게 정보 저장에 필요한 주소 정보를 DTO로 변환
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-06
-    **/
     @Getter @NoArgsConstructor @Builder
     public static class _PostStoreAddress {
         private String address;
@@ -54,12 +43,6 @@ public class PostStoreRequestDto {
         }
     }
 
-    /**
-     * 가게 정보 저장에 필요한 Map 정보를 DTO로 변환
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-06
-     **/
     @Getter @NoArgsConstructor @Builder
     public static class _PostStoreMap {
         private Double latitude;
@@ -79,12 +62,6 @@ public class PostStoreRequestDto {
         }
     }
 
-    /**
-     * 가게 정보 저장에 필요한 Image 정보를 DTO로 변환
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-06
-     **/
     @Getter @NoArgsConstructor @Builder @AllArgsConstructor
     public static class _PostStoreImages {
         private String imgName;
@@ -98,17 +75,11 @@ public class PostStoreRequestDto {
         }
     }
 
-    /**
-     * 가게 정보 저장에 필요한 BusinessInfo 정보를 DTO로 변환
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-06
-     **/
     @Getter @NoArgsConstructor @Builder @AllArgsConstructor
     public static class _PostStoreBusinessInfo {
         private String bNo;
         private String sDt;
-        private String pName; // 사업자 등록 번호
+        private String pName;
 
         public static _PostStoreBusinessInfo of(String bNo, String sDt, String pName) {
             return _PostStoreBusinessInfo.builder()
@@ -119,64 +90,32 @@ public class PostStoreRequestDto {
         }
     }
 
-    /**
-     * 가게 정보 수정 DTO
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-04
-     **/
     @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UpdateStoreDto {
-        // 가게 ID
         private Long storeId;
-
-        // 공지사항
         private String notice;
-
-        // 사진
         private String imgName;
         private String storeImgUrl;
-
-        // 영업시간
         private String openTime;
-
-        // 영업 장소
         private String address;
         private String zipCode;
         private Double latitude;
         private Double longitude;
-
-        // 전화번호
         private String phoneNum;
     }
-
-    /**
-     * 가게 삭제 DTO
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-05
-    **/
     @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     @Data
     public static class DeleteStoreDto {
-        // 가게 ID
         private Long storeId;
     }
 
-    /**
-     * 가게 정보 조회 DTO
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-05
-     **/
     @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
     @Data
     public static class QueryStoreDto {
-        // 가게 ID
         private Long storeId;
     }
 

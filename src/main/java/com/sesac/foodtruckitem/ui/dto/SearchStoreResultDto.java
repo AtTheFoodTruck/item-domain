@@ -28,7 +28,6 @@ public class SearchStoreResultDto {
 
     public String convertDistanceToString() {
         log.info("distanceMeter : " + distanceMeter);
-        // km 로 표시
         if (distanceMeter >= 1000) {
             double km = distanceMeter * 0.001;
             String format = new DecimalFormat("0.0").format(km);
@@ -42,7 +41,6 @@ public class SearchStoreResultDto {
     public void changeAvgRating(Double avgRating) {
         this.avgRating = avgRating;
     }
-
 
     @Data
     public static class MainStoreResultDto {

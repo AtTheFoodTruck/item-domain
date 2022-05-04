@@ -45,13 +45,6 @@ public class StoreApiController {
     private final Response response;
     private final Helper helper;
 
-    /**
-     * 가게 정보 조회
-     * @author jaemin
-     * pathvariable로 변경
-     * @version 1.0.1
-     * 작성일 2022-04-05
-     **/
     @Operation(summary = "고객) 가게 정보 조회")
     @GetMapping("/items/v1/customer/stores/{store_id}")
     public ResponseEntity<?> storeInfo(@PathVariable(value = "store_id") Long storeId,
@@ -62,12 +55,6 @@ public class StoreApiController {
         return response.success(searchStoreInfo, "가게 정보 조회 성공", HttpStatus.OK);
     }
 
-    /**
-     * 점주) 가게 정보 등록
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-03
-     **/
     @Operation(summary = "점주) 가게 정보 등록")
     @PostMapping("/items/v1/owner/stores")
     public ResponseEntity<?> createStore(HttpServletRequest request,
@@ -86,12 +73,6 @@ public class StoreApiController {
         return storeService.createStore(request, userId, postStoreRequestFormDto.toPostStoreDto(userId));
     }
 
-    /**
-     * 가게 정보 수정 - 점주
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-04
-     **/
     @Operation(summary = "점주) 가게 정보 수정")
     @PatchMapping("/items/v1/owner/stores")
     public ResponseEntity<?> updateStoreInfo(HttpServletRequest request,
@@ -105,24 +86,12 @@ public class StoreApiController {
         return storeService.updateStoreInfo(request, updateStoreDto);
     }
 
-    /**
-     * 가게 정보 삭제 - 점주
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-05
-    **/
     @Operation(summary = "점주) 가게 정보 삭제")
     @DeleteMapping("/items/v1/owner/stores")
     public ResponseEntity<?> deleteStoreInfo(@RequestBody PostStoreRequestDto.DeleteStoreDto deleteStoreDto) {
         return storeService.deleteStoreInfo(deleteStoreDto);
     }
 
-    /**
-     * 사업자등록번호 상태조회 API
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-04
-     **/
     @Operation(summary = "점주) 사업자등록번호 상태 조회 API")
     @PostMapping("/items/v1/owner/status")
     public ResponseEntity<?> businessValidateCheck(@RequestBody BNoApiRequestDto.BNoStatusDto bNoStatusDto,
@@ -138,13 +107,6 @@ public class StoreApiController {
         return response.success("인증 성공");
     }
 
-    /**
-     * 푸드트럭 메인페이지 조회 - 평점 순
-     * 위치 정보 동의하지 않았을때 api
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/23
-     **/
     @Operation(summary = "고객) 메인페이지")
     @GetMapping("/items/v1/main")
     public ResponseEntity<?> storeMainByRating(@PageableDefault(page = 0, size = 20) Pageable pageable) {
@@ -176,13 +138,6 @@ public class StoreApiController {
             this.totalPage = totalPage;
         }
     }
-
-    /**
-     * 가게명 중복 체크
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/05/03
-    **/
     @ApiOperation(value = "가게명 중복 체크")
     @PostMapping("/items/v1/validation/name")
     public ResponseEntity<?> validateDuplicateStoreName(@RequestBody RequestValidateStoreName name) {
@@ -195,14 +150,6 @@ public class StoreApiController {
         private String storeName;
     }
 
-    /**
-     * 위치 기반 가게 정보 검색
-     * 메뉴명, 푸드트럭 명으로 검색
-     * get -> post 메서드
-     * @author jaemin
-     * @version 1.0.1
-     * 작성일 2022/04/13
-     **/
     @Operation(summary = "고겍) 현재 위치 기반 가게 정보 검색")
     @PostMapping("/items/v1/search/stores")
     public ResponseEntity<?> searchStore(HttpServletRequest request,
@@ -234,7 +181,6 @@ public class StoreApiController {
             private String address;
         }
 
-//        public SearchStoreResponse(List<SearchStoreResultDto> content, boolean hasNext) {
         public SearchStoreResponse(List<SearchStoreResultDto> content, int startPage, int totalPage) {
             this.stores = content.stream()
                     .map(result ->
@@ -247,7 +193,6 @@ public class StoreApiController {
                             ))
                     .collect(Collectors.toList());
             this.page = new ItemResponseDto._Page(startPage, totalPage);
-//            this.hasNext = hasNext;
         }
     }
 

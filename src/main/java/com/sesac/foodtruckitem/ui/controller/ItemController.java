@@ -25,12 +25,6 @@ public class ItemController {
     private final ItemService itemService;
     private final StoreService storeService;
 
-    /**
-     * Item 정보 조회
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-09
-    **/
     @ApiOperation(value = "Order Domain에서 요청 - Item 정보 조회")
     @GetMapping("/api/v1/item/{itemId}")
     ResponseEntity<Result> getItems(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,

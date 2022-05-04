@@ -17,10 +17,10 @@ public class Item extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
-    private Long id;                // 
-    private String name;            // 메뉴명 
-    private String description;     // 설명
-    private long price;             // 가격
+    private Long id;
+    private String name;
+    private String description;
+    private long price;
 
     @Embedded
     private Images itemImg;
@@ -30,12 +30,6 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    /**
-     * 메뉴 수정
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/04
-    **/
     public void updateItemInfo(ItemRequestDto.UpdateItemDto itemInfo) {
 
         // item name

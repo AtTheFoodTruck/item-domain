@@ -25,7 +25,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Store> stores = new ArrayList<>();
 
-    // 생성 메서드 //
     public static Category createCategory(String name) {
         Category category = Category.builder()
                 .name(name)

@@ -10,16 +10,9 @@ import java.util.List;
 
 public class StoreResponseDto {
 
-    /**
-     * 가게 정보 조회 - 가게
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-06
-    **/
     @Getter @Builder @AllArgsConstructor
     @ToString
     public static class SearchStoreResult {
-        // 가게 정보
         private Long storeId;
         private String storeName;
         private int totalWaitingCount;
@@ -30,7 +23,6 @@ public class StoreResponseDto {
         private String storeImgUrl;
         private int waitingCount;
 
-        // 메뉴
         private List<SearchItemDto> searchItemResults;
 
         private boolean hasNext;
@@ -55,12 +47,6 @@ public class StoreResponseDto {
         }
     }
 
-    /**
-     * 가게정보 조회 - 메뉴DTO
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-09
-    **/
     @Getter
     @Builder
     @NoArgsConstructor
@@ -73,12 +59,6 @@ public class StoreResponseDto {
         private long itemPrice;
     }
 
-    /**
-     * order도메인에 전달할 가게 정보
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-08
-     **/
     @Getter
     @Builder
     @AllArgsConstructor
@@ -97,8 +77,5 @@ public class StoreResponseDto {
             return storeInfoDto;
         }
     }
-
-
-
 
 }

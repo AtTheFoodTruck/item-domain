@@ -5,12 +5,6 @@ import lombok.*;
 
 public class ItemResponseDto {
 
-    /**
-     * 메뉴 조회 response DTO
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/03
-    **/
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -31,13 +25,6 @@ public class ItemResponseDto {
         }
     }
 
-
-    /**
-     * 메뉴 등록 response DTO
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/03
-     **/
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -58,22 +45,15 @@ public class ItemResponseDto {
         }
     }
 
-    /**
-     * Item 목록 조회 응답 DTO - Feign Client
-     *
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022-04-09
-     **/
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     @ToString
     public static class GetItemsInfoDto {
-        private Long itemId;        // 아이템 ID
-        private String itemName;    // 아이템 이름
-        private long itemPrice;     // 아이템 가격
-        private String itemImgUrl;  // 아이템 이미지 주소
+        private Long itemId;
+        private String itemName;
+        private long itemPrice;
+        private String itemImgUrl;
 
         public static GetItemsInfoDto of(Item item) {
             GetItemsInfoDto getItemsInfoDto = new GetItemsInfoDto();

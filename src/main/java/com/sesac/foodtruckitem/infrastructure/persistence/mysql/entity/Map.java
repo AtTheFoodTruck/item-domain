@@ -22,7 +22,6 @@ public class Map extends BaseEntity{
     private Double latitude;
     private Double longitude;
 
-    // 생성 메서드 //
     public static Map of(Double latitude, Double longitude) {
         Map map = Map.builder()
                 .latitude(latitude)

@@ -25,13 +25,6 @@ import static com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.QI
 @Repository
 public class ItemRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-
-    /**
-     * 가게 조회 페이지에 보여질 메뉴 목록
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/14
-     **/
     public SliceImpl<StoreResponseDto.SearchItemDto> findItemList(Long storeId, Pageable pageable) {
         List<StoreResponseDto.SearchItemDto> content = queryFactory.select(
                         Projections.constructor(StoreResponseDto.SearchItemDto.class,
@@ -56,20 +49,12 @@ public class ItemRepositoryCustom {
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
-    /**
-     * 점주) 메뉴 목록 조회
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/14
-     **/
     public Page<Item> findOwnerItemList(Long storeId, Pageable pageable) {
-        // 카운트 쿼리
         Long count = queryFactory.select(item.countDistinct())
                 .from(item)
                 .where(item.store.id.eq(storeId))
                 .fetchOne();
 
-        // 데이터 쿼리
         List<Item> content = queryFactory.selectFrom(item)
                 .where(item.store.id.eq(storeId))
                 .offset(pageable.getOffset())

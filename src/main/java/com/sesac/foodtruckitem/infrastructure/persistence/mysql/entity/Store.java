@@ -12,7 +12,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Builder
 @AllArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Getter
 @Setter
@@ -40,37 +39,26 @@ public class Store extends BaseEntity {
 
     @Embedded
     private BusinessInfo businessInfo; //사업자 정보
-
-    // User
     private Long userId;
-
-    // Review
     private Long reviewId;
-
-    // Like
     private Long likeId;
 
-    // Category
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    // Map
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "map_id")
     private Map map;
 
-    // Item
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
-    /** 연관관계 메서드 **/
     public void setCategory(Category category) {
         this.category = category;
         category.getStores().add(this);
     }
 
-    /** 생성 메서드 **/
     public static Store createStore(String name, String phoneNum, Boolean isOpen, String notice,
                                     String openTime, Address address, Images images,
                                     BusinessInfo businessInfo, Map map, Long userId) {
@@ -90,7 +78,6 @@ public class Store extends BaseEntity {
         return store;
     }
 
-    /** 수정 메서드 **/
     public void changeStoreInfo(String notice, Images images, String openTime, Address address, String phoneNum, Map map) {
         this.notice = notice;
         this.phoneNum = phoneNum;
@@ -100,12 +87,6 @@ public class Store extends BaseEntity {
         this.map = map;
     }
 
-    /**
-     * 가게에 메뉴 추가
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/04
-     **/
     public void addItem(Item item) {
         if (this.items == null)
             this.items = new ArrayList<>();
@@ -113,22 +94,10 @@ public class Store extends BaseEntity {
         item.setStore(this);
     }
 
-    /**
-     * 가게 리뷰 평점 업데이트
-     * @author jjaen
-     * @version 1.0.0
-     * 작성일 2022/04/04
-     **/
     public void changeRatingAvg(Double ratingAvg) {
         this.avgRate = ratingAvg;
     }
 
-    /**
-     * 대기번호 + 1
-     * @author jaemin
-     * @version 1.0.0
-     * 작성일 2022/04/25
-    **/
     public int plusWaitingCount() {
         this.totalWaitingCount += 1;
 
