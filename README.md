@@ -4,7 +4,7 @@
 
 ## 📋 설계서
 
-### 사용자 시나리오
+### 이벤트 스토밍 (Event Storming)
 
 <table>
     <tr>
@@ -15,7 +15,7 @@
 </table>
 
 
-### 이벤트 스토밍 (Event Storming)
+### 사용자 시나리오
 
 <table>
     <tr>
