@@ -4,17 +4,6 @@ FoodTruckAroundMe - 푸드트럭 통합 정보 제공 및 주문 서비스
 
 ## 📋 설계서
 
-### 이벤트 스토밍 (Event Storming)
-
-<table>
-    <tr>
-        <td align="center">
-            <img width="1549" alt="EventStorming" src="https://user-images.githubusercontent.com/44490394/168741007-c8dfa213-3268-4ac3-b4b5-87e76df16ea3.png" width="500" height="500">
-        </td>
-    </tr>
-</table>
-
-
 ### 사용자 시나리오
 
 <table>
@@ -24,6 +13,16 @@ FoodTruckAroundMe - 푸드트럭 통합 정보 제공 및 주문 서비스
         </td>
         <td align="center">
             <img width="1815" alt="사용자시나리오_점주중심" src="https://user-images.githubusercontent.com/44490394/168741637-bd2b11e3-bb2e-4abb-80d9-ca8f61af6245.png" width="500" height="500">
+        </td>
+    </tr>
+</table>
+
+### 이벤트 스토밍 (Event Storming)
+
+<table>
+    <tr>
+        <td align="center">
+            <img width="1549" alt="EventStorming" src="https://user-images.githubusercontent.com/44490394/168741007-c8dfa213-3268-4ac3-b4b5-87e76df16ea3.png" width="500" height="500">
         </td>
     </tr>
 </table>
