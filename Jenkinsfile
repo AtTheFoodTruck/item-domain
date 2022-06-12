@@ -32,6 +32,12 @@ pipeline {
       }
     }
 
+    stage('') {
+      steps {
+        sh 'cd /project && docker-compose up -d'
+      }
+    }
+
   }
   environment {
     registryCredential = 'dockerhub_cred'
