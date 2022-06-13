@@ -5,6 +5,7 @@ import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Store;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.StoreRepository;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.GetStoreInfoByUserId;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.GetStoreResponse;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ReqReviewInfoDto;
 import com.sesac.foodtruckitem.infrastructure.query.http.dto.ResWaitingCount;
 import com.sesac.foodtruckitem.ui.dto.Response;
@@ -116,6 +117,15 @@ public class StoreController {
     ResWaitingCount saveWaitingCount(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
                           @PathVariable("storeId") Long storeId) {
         return storeService.changeWaitingCount(storeId);
+    }
+
+    @ApiOperation(value = "Notification Domain에서 요청 - 가게정보조회")
+    @GetMapping("/api/v1/store/{storeId}")
+    public ResponseEntity<Result> getStore(@RequestHeader(value = "Authorization", required = true) String authorizationHeader,
+                                      @PathVariable(value = "storeId") Long storeId) {
+        GetStoreResponse storeInfoByStoreId = storeService.getStoreInfoByStoreId(storeId);
+
+        return ResponseEntity.ok(Result.createSuccessResult(storeInfoByStoreId));
     }
 
 }
