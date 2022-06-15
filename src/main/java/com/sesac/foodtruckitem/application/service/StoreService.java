@@ -362,7 +362,7 @@ public class StoreService {
     }
 
     public GetStoreResponse getStoreInfoByStoreId(Long storeId) {
-        Store findStore = storeRepository.findByStoreId(storeId).orElseThrow(
+        Store findStore = storeRepository.findById(storeId).orElseThrow(
                 () -> new StoresException("가게 정보를 찾을 수 없습니다.")
         );
 
