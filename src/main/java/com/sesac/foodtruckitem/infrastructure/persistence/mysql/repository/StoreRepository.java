@@ -21,6 +21,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     int countByName(String storeName);
 
-    Optional<Store> findByStoreId(Long storeId);
+//    Optional<Store> findByStoreId(Long storeId);
 }
 
