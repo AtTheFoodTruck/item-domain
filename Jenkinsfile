@@ -32,7 +32,7 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('docker-compose') {
       steps {
         sh 'cd /project && docker-compose up -d'
       }

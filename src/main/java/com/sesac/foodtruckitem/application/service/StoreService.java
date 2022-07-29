@@ -4,13 +4,11 @@ import com.sesac.foodtruckitem.exception.StoresException;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.Map;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.repository.*;
 import com.sesac.foodtruckitem.infrastructure.query.http.OrderClient;
-import com.sesac.foodtruckitem.infrastructure.query.http.dto.CreateUserDto;
+import com.sesac.foodtruckitem.infrastructure.query.http.dto.*;
 import com.sesac.foodtruckitem.infrastructure.persistence.mysql.entity.*;
 import com.sesac.foodtruckitem.infrastructure.query.http.UserClient;
-import com.sesac.foodtruckitem.infrastructure.query.http.dto.GetStoreInfoByUserId;
-import com.sesac.foodtruckitem.infrastructure.query.http.dto.ResWaitingCount;
-import com.sesac.foodtruckitem.infrastructure.query.http.dto.StoreInfo;
 import com.sesac.foodtruckitem.ui.dto.Response;
+import com.sesac.foodtruckitem.ui.dto.Result;
 import com.sesac.foodtruckitem.ui.dto.SearchStoreResultDto;
 import com.sesac.foodtruckitem.ui.dto.api.BNoApiRequestDto;
 import com.sesac.foodtruckitem.ui.dto.request.PostStoreRequestDto;
@@ -256,5 +254,13 @@ public class StoreService {
         }
 
         return response.success("사용 가능한 푸드트럭 상호명입니다.");
+    }
+
+    public GetStoreResponse getStoreInfoByStoreId(Long storeId) {
+        Store findStore = storeRepository.findById(storeId).orElseThrow(
+                () -> new StoresException("가게 정보를 찾을 수 없습니다.")
+        );
+
+        return new GetStoreResponse(findStore);
     }
 }
