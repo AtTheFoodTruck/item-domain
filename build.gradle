@@ -51,6 +51,10 @@ dependencies {
     // Querydsl
     implementation 'com.querydsl:querydsl-jpa'
 
+    // zipkin & sleuth
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
+
     // Querydsl JPAAnnotationProcessor 사용 지정
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
     // java.lang.NoClassDefFoundError(javax.annotation.Entity) 발생 대응
@@ -60,10 +64,10 @@ dependencies {
 
     // dependancy
     implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.7.Final'
-    runtimeOnly 'mysql:mysql-connector-java'
+//    runtimeOnly 'mysql:mysql-connector-java'
 
     compileOnly 'org.projectlombok:lombok'
-//    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     //JUnit4 추가
